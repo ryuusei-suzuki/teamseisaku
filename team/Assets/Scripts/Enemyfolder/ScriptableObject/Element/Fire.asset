@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99d587d2d81e6214faa3393695d3c3e4, type: 3}
+  m_Name: Fire
+  m_EditorClassIdentifier: Assembly-CSharp::Element
+  enemyElement: 0
+  CloseWaekAttack: {fileID: 11400000, guid: 69027b37bff1e7540950b523b21864ff, type: 2}
+  CloseStrongAttack: {fileID: 11400000, guid: 728ca10b25126d847aa5c8ae354b1b42, type: 2}
+  LongWaekAttack: {fileID: 11400000, guid: e17ca5fe22035524e96463ea42a35e2a, type: 2}
+  LongStrongAttack: {fileID: 11400000, guid: 5a0b18cd7f5ab8f48b63c3ccbed5b7c0, type: 2}

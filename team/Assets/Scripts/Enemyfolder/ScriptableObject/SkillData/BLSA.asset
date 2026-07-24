@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 283bd1de5e7a4ad4eae49f074b15446d, type: 3}
-  m_Name: "\u30BC\u30CB\u30AC\u30E1"
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  EnemyName: "\u30BC\u30CB\u30AC\u30E1"
-  EnemyHP: 100
-  EnemyAttackDamage: 1
-  EnemyDefense: 1
+  m_Script: {fileID: 11500000, guid: 4f64780b737871e4c91d164448cd56f2, type: 3}
+  m_Name: BLSA
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySkillData
+  SkillName: "\u6C34\u9060\u5F37\u653B\u6483"
+  PP: 5
+  Damege: 20
+  Preemptive: 1

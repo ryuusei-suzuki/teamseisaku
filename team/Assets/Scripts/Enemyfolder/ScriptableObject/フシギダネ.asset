@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   EnemyName: "\u30D5\u30B7\u30AE\u30C0\u30CD"
   EnemyHP: 100
+  EnemyAttackDamage: 1
+  EnemyDefense: 1

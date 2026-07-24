@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99d587d2d81e6214faa3393695d3c3e4, type: 3}
+  m_Name: Wind
+  m_EditorClassIdentifier: Assembly-CSharp::Element
+  enemyElement: 2
+  CloseWaekAttack: {fileID: 11400000, guid: 603499f783272ff478d9903f490eced3, type: 2}
+  CloseStrongAttack: {fileID: 11400000, guid: f317fd391da887741983d822741bb2fc, type: 2}
+  LongWaekAttack: {fileID: 11400000, guid: 59ca40ed09cb04849b024a4bb6ff1448, type: 2}
+  LongStrongAttack: {fileID: 11400000, guid: 9809ee22f832f2148b161923985fd4de, type: 2}

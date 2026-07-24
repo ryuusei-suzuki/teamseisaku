@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 376257696}
   - component: {fileID: 376257697}
+  - component: {fileID: 376257698}
   m_Layer: 0
   m_Name: ALLEnemyManager
   m_TagString: Untagged
@@ -164,6 +165,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
   EnemyDataBase: {fileID: 11400000, guid: 30a19c25c02a2774ca0da6af3077761e, type: 2}
+--- !u!114 &376257698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376257695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fe04ac9daf712b48a0f3862dde9763e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
+  enemyPrefab: {fileID: 1976853968164752930, guid: 9e289fda50240424c8018ff72e0abe1f, type: 3}
+  enemyDataArray:
+  - {fileID: 11400000, guid: d190be66b7896a746b50add05769e71b, type: 2}
+  - {fileID: 11400000, guid: 1002a4eca0dc8ad40a9603d87aace4ae, type: 2}
+  - {fileID: 11400000, guid: 3b5afb009ba538148a514c1cc59be97a, type: 2}
 --- !u!1 &1414313449
 GameObject:
   m_ObjectHideFlags: 0
