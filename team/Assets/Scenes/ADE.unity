@@ -119,6 +119,52 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &196714754
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 196714756}
+  - component: {fileID: 196714755}
+  m_Layer: 0
+  m_Name: EnemyDebugController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &196714755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 196714754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e336b40c9b9d9f458f6b48641024a53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDebugController
+  enemy: {fileID: 0}
+  testDamage: 10
+--- !u!4 &196714756
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 196714754}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &376257695
 GameObject:
   m_ObjectHideFlags: 0
@@ -182,6 +228,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d190be66b7896a746b50add05769e71b, type: 2}
   - {fileID: 11400000, guid: 1002a4eca0dc8ad40a9603d87aace4ae, type: 2}
   - {fileID: 11400000, guid: 3b5afb009ba538148a514c1cc59be97a, type: 2}
+  elementDatas:
+  - {fileID: 11400000, guid: 2d71acf739c7ada448946f38a8eaa62a, type: 2}
+  - {fileID: 11400000, guid: 9f30eaf05c5d4da46b160b6b02f05aa0, type: 2}
+  - {fileID: 11400000, guid: 56c05973da82e0549aa731154304822c, type: 2}
 --- !u!1 &1414313449
 GameObject:
   m_ObjectHideFlags: 0
@@ -325,3 +375,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 1414313452}
   - {fileID: 376257696}
+  - {fileID: 196714756}
