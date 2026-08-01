@@ -4,7 +4,7 @@ using UnityEngine;
 public class EnemySkillData : ScriptableObject
 {
     public string SkillName;
-    public string PP;
-    public int Damege;
+    public int PP;
+    public int Damage;
     public bool Preemptive;
 }

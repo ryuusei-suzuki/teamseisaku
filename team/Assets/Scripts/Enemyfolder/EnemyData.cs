@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Enemy/EnemyData")]
 public class EnemyData : ScriptableObject
 {
+    public EnemyElement enemyElement;
     public string EnemyName;
     public int EnemyHP;
     //Žg‚¤‚©‚í‚©‚ç‚È‚¢‚¯‚Ç
