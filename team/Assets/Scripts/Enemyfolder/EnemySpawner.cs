@@ -15,7 +15,7 @@ public class EnemySpawner : MonoBehaviour
         int elementIndex = Random.Range(0, elementDatas.Length);
         Element selectedElement = elementDatas[elementIndex];
 
-        List<EnemyData> candidates = new List<EnemyData>();
+        List<EnemyData> candidates = new List<EnemyData>();//candidates
 
         foreach (EnemyData data in enemyDataArray)
         {
@@ -25,8 +25,7 @@ public class EnemySpawner : MonoBehaviour
             }
         }
 
-        EnemyData selectedEnemy =
-            candidates[Random.Range(0, candidates.Count)];
+        EnemyData selectedEnemy = candidates[Random.Range(0, candidates.Count)];
 
         GameObject newEnemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
 

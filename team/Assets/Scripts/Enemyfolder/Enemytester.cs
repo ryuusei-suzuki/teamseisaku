@@ -20,6 +20,9 @@ public class Enemytester : MonoBehaviour
     [Header("スキルのPP管理")]
     private Dictionary<EnemySkillData, int> skillPP = new();//PPを管理するための辞書
 
+    [SerializeField] private List<string> debugPP = new();
+
+
     public void Init(EnemyData data, Element elementData)
     {
         enemyData = data;
@@ -71,42 +74,44 @@ public class Enemytester : MonoBehaviour
         Destroy(gameObject);
     }
 
+    void AddWeightSkill(List<EnemySkillData> list, EnemySkillData skill, int weight)
+    {
+        if (!HasPP(skill))
+            return;
+
+        for (int i = 0; i < weight; i++)
+        {
+            list.Add(skill);
+        }
+    }
+
     public EnemySkillData ChooseSkill()
     {
         float hpRatio = GetHPRate();
+        List<EnemySkillData> candidates = new();//今PPがあって使える技リスト
 
-        List<EnemySkillData> candidates = new();//使用可能なスキルを格納するリスト
-
-        // HP70%以上    弱攻撃多め
         if (hpRatio > 0.7f)
         {
-            if (HasPP(closeWeak)) candidates.Add(closeWeak);
-            if (HasPP(closeWeak)) candidates.Add(closeWeak);
-            if (HasPP(longWeak)) candidates.Add(longWeak);
+            AddWeightSkill(candidates, closeWeak, enemyData.highHpCloseWeakWeight);
+            AddWeightSkill(candidates, longWeak, enemyData.highHpLongWeakWeight);
+            AddWeightSkill(candidates, closeStrong, enemyData.highHpCloseStrongWeight);
+            AddWeightSkill(candidates, longStrong, enemyData.highHpLongStrongWeight);
         }
-
-        // HP30%以上    バランス
         else if (hpRatio > 0.3f)
         {
-            if (HasPP(closeWeak)) candidates.Add(closeWeak);
-            if (HasPP(closeStrong)) candidates.Add(closeStrong);
-            if (HasPP(longWeak)) candidates.Add(longWeak);
-            if (HasPP(longStrong)) candidates.Add(longStrong);
+            AddWeightSkill(candidates, closeWeak, enemyData.midHpCloseWeakWeight);
+            AddWeightSkill(candidates, longWeak, enemyData.midHpLongWeakWeight);
+            AddWeightSkill(candidates, closeStrong, enemyData.midHpCloseStrongWeight);
+            AddWeightSkill(candidates, longStrong, enemyData.midHpLongStrongWeight);
         }
-
         else
         {
-            if (HasPP(closeStrong)) candidates.Add(closeStrong);
-            if (HasPP(closeStrong)) candidates.Add(closeStrong);
-            if (HasPP(longStrong)) candidates.Add(longStrong);
-
-            // 強攻撃が全部PP切れなら弱攻撃も候補にする
-            if (candidates.Count == 0)
-            {
-                if (HasPP(closeWeak)) candidates.Add(closeWeak);
-                if (HasPP(longWeak)) candidates.Add(longWeak);
-            }
+            AddWeightSkill(candidates, closeWeak, enemyData.lowHpCloseWeakWeight);
+            AddWeightSkill(candidates, longWeak, enemyData.lowHpLongWeakWeight);
+            AddWeightSkill(candidates, closeStrong, enemyData.lowHpCloseStrongWeight);
+            AddWeightSkill(candidates, longStrong, enemyData.lowHpLongStrongWeight);
         }
+
         if (candidates.Count == 0)
             return null;
 
@@ -127,8 +132,10 @@ public class Enemytester : MonoBehaviour
         skillPP[skill]--;
 
         Debug.Log($"{skill.SkillName} 残りPP:{skillPP[skill]}/{skill.PP}");
+        RefreshDebugPP();
         return true;
     }
+
 
     bool HasPP(EnemySkillData skill)//PPが残っているか確認
     {
@@ -146,13 +153,21 @@ public class Enemytester : MonoBehaviour
             return;
         }
 
-        Debug.Log($"{enemyData.EnemyName} の {skill.SkillName}！");
-
         if (!ConsumeSkillPP(skill))
             return;
         Debug.Log($"{enemyData.EnemyName} の {skill.SkillName}！");
 
         // ここでプレイヤーにダメージ減るように
         // player.TakeDamage(skill.Damage);
+    }
+
+    void RefreshDebugPP()
+    {
+        debugPP.Clear();
+
+        foreach (var pair in skillPP)
+        {
+            debugPP.Add($"{pair.Key.SkillName} : {pair.Value}/{pair.Key.PP}");
+        }
     }
 }

@@ -17,3 +17,15 @@ MonoBehaviour:
   EnemyHP: 100
   EnemyAttackDamage: 1
   EnemyDefense: 1
+  highHpCloseWeakWeight: 1
+  highHpCloseStrongWeight: 1
+  highHpLongWeakWeight: 1
+  highHpLongStrongWeight: 1
+  midHpCloseWeakWeight: 1
+  midHpCloseStrongWeight: 5
+  midHpLongWeakWeight: 1
+  midHpLongStrongWeight: 5
+  lowHpCloseStrongWeight: 1
+  lowHpCloseWeakWeight: 1
+  lowHpLongStrongWeight: 1
+  lowHpLongWeakWeight: 1
