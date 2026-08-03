@@ -12,7 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 283bd1de5e7a4ad4eae49f074b15446d, type: 3}
   m_Name: "\u30D2\u30C8\u30AB\u30B2"
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
+  enemyElement: 0
   EnemyName: "\u30D2\u30C8\u30AB\u30B2"
   EnemyHP: 100
   EnemyAttackDamage: 1
   EnemyDefense: 1
+  highHpCloseWeakWeight: 7
+  highHpCloseStrongWeight: 1
+  highHpLongWeakWeight: 7
+  highHpLongStrongWeight: 1
+  midHpCloseWeakWeight: 1
+  midHpCloseStrongWeight: 1
+  midHpLongWeakWeight: 1
+  midHpLongStrongWeight: 1
+  lowHpCloseStrongWeight: 7
+  lowHpCloseWeakWeight: 1
+  lowHpLongStrongWeight: 7
+  lowHpLongWeakWeight: 1
