@@ -1,4 +1,4 @@
-using NUnit.Framework;
+
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,7 +21,7 @@ public class Arrribute : ScriptableObject
         {
             if (entry.attaker == attaker &&  entry.defender == defender)
             {
-                return entry.multiplier;//”{—¦(0.5”{,2”{)
+                return entry.multiplier;//”{—¦
             }
                
         }
