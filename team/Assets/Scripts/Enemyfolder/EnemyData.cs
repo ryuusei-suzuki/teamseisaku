@@ -28,5 +28,20 @@ public class EnemyData : ScriptableObject
     public int lowHpLongStrongWeight;
     public int lowHpLongWeakWeight;
 
+    [Header("“Áê‹Z")]
+    public EnemySkillData GuardSkill;
+    public EnemySkillData HealSkill;
+
+    [Header("“Áê‹Z‚ÌŒXŒü")]
+    public int highHpGuardWeight;
+    public int midHpGuardWeight;
+    public int lowHpGuardWeight;
+    public int highHpHealWeight;
+    public int midHpHealWeight;
+    public int lowHpHealWeight;
+
+    [Header("‘®«‘I‘ğ‚Ìd‚İ")]
+    public int mainElementWeight = 8;
+    public int subElementWeight = 2;
 }
 
