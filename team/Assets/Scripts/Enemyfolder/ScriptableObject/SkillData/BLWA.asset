@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f64780b737871e4c91d164448cd56f2, type: 3}
   m_Name: BLWA
   m_EditorClassIdentifier: Assembly-CSharp::EnemySkillData
-  SkillName: "\u6C34\u9060\u5F31\u653B\u6483"
+  skillElement: 1
+  SkillName: "\u30A2\u30AF\u30A2\u30A2\u30ED\u30FC"
   PP: 15
-  Damege: 10
+  Damage: 0
   Preemptive: 1
+  skillType: 2

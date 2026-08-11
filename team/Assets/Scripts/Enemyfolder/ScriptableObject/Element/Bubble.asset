@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bubble
   m_EditorClassIdentifier: Assembly-CSharp::Element
   enemyElement: 1
-  CloseWaekAttack: {fileID: 11400000, guid: 0cd56239377722b45a70cdb28ed19db3, type: 2}
+  CloseWeakAttack: {fileID: 11400000, guid: 0cd56239377722b45a70cdb28ed19db3, type: 2}
   CloseStrongAttack: {fileID: 11400000, guid: 9f1da80b686bec649addf1b80f9075de, type: 2}
-  LongWaekAttack: {fileID: 11400000, guid: b9f41b92bc9a5c94892a90099a4ce01c, type: 2}
+  LongWeakAttack: {fileID: 11400000, guid: b9f41b92bc9a5c94892a90099a4ce01c, type: 2}
   LongStrongAttack: {fileID: 11400000, guid: 04e2ff6e7a104664d944aaa5f703b822, type: 2}

@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f64780b737871e4c91d164448cd56f2, type: 3}
   m_Name: WCSA
   m_EditorClassIdentifier: Assembly-CSharp::EnemySkillData
-  SkillName: "\u98A8\u8FD1\u5F37\u653B\u6483"
+  skillElement: 2
+  SkillName: "\u30A6\u30A3\u30F3\u30C9\u30BD\u30FC\u30C9"
   PP: 5
-  Damege: 20
+  Damage: 0
   Preemptive: 0
+  skillType: 1

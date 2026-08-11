@@ -2,6 +2,7 @@ using UnityEngine;
 
 public enum EnemyElement
 {
+    None,
     fire,
     Bubble,
     wind
@@ -12,9 +13,9 @@ public class Element : ScriptableObject
 {
     public EnemyElement enemyElement;
 
-    public EnemySkillData CloseWaekAttack;
+    public EnemySkillData CloseWeakAttack;
     public EnemySkillData CloseStrongAttack;
-    public EnemySkillData LongWaekAttack;
+    public EnemySkillData LongWeakAttack;
     public EnemySkillData LongStrongAttack;
 
 

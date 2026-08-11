@@ -29,3 +29,13 @@ MonoBehaviour:
   lowHpCloseWeakWeight: 1
   lowHpLongStrongWeight: 7
   lowHpLongWeakWeight: 1
+  GuardSkill: {fileID: 11400000, guid: a6ebd893bcfb8894cbe9cb4a57b9fc34, type: 2}
+  HealSkill: {fileID: 11400000, guid: 96e8d95f1820a8d468edb7527714bb41, type: 2}
+  highHpGuardWeight: 1
+  midHpGuardWeight: 3
+  lowHpGuardWeight: 5
+  highHpHealWeight: 1
+  midHpHealWeight: 3
+  lowHpHealWeight: 5
+  mainElementWeight: 8
+  subElementWeight: 2
