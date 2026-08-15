@@ -9,5 +9,5 @@ public class SkillData : ScriptableObject
     public DistanceType distance;
     public float Power;
     public int AP;
-
+    public Sprite iconImage;
 }
