@@ -20,6 +20,7 @@ public class Enemytester : MonoBehaviour
 
     [SerializeField] private List<string> debugPP = new();
 
+   
 
     public void Init(EnemyData data, Element mainData, Element subData)
     {
@@ -134,6 +135,14 @@ public class Enemytester : MonoBehaviour
         float hpRatio = GetHPRate();
 
         bool useMain = ChooseMainElement();
+
+
+        // •›‘®«‚ğ‚½‚È‚¢“G‚ÍAí‚ÉƒƒCƒ“‘®«‚ğg‚¤
+        if (SubEnemyElement == EnemyElement.None)
+        {
+            useMain = true;
+        }
+
 
         EnemyElement targetElement = useMain ? MainEnemyElement : SubEnemyElement;
 
@@ -322,5 +331,15 @@ public class Enemytester : MonoBehaviour
         int rand = Random.Range(0, total);
 
         return rand < enemyData.mainElementWeight;
+    }
+
+    public EnemySkillData UseSkillForBattle()
+    {
+        EnemySkillData skill = ChooseSkill();
+        if (skill != null)
+        {
+            ConsumeSkillPP(skill);
+        }
+        return skill;
     }
 }

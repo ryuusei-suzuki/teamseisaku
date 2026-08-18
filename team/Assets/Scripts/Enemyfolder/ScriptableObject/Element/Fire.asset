@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99d587d2d81e6214faa3393695d3c3e4, type: 3}
   m_Name: Fire
   m_EditorClassIdentifier: Assembly-CSharp::Element
-  enemyElement: 0
+  enemyElement: 1
   CloseWeakAttack: {fileID: 11400000, guid: 69027b37bff1e7540950b523b21864ff, type: 2}
   CloseStrongAttack: {fileID: 11400000, guid: 728ca10b25126d847aa5c8ae354b1b42, type: 2}
   LongWeakAttack: {fileID: 11400000, guid: e17ca5fe22035524e96463ea42a35e2a, type: 2}

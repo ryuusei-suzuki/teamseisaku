@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f64780b737871e4c91d164448cd56f2, type: 3}
   m_Name: WLWA
   m_EditorClassIdentifier: Assembly-CSharp::EnemySkillData
-  skillElement: 2
-  SkillName: "\u30A6\u30A3\u30F3\u30C9\u30A2\u30ED\u30FC"
+  skillElement: 3
+  SkillName: Wind Arrow
   PP: 15
-  Damage: 0
+  Damage: 10
   Preemptive: 1
   skillType: 0

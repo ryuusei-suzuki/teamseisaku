@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,55 +5,44 @@ public class DamageCalculator
 {
     public Arrribute arribute;
 
-
+    // SkillData版(プレイヤー用、今まで通り)
     public float CalculateDamage(SkillData skill, List<AttributeType> defenderAttributes, DistanceType defenderDistance)
+    {
+        return CalculateDamage(skill.attribute, skill.distance, skill.Power, defenderAttributes, defenderDistance);
+    }
+
+    // 値を直接渡す版(敵スキルなど、SkillData以外から呼ぶ用)
+    public float CalculateDamage(AttributeType attackerAttribute, DistanceType attackerDistance, float power, List<AttributeType> defenderAttributes, DistanceType defenderDistance)
     {
         TurnOrder turnOrder = new TurnOrder();
 
-        // 各属性の有利不利を点数化して合計する(有利+1、不利-1、等倍0)
         int totalScore = 0;
         foreach (AttributeType defenderAttribute in defenderAttributes)
         {
-            float multiplier = arribute.GetMultiplier(skill.attribute, defenderAttribute);
+            float multiplier = arribute.GetMultiplier(attackerAttribute, defenderAttribute);
 
             if (multiplier > 1.0f)
-            {
-                totalScore = totalScore + 1; // 有利
-            }
+                totalScore = totalScore + 1;
             else if (multiplier < 1.0f)
-            {
-                totalScore = totalScore - 1; // 不利
-            }
-            // 等倍(1.0f)のときは加算しない
+                totalScore = totalScore - 1;
         }
 
-        // 合計点数から、最終的な属性倍率を決定する
-        float attributeMultiplier;
-        switch (totalScore)
+        float attributeMultiplier = ScoreToMultiplier(totalScore);
+        float distanceMultiplier = turnOrder.GetDistanceMultiplier(attackerDistance, defenderDistance);
+
+        return attributeMultiplier * distanceMultiplier * power;
+    }
+
+    private float ScoreToMultiplier(int score)
+    {
+        switch (score)
         {
-            case 2:
-                attributeMultiplier = 1.44f; // 超有利
-                break;
-            case 1:
-                attributeMultiplier = 1.2f;  // 有利
-                break;
-            case 0:
-                attributeMultiplier = 1.0f;  // 等倍
-                break;
-            case -1:
-                attributeMultiplier = 0.5f;  // 不利
-                break;
-            case -2:
-                attributeMultiplier = 0.25f; // 超不利
-                break;
-            default:
-                attributeMultiplier = 1.0f;  // 属性が3つ以上等になった場合の保険
-                break;
+            case 2: return 1.44f;
+            case 1: return 1.2f;
+            case 0: return 1.0f;
+            case -1: return 0.5f;
+            case -2: return 0.25f;
+            default: return 1.0f;
         }
-
-        float distanceMultiplier = turnOrder.GetDistanceMultiplier(skill.distance, defenderDistance);
-
-        float damage = attributeMultiplier * distanceMultiplier * skill.Power;
-        return damage;
     }
 }
