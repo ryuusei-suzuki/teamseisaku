@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99d587d2d81e6214faa3393695d3c3e4, type: 3}
   m_Name: Wind
   m_EditorClassIdentifier: Assembly-CSharp::Element
-  enemyElement: 2
+  enemyElement: 3
   CloseWeakAttack: {fileID: 11400000, guid: 603499f783272ff478d9903f490eced3, type: 2}
   CloseStrongAttack: {fileID: 11400000, guid: f317fd391da887741983d822741bb2fc, type: 2}
   LongWeakAttack: {fileID: 11400000, guid: 59ca40ed09cb04849b024a4bb6ff1448, type: 2}

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 283bd1de5e7a4ad4eae49f074b15446d, type: 3}
   m_Name: "\u30D5\u30B7\u30AE\u30C0\u30CD"
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  enemyElement: 2
+  enemyElement: 3
   EnemyName: "\u30D5\u30B7\u30AE\u30C0\u30CD"
   EnemyHP: 100
   EnemyAttackDamage: 1

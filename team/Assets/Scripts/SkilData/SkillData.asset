@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f64780b737871e4c91d164448cd56f2, type: 3}
-  m_Name: BCSA
-  m_EditorClassIdentifier: Assembly-CSharp::EnemySkillData
-  skillElement: 2
-  SkillName: Water Sword
-  PP: 5
-  Damage: 10
-  Preemptive: 0
-  skillType: 1
+  m_Script: {fileID: 11500000, guid: c6a60f79ad597cf44b283ec44e8c1711, type: 3}
+  m_Name: SkillData
+  m_EditorClassIdentifier: Assembly-CSharp::SkillData
+  SkillName: firmelee
+  attribute: 0
+  distance: 0
+  Power: 10
+  AP: 10
+  iconImage: {fileID: 0}

@@ -92,20 +92,12 @@ public class EnemySpawner : MonoBehaviour
             subElement != null ? subElement.enemyElement.ToString(): "None";
 
         Debug.Log($"å‘®«:{mainElement.enemyElement} / •›‘®«:{subName}");
+        FindFirstObjectByType<BattleManager>().enemy = tester;
     }
 
     private void Start()
     {
         SpawnRandomEnemy();
-        SpawnRandomEnemy();
-        SpawnRandomEnemy();
-        SpawnRandomEnemy();
-        SpawnRandomEnemy();
-        SpawnRandomEnemy();
-        SpawnRandomEnemy();
-        SpawnRandomEnemy();
-        SpawnRandomEnemy();
-        SpawnRandomEnemy();
-        SpawnRandomEnemy();
+       
     }
 }

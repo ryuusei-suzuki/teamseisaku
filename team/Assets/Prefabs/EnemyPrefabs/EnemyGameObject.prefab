@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 119195675452680931}
-  - component: {fileID: 3747791553350530355}
+  - component: {fileID: 7727087381205110045}
   m_Layer: 0
   m_Name: EnemyGameObject
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3747791553350530355
+--- !u!114 &7727087381205110045
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,13 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemytester
   enemyData: {fileID: 0}
+  MaxEnemyHP: 0
   NowEnemyHP: 0
-  enemyElement: 0
-  elementDatas:
-  - {fileID: 11400000, guid: 9f30eaf05c5d4da46b160b6b02f05aa0, type: 2}
-  - {fileID: 11400000, guid: 2d71acf739c7ada448946f38a8eaa62a, type: 2}
-  - {fileID: 11400000, guid: 56c05973da82e0549aa731154304822c, type: 2}
-  closeWeak: {fileID: 0}
-  closeStrong: {fileID: 0}
-  longWeak: {fileID: 0}
-  longStrong: {fileID: 0}
+  MainEnemyElement: 0
+  SubEnemyElement: 0
+  allSkills: []
+  debugPP: []

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f64780b737871e4c91d164448cd56f2, type: 3}
   m_Name: WCWA
   m_EditorClassIdentifier: Assembly-CSharp::EnemySkillData
-  skillElement: 2
-  SkillName: "\u30A6\u30A3\u30F3\u30C9\u30D1\u30F3\u30C1"
+  skillElement: 3
+  SkillName: Wind Punch
   PP: 15
-  Damage: 0
+  Damage: 10
   Preemptive: 0
   skillType: 0

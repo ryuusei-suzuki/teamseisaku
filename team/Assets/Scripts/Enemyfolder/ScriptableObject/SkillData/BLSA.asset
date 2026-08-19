@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f64780b737871e4c91d164448cd56f2, type: 3}
   m_Name: BLSA
   m_EditorClassIdentifier: Assembly-CSharp::EnemySkillData
-  skillElement: 1
-  SkillName: "\u30A2\u30AF\u30A2\u30DE\u30B8\u30C3\u30AF"
+  skillElement: 2
+  SkillName: Water Magic
   PP: 5
-  Damage: 0
+  Damage: 20
   Preemptive: 1
   skillType: 3
