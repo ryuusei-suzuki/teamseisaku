@@ -17,3 +17,4 @@ MonoBehaviour:
   distance: 1
   Power: 20
   AP: 5
+  iconImage: {fileID: 1816203206530390869, guid: 02831cea2cef2064bad24cec0fa0f8d7, type: 3}

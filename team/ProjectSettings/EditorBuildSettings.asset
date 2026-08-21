@@ -17,6 +17,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BattleScene.unity
     guid: fadb87a31a0d8dc4a9fe66766ccbf294
+  - enabled: 1
+    path: Assets/Scenes/Skill selection.unity
+    guid: ce7afb2c183ec2042807b1698c4dd828
+  - enabled: 1
+    path: Assets/Scenes/suzki.unity
+    guid: 80a03c657c33f57418bb2bd588e36dfb
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
