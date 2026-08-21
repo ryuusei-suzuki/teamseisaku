@@ -5,7 +5,12 @@ public class TitleManager : MonoBehaviour
 {
     public void StartGame()
     {
-        SceneManager.LoadScene("SkillScene");
+        SceneManager.LoadScene("Skill selection");
+    }
+
+    public void BattleGame()
+    {
+        SceneManager.LoadScene("suzki");
     }
 
     public void ExitGame()
