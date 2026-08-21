@@ -7,27 +7,36 @@ public class BattleManager : MonoBehaviour
 {
     public enum BattleState { Ongoing, Win, Lose }
 
+    // 1体分のボス情報(主属性・副属性を確定させて保持する)
+    private class BossEntry
+    {
+        public EnemyData data;
+        public Element subElement;
+    }
+
     public int maxPlayerHp = 100;
     public int playerHp;
     public SkillData playerSkill;
     public Arrribute arribute;
     public Enemytester enemy;
     public EnemySpawner spawner;
-    public List<EnemyData> bossList; // ヒトカゲ・ゼニガメ・フシギダネをInspectorで割り当てる
+    public List<EnemyData> bossList;
 
     public TextMeshProUGUI playerHpText;
     public TextMeshProUGUI enemyHpText;
     public TextMeshProUGUI battleLogText;
+    public TextMeshProUGUI bossInfoText;
     public BattleState currentState = BattleState.Ongoing;
 
     [SerializeField] private float messageWaitTime = 1.0f;
     private bool isProcessingTurn = false;
-    private Queue<EnemyData> bossQueue;
+    private Queue<BossEntry> bossQueue;
 
     void Start()
     {
         playerHp = maxPlayerHp;
         SetupBossQueue();
+        ShowBossInfo();
         SpawnNextBoss();
         UpdateHpUI();
     }
@@ -40,7 +49,37 @@ public class BattleManager : MonoBehaviour
             int rand = Random.Range(i, shuffled.Count);
             (shuffled[i], shuffled[rand]) = (shuffled[rand], shuffled[i]);
         }
-        bossQueue = new Queue<EnemyData>(shuffled);
+
+        bossQueue = new Queue<BossEntry>();
+        foreach (EnemyData data in shuffled)
+        {
+            BossEntry entry = new BossEntry();
+            entry.data = data;
+            entry.subElement = spawner.DetermineSubElement(data.enemyElement); // ここで副属性も先に確定
+            bossQueue.Enqueue(entry);
+        }
+    }
+
+    private void ShowBossInfo()
+    {
+        string info = "出現するボス:\n";
+        foreach (BossEntry entry in bossQueue)
+        {
+            string sub = entry.subElement != null ? ElementToJapanese(entry.subElement.enemyElement) : "なし";
+            info += $"{entry.data.EnemyName}(主属性: {ElementToJapanese(entry.data.enemyElement)} / 副属性: {sub})\n";
+        }
+        bossInfoText.text = info;
+    }
+
+    private string ElementToJapanese(EnemyElement element)
+    {
+        switch (element)
+        {
+            case EnemyElement.fire: return "火";
+            case EnemyElement.Bubble: return "水";
+            case EnemyElement.wind: return "風";
+            default: return "無";
+        }
     }
 
     private void SpawnNextBoss()
@@ -52,11 +91,12 @@ public class BattleManager : MonoBehaviour
             return;
         }
 
-        EnemyData nextBoss = bossQueue.Dequeue();
-        enemy = spawner.SpawnSpecificEnemy(nextBoss);
+        BossEntry nextBoss = bossQueue.Dequeue();
+        enemy = spawner.SpawnSpecificEnemy(nextBoss.data, nextBoss.subElement);
         currentState = BattleState.Ongoing;
         UpdateHpUI();
     }
+
 
     private void HealPlayer(float percent)
     {

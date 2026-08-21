@@ -24,10 +24,10 @@ MonoBehaviour:
     multiplier: 0.5
   - attaker: 0
     defender: 2
-    multiplier: 2
+    multiplier: 1.2
   - attaker: 1
     defender: 0
-    multiplier: 2
+    multiplier: 1.2
   - attaker: 2
     defender: 1
-    multiplier: 2
+    multiplier: 1.2

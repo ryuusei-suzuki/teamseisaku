@@ -95,8 +95,8 @@ public class EnemySpawner : MonoBehaviour
         FindFirstObjectByType<BattleManager>().enemy = tester;
     }
 
-    // 指定したEnemyDataで敵を生成する(3体連戦用)
-    public Enemytester SpawnSpecificEnemy(EnemyData data)
+    // 副属性を指定して生成する版(BattleManagerが事前に決めた副属性を使う)
+    public Enemytester SpawnSpecificEnemy(EnemyData data, Element subElement)
     {
         Element mainElement = null;
         foreach (Element e in elementDatas)
@@ -114,19 +114,6 @@ public class EnemySpawner : MonoBehaviour
             return null;
         }
 
-        Element subElement = null;
-        if (Random.value > noSubElementChance)
-        {
-            List<Element> subCandidates = new();
-            foreach (Element e in elementDatas)
-            {
-                if (e.enemyElement != EnemyElement.None && e.enemyElement != mainElement.enemyElement)
-                    subCandidates.Add(e);
-            }
-            if (subCandidates.Count > 0)
-                subElement = subCandidates[Random.Range(0, subCandidates.Count)];
-        }
-
         GameObject newEnemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
         Enemytester tester = newEnemy.GetComponent<Enemytester>();
         if (tester != null)
@@ -134,6 +121,24 @@ public class EnemySpawner : MonoBehaviour
             tester.Init(data, mainElement, subElement);
         }
         return tester;
+    }
+
+
+    // 副属性だけを事前に抽選するためのメソッド
+    public Element DetermineSubElement(EnemyElement mainElement)
+    {
+        if (Random.value > noSubElementChance)
+        {
+            List<Element> subCandidates = new();
+            foreach (Element e in elementDatas)
+            {
+                if (e.enemyElement != EnemyElement.None && e.enemyElement != mainElement)
+                    subCandidates.Add(e);
+            }
+            if (subCandidates.Count > 0)
+                return subCandidates[Random.Range(0, subCandidates.Count)];
+        }
+        return null;
     }
 
     private void Start()
