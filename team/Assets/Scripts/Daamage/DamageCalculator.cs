@@ -5,14 +5,12 @@ public class DamageCalculator
 {
     public Arrribute arribute;
 
-    // SkillData版(プレイヤー用、今まで通り)
-    public float CalculateDamage(SkillData skill, List<AttributeType> defenderAttributes, DistanceType defenderDistance)
+    public float CalculateDamage(SkillData skill, List<AttributeType> defenderAttributes, DistanceType defenderDistance, out string effectivenessText)
     {
-        return CalculateDamage(skill.attribute, skill.distance, skill.Power, defenderAttributes, defenderDistance);
+        return CalculateDamage(skill.attribute, skill.distance, skill.Power, defenderAttributes, defenderDistance, out effectivenessText);
     }
 
-    // 値を直接渡す版(敵スキルなど、SkillData以外から呼ぶ用)
-    public float CalculateDamage(AttributeType attackerAttribute, DistanceType attackerDistance, float power, List<AttributeType> defenderAttributes, DistanceType defenderDistance)
+    public float CalculateDamage(AttributeType attackerAttribute, DistanceType attackerDistance, float power, List<AttributeType> defenderAttributes, DistanceType defenderDistance, out string effectivenessText)
     {
         TurnOrder turnOrder = new TurnOrder();
 
@@ -28,6 +26,8 @@ public class DamageCalculator
         }
 
         float attributeMultiplier = ScoreToMultiplier(totalScore);
+        effectivenessText = ScoreToText(totalScore);
+
         float distanceMultiplier = turnOrder.GetDistanceMultiplier(attackerDistance, defenderDistance);
 
         return attributeMultiplier * distanceMultiplier * power;
@@ -44,5 +44,15 @@ public class DamageCalculator
             case -2: return 0.25f;
             default: return 1.0f;
         }
+    }
+
+    private string ScoreToText(int score)
+    {
+        if (score > 0)
+            return "こうかは ばつぐんだ！";
+        else if (score < 0)
+            return "こうかは いまひとつの ようだ…";
+        else
+            return "";
     }
 }

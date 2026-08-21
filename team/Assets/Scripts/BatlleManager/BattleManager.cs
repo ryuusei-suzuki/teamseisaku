@@ -7,45 +7,79 @@ public class BattleManager : MonoBehaviour
 {
     public enum BattleState { Ongoing, Win, Lose }
 
+    public int maxPlayerHp = 100;
     public int playerHp;
     public SkillData playerSkill;
     public Arrribute arribute;
     public Enemytester enemy;
+    public EnemySpawner spawner;
+    public List<EnemyData> bossList; // ヒトカゲ・ゼニガメ・フシギダネをInspectorで割り当てる
 
     public TextMeshProUGUI playerHpText;
     public TextMeshProUGUI enemyHpText;
     public TextMeshProUGUI battleLogText;
     public BattleState currentState = BattleState.Ongoing;
 
-    [SerializeField] private float messageWaitTime = 1.0f; // メッセージの表示間隔
-    private bool isProcessingTurn = false; // 演出中の二重操作防止
+    [SerializeField] private float messageWaitTime = 1.0f;
+    private bool isProcessingTurn = false;
+    private Queue<EnemyData> bossQueue;
 
     void Start()
     {
+        playerHp = maxPlayerHp;
+        SetupBossQueue();
+        SpawnNextBoss();
         UpdateHpUI();
+    }
+
+    private void SetupBossQueue()
+    {
+        List<EnemyData> shuffled = new List<EnemyData>(bossList);
+        for (int i = 0; i < shuffled.Count; i++)
+        {
+            int rand = Random.Range(i, shuffled.Count);
+            (shuffled[i], shuffled[rand]) = (shuffled[rand], shuffled[i]);
+        }
+        bossQueue = new Queue<EnemyData>(shuffled);
+    }
+
+    private void SpawnNextBoss()
+    {
+        if (bossQueue.Count == 0)
+        {
+            currentState = BattleState.Win;
+            AddLog("全てのボスを倒した！クリア！");
+            return;
+        }
+
+        EnemyData nextBoss = bossQueue.Dequeue();
+        enemy = spawner.SpawnSpecificEnemy(nextBoss);
+        currentState = BattleState.Ongoing;
+        UpdateHpUI();
+    }
+
+    private void HealPlayer(float percent)
+    {
+        int healAmount = Mathf.RoundToInt(maxPlayerHp * percent);
+        playerHp = Mathf.Min(maxPlayerHp, playerHp + healAmount);
     }
 
     public void SelectPlayerSkill(SkillData skill)
     {
-        if (isProcessingTurn)
-            return; // 演出中はボタン操作を受け付けない
+        if (isProcessingTurn || currentState != BattleState.Ongoing)
+            return;
 
         playerSkill = skill;
-        Debug.Log("Selected skill: " + skill.SkillName);
+        Debug.Log("選択した技: " + skill.SkillName);
         StartCoroutine(ExecuteTurn());
     }
 
     private IEnumerator ExecuteTurn()
     {
-        if (currentState != BattleState.Ongoing)
-            yield break;
-
         isProcessingTurn = true;
 
         if (enemy == null)
         {
-            currentState = BattleState.Win;
-            AddLog("Victory (no enemy)");
             isProcessingTurn = false;
             yield break;
         }
@@ -53,7 +87,7 @@ public class BattleManager : MonoBehaviour
         EnemySkillData enemySkill = enemy.UseSkillForBattle();
         if (enemySkill == null)
         {
-            AddLog("Enemy could not act (out of PP)");
+            AddLog("敵は技を出せなかった(PP切れ)");
             yield return new WaitForSeconds(messageWaitTime);
 
             AttackEnemyOnlyWithLog();
@@ -78,9 +112,9 @@ public class BattleManager : MonoBehaviour
 
         if (isPlayerFirst)
         {
-            float damageToEnemy = calculator.CalculateDamage(playerSkill, enemyAttributes, enemyDistance);
+            float damageToEnemy = calculator.CalculateDamage(playerSkill, enemyAttributes, enemyDistance, out string playerEffect);
             enemy.TakeDamage((int)damageToEnemy);
-            string playerMsg = $"Player: {playerSkill.SkillName}! {damageToEnemy} damage";
+            string playerMsg = $"プレイヤー: {playerSkill.SkillName}！ {damageToEnemy}ダメージ {playerEffect}";
             Debug.Log(playerMsg);
             AddLog(playerMsg);
             UpdateHpUI();
@@ -89,9 +123,9 @@ public class BattleManager : MonoBehaviour
             if (!IsEnemyDead())
             {
                 List<AttributeType> playerAttributes = new List<AttributeType> { playerSkill.attribute };
-                float damageToPlayer = calculator.CalculateDamage(enemyAttackAttribute, enemyDistance, enemySkill.Damage, playerAttributes, playerSkill.distance);
+                float damageToPlayer = calculator.CalculateDamage(enemyAttackAttribute, enemyDistance, enemySkill.Damage, playerAttributes, playerSkill.distance, out string enemyEffect);
                 playerHp -= (int)damageToPlayer;
-                string enemyMsg = $"Enemy: {enemySkill.SkillName}! {damageToPlayer} damage";
+                string enemyMsg = $"敵: {enemySkill.SkillName}！ {damageToPlayer}ダメージ {enemyEffect}";
                 Debug.Log(enemyMsg);
                 AddLog(enemyMsg);
                 UpdateHpUI();
@@ -101,9 +135,9 @@ public class BattleManager : MonoBehaviour
         else
         {
             List<AttributeType> playerAttributesForEnemyAttack = new List<AttributeType> { playerSkill.attribute };
-            float damageToPlayer = calculator.CalculateDamage(enemyAttackAttribute, enemyDistance, enemySkill.Damage, playerAttributesForEnemyAttack, playerSkill.distance);
+            float damageToPlayer = calculator.CalculateDamage(enemyAttackAttribute, enemyDistance, enemySkill.Damage, playerAttributesForEnemyAttack, playerSkill.distance, out string enemyEffect);
             playerHp -= (int)damageToPlayer;
-            string enemyMsg = $"Enemy: {enemySkill.SkillName}! {damageToPlayer} damage";
+            string enemyMsg = $"敵: {enemySkill.SkillName}！ {damageToPlayer}ダメージ {enemyEffect}";
             Debug.Log(enemyMsg);
             AddLog(enemyMsg);
             UpdateHpUI();
@@ -111,9 +145,9 @@ public class BattleManager : MonoBehaviour
 
             if (playerHp > 0)
             {
-                float damageToEnemy = calculator.CalculateDamage(playerSkill, enemyAttributes, enemyDistance);
+                float damageToEnemy = calculator.CalculateDamage(playerSkill, enemyAttributes, enemyDistance, out string playerEffect);
                 enemy.TakeDamage((int)damageToEnemy);
-                string playerMsg = $"Player: {playerSkill.SkillName}! {damageToEnemy} damage";
+                string playerMsg = $"プレイヤー: {playerSkill.SkillName}！ {damageToEnemy}ダメージ {playerEffect}";
                 Debug.Log(playerMsg);
                 AddLog(playerMsg);
                 UpdateHpUI();
@@ -128,15 +162,15 @@ public class BattleManager : MonoBehaviour
 
     private void UpdateHpUI()
     {
-        playerHpText.text = "Player HP: " + playerHp;
+        playerHpText.text = "プレイヤーHP: " + playerHp;
 
         if (enemy != null)
         {
-            enemyHpText.text = "Enemy HP: " + enemy.NowEnemyHP;
+            enemyHpText.text = "敵HP: " + enemy.NowEnemyHP;
         }
         else
         {
-            enemyHpText.text = "Enemy HP: -";
+            enemyHpText.text = "敵HP: -";
         }
     }
 
@@ -148,14 +182,13 @@ public class BattleManager : MonoBehaviour
         DamageCalculator calculator = new DamageCalculator();
         calculator.arribute = arribute;
 
-        float damageToEnemy = calculator.CalculateDamage(playerSkill, enemyAttributes, enemyDistance);
+        float damageToEnemy = calculator.CalculateDamage(playerSkill, enemyAttributes, enemyDistance, out string effect);
         enemy.TakeDamage((int)damageToEnemy);
-        string msg = $"Player: {playerSkill.SkillName}! {damageToEnemy} damage";
+        string msg = $"プレイヤー: {playerSkill.SkillName}！ {damageToEnemy}ダメージ {effect}";
         Debug.Log(msg);
         AddLog(msg);
         UpdateHpUI();
     }
-
     private List<AttributeType> GetEnemyAttributes()
     {
         List<AttributeType> list = new List<AttributeType>
@@ -179,24 +212,28 @@ public class BattleManager : MonoBehaviour
         if (playerHp <= 0)
         {
             currentState = BattleState.Lose;
-            AddLog("Defeat...");
+            AddLog("敗北...");
+            return;
         }
-        else if (IsEnemyDead())
+
+        if (IsEnemyDead())
         {
-            currentState = BattleState.Win;
-            AddLog("Victory!");
+            if (bossQueue.Count == 0)
+            {
+                currentState = BattleState.Win;
+                AddLog("全てのボスを倒した！クリア！");
+            }
+            else
+            {
+                HealPlayer(0.3f);
+                AddLog("ボスを倒した！HPが30%回復した");
+                SpawnNextBoss();
+            }
         }
     }
 
     private void AddLog(string message)
     {
         battleLogText.text = message;
-    }
-    public void ExecuteTurnFromDebug()
-    {
-        if (isProcessingTurn)
-            return;
-
-        StartCoroutine(ExecuteTurn());
     }
 }

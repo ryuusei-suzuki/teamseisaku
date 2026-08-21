@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class TurnOrder
 {
-
     private DistanceRelation GetRelation(DistanceType playerDistance, DistanceType enemyDistance)
     {
         if (playerDistance == DistanceType.Melee && enemyDistance == DistanceType.Ranged)
@@ -13,23 +12,14 @@ public class TurnOrder
         {
             return DistanceRelation.PlayerRanged;
         }
-        else if (playerDistance == enemyDistance)
-        {
-            return DistanceRelation.Same;
-
-        }
         else
         {
             return DistanceRelation.Same;
         }
-
     }
-
-
 
     public bool IsPlayerFirst(DistanceType playerDistance, DistanceType enemyDistance)
     {
-
         DistanceRelation relation = GetRelation(playerDistance, enemyDistance);
 
         switch (relation)
@@ -39,12 +29,10 @@ public class TurnOrder
             case DistanceRelation.EnemyRanged:
                 return false;
             case DistanceRelation.Same:
-                return true;
+                return Random.value < 0.5f; // 50%’Š‘I‚É•ÏX
             default:
                 return true;
         }
-
-
     }
 
     public float GetDistanceMultiplier(DistanceType attackerDistance, DistanceType defenderDistance)
@@ -61,8 +49,6 @@ public class TurnOrder
                 return 1.0f;
             default:
                 return 1.0f;
-               
         }
     }
-
-}   
+}

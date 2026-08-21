@@ -95,9 +95,50 @@ public class EnemySpawner : MonoBehaviour
         FindFirstObjectByType<BattleManager>().enemy = tester;
     }
 
+    // Žw’è‚µ‚½EnemyData‚Å“G‚ð¶¬‚·‚é(3‘Ì˜Aí—p)
+    public Enemytester SpawnSpecificEnemy(EnemyData data)
+    {
+        Element mainElement = null;
+        foreach (Element e in elementDatas)
+        {
+            if (e.enemyElement == data.enemyElement)
+            {
+                mainElement = e;
+                break;
+            }
+        }
+
+        if (mainElement == null)
+        {
+            Debug.LogError("‘Î‰ž‚·‚éElement‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ: " + data.EnemyName);
+            return null;
+        }
+
+        Element subElement = null;
+        if (Random.value > noSubElementChance)
+        {
+            List<Element> subCandidates = new();
+            foreach (Element e in elementDatas)
+            {
+                if (e.enemyElement != EnemyElement.None && e.enemyElement != mainElement.enemyElement)
+                    subCandidates.Add(e);
+            }
+            if (subCandidates.Count > 0)
+                subElement = subCandidates[Random.Range(0, subCandidates.Count)];
+        }
+
+        GameObject newEnemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
+        Enemytester tester = newEnemy.GetComponent<Enemytester>();
+        if (tester != null)
+        {
+            tester.Init(data, mainElement, subElement);
+        }
+        return tester;
+    }
+
     private void Start()
     {
-        SpawnRandomEnemy();
+  
        
     }
 }
