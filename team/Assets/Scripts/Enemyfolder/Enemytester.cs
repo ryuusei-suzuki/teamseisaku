@@ -19,8 +19,8 @@ public class Enemytester : MonoBehaviour
     private Dictionary<EnemySkillData, int> skillPP = new();//PP‚ğŠÇ—‚·‚é‚½‚ß‚Ì«‘
 
     [SerializeField] private List<string> debugPP = new();
+    public SpriteRenderer spriteRenderer;
 
-   
 
     public void Init(EnemyData data, Element mainData, Element subData)
     {
@@ -30,6 +30,13 @@ public class Enemytester : MonoBehaviour
         NowEnemyHP = enemyData.EnemyHP;
 
         MainEnemyElement = mainData.enemyElement;
+
+        // Œ©‚½–Ú‚ğå‘®«‚Ì‰æ‘œ‚É·‚µ‘Ö‚¦‚é
+        if (spriteRenderer != null && mainData.enemySprite != null)
+        {
+            spriteRenderer.sprite = mainData.enemySprite;
+        }
+
 
         // ‹ZƒŠƒXƒg‚ğ‹ó‚É‚·‚é
         allSkills.Clear();
