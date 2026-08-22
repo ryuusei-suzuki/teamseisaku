@@ -1,9 +1,11 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
+
 public class BattleSkillButton : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI label;
+    [SerializeField] private Image iconImage;
     private Button button;
     private SkillData skillData;
     private BattleManager battleManager;
@@ -12,7 +14,16 @@ public class BattleSkillButton : MonoBehaviour
     {
         skillData = skill;
         battleManager = manager;
-        label.text = skill.SkillName;
+
+        if (label != null)
+        {
+            label.text = skill.SkillName;
+        }
+
+        if (iconImage != null && skill.iconImage != null)
+        {
+            iconImage.sprite = skill.iconImage;
+        }
 
         button = GetComponent<Button>();
         button.onClick.RemoveAllListeners();
