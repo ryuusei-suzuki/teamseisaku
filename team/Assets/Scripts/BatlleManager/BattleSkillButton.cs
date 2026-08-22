@@ -34,4 +34,9 @@ public class BattleSkillButton : MonoBehaviour
     {
         battleManager.SelectPlayerSkill(skillData);
     }
+
+    public SkillData GetSkillData()
+    {
+        return skillData;
+    }
 }

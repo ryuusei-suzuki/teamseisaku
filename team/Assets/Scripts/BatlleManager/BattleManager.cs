@@ -36,6 +36,8 @@ public class BattleManager : MonoBehaviour
     public IReadOnlyList<SkillData> availableSkills;
     public GameObject skillButtonPrefab;
     public Transform skillButtonParent;
+    private Dictionary<SkillData, int> skillAP = new Dictionary<SkillData, int>();
+    private List<BattleSkillButton> skillButtons = new List<BattleSkillButton>();
     void Start()
     {
         if (SkillSelectionManager.Instance != null)
@@ -48,21 +50,23 @@ public class BattleManager : MonoBehaviour
         ShowBossInfo();
         SpawnNextBoss();
         UpdateHpUI();
+        InitializeSkillAP();
         CreateSkillButtons();
     }
 
 
-    private void CreateSkillButtons()
+    private void InitializeSkillAP()
     {
+        skillAP.Clear();
         if (availableSkills == null) return;
 
         foreach (SkillData skill in availableSkills)
         {
-            GameObject buttonObj = Instantiate(skillButtonPrefab, skillButtonParent);
-            BattleSkillButton skillButton = buttonObj.GetComponent<BattleSkillButton>();
-            skillButton.Setup(skill, this);
+            skillAP[skill] = skill.AP;
         }
     }
+
+    
 
     private void SetupBossQueue()
     {
@@ -146,11 +150,27 @@ public class BattleManager : MonoBehaviour
         if (isProcessingTurn || currentState != BattleState.Ongoing)
             return;
 
+        Debug.Log(skill.SkillName + " ‚ÌŽc‚èAP: " + (skillAP.ContainsKey(skill) ? skillAP[skill].ToString() : "Ž«‘‚É‘¶Ý‚µ‚È‚¢"));
+
+        if (!HasAP(skill))
+        {
+            string msg = skill.SkillName + " ‚ÍAP‚ª‚È‚¢I";
+            Debug.Log(msg);
+            AddLog(msg);
+            return;
+        }
+
+        skillAP[skill]--;
+      
+
         playerSkill = skill;
         Debug.Log("‘I‘ð‚µ‚½‹Z: " + skill.SkillName);
         StartCoroutine(ExecuteTurn());
     }
-
+    private bool HasAP(SkillData skill)
+    {
+        return skillAP.ContainsKey(skill) && skillAP[skill] > 0;
+    }
     private IEnumerator WaitForClick()
     {
         waitingForClick = true;
@@ -324,7 +344,21 @@ public class BattleManager : MonoBehaviour
             }
         }
     }
+    private void CreateSkillButtons()
+    {
+        if (availableSkills == null) return;
 
+        skillButtons.Clear();
+        foreach (SkillData skill in availableSkills)
+        {
+            GameObject buttonObj = Instantiate(skillButtonPrefab, skillButtonParent);
+            BattleSkillButton skillButton = buttonObj.GetComponent<BattleSkillButton>();
+            skillButton.Setup(skill, this);
+            skillButtons.Add(skillButton);
+        }
+    }
+
+    
     public void RestartBattle()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
