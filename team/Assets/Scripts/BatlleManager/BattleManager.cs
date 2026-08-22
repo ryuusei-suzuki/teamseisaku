@@ -33,33 +33,68 @@ public class BattleManager : MonoBehaviour
     private bool isProcessingTurn = false;
     private bool waitingForClick = false;
     private Queue<BossEntry> bossQueue;
-
+    public IReadOnlyList<SkillData> availableSkills;
+    public GameObject skillButtonPrefab;
+    public Transform skillButtonParent;
     void Start()
     {
+        if (SkillSelectionManager.Instance != null)
+        {
+            availableSkills = SkillSelectionManager.Instance.SelectedSkills;
+        }
         playerHp = maxPlayerHp;
         restartButton.SetActive(false); 
         SetupBossQueue();
         ShowBossInfo();
         SpawnNextBoss();
         UpdateHpUI();
+        CreateSkillButtons();
+    }
+
+
+    private void CreateSkillButtons()
+    {
+        if (availableSkills == null) return;
+
+        foreach (SkillData skill in availableSkills)
+        {
+            GameObject buttonObj = Instantiate(skillButtonPrefab, skillButtonParent);
+            BattleSkillButton skillButton = buttonObj.GetComponent<BattleSkillButton>();
+            skillButton.Setup(skill, this);
+        }
     }
 
     private void SetupBossQueue()
     {
-        List<EnemyData> shuffled = new List<EnemyData>(bossList);
-        for (int i = 0; i < shuffled.Count; i++)
-        {
-            int rand = Random.Range(i, shuffled.Count);
-            (shuffled[i], shuffled[rand]) = (shuffled[rand], shuffled[i]);
-        }
-
         bossQueue = new Queue<BossEntry>();
-        foreach (EnemyData data in shuffled)
+
+        if (BossPreviewData.bossPlan != null && BossPreviewData.bossPlan.Count > 0)
         {
-            BossEntry entry = new BossEntry();
-            entry.data = data;
-            entry.subElement = spawner.DetermineSubElement(data.enemyElement);
-            bossQueue.Enqueue(entry);
+            foreach (BossPlanEntry planEntry in BossPreviewData.bossPlan)
+            {
+                BossEntry entry = new BossEntry();
+                entry.data = planEntry.data;
+                entry.subElement = planEntry.subElement;
+                bossQueue.Enqueue(entry);
+            }
+            BossPreviewData.bossPlan = null; // 使い終わったらクリア
+        }
+        else
+        {
+            // SkillSceneを経由しない単体テスト用
+            List<EnemyData> shuffled = new List<EnemyData>(bossList);
+            for (int i = 0; i < shuffled.Count; i++)
+            {
+                int rand = Random.Range(i, shuffled.Count);
+                (shuffled[i], shuffled[rand]) = (shuffled[rand], shuffled[i]);
+            }
+            foreach (EnemyData data in shuffled)
+            {
+                BossEntry entry = new BossEntry();
+                entry.data = data;
+                entry.subElement = spawner.DetermineSubElement(data.enemyElement);
+                bossQueue.Enqueue(entry);
+            }
         }
     }
 
