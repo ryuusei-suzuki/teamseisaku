@@ -4,14 +4,11 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using TMPro;
-
-// UIを使っているのでこれを記入しましょう
 public class UIText : MonoBehaviour
 {
-    // nameText:喋っている人の名前
     // talkText:喋っている内容やナレーション
-    public TextMeshProUGUI nameText;
     public TextMeshProUGUI talkText;
+   
 
     public bool playing = false;
     public float textSpeed = 0.1f;
@@ -27,15 +24,10 @@ public class UIText : MonoBehaviour
     // ナレーション用のテキストを生成する関数
     public void DrawText(string text)
     {
-        nameText.text = "";
+        Debug.Log("DrawText：" + text);
         StartCoroutine(CoDrawText(text));
     }
-    // 通常会話用のテキストを生成する関数
-    public void DrawText(string name, string text)
-    {
-        nameText.text = name + "\n「";
-        StartCoroutine("CoDrawText", text + "」");
-    }
+
     // テキストがヌルヌル出てくるためのコルーチン
     IEnumerator CoDrawText(string text)
     {

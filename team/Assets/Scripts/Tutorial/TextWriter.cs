@@ -1,10 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Unity.Collections.AllocatorManager;
 public class TextWriter : MonoBehaviour
 {
+    [SerializeField] private TutorialPanel tutorialPanel;
+
     public UIText uitext;
-    // Start is called before the first frame update
+    public GameObject TutorialPanel;
+
+
+    void Awake()
+    {
+        TutorialPanel.SetActive(false);
+    }
     void Start()
     {
         StartCoroutine("Cotest");
@@ -18,9 +27,12 @@ public class TextWriter : MonoBehaviour
     // 文章を表示させるコルーチン
     IEnumerator Cotest()
     {
-        uitext.DrawText("ナレーションだったらこのまま書けばOK");
+        uitext.DrawText("「試練の間に挑戦されるんですね！」");
         yield return StartCoroutine("Skip");
-        uitext.DrawText("名前", "人が話すのならこんな感じ");
+        uitext.DrawText("「あなたの実力はいかほどか…まずはこのモンスターを倒してみてください」");
         yield return StartCoroutine("Skip");
+        TutorialPanel.SetActive(true);
+        tutorialPanel.StartTutorial();
+
     }
 }
