@@ -9,7 +9,6 @@ public class TextWriter : MonoBehaviour
     public UIText uitext;
     public GameObject TutorialPanel;
 
-
     void Awake()
     {
         TutorialPanel.SetActive(false);
@@ -33,6 +32,11 @@ public class TextWriter : MonoBehaviour
         yield return StartCoroutine("Skip");
         TutorialPanel.SetActive(true);
         tutorialPanel.StartTutorial();
+
+        yield return new WaitUntil(() => tutorialPanel.IsTutorialFinished);
+
+        uitext.DrawText("w");
+        yield return StartCoroutine("Skip");
 
     }
 }
