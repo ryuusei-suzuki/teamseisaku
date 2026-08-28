@@ -22,13 +22,17 @@ public class TutorialPanel : MonoBehaviour
     [SerializeField] private GameObject backButton;
     [SerializeField] private GameObject readyButton;
     [SerializeField] private GameObject Blocker;
+    [SerializeField] private GameObject image;
+    public bool IsTutorialFinished { get; private set; }
 
     void Start()
     {
+        IsTutorialFinished = false;
         Blocker.SetActive(false);
         backButton.SetActive(false);
         nextButton.SetActive(false);
         readyButton.SetActive(false);
+        image.SetActive(false);
     }
 
     private int currentIndex = 0;
@@ -39,6 +43,7 @@ public class TutorialPanel : MonoBehaviour
         currentIndex = 0;
         ShowTutorial(0);
         nextButton.SetActive(true);
+        image.SetActive(true);
     }
 
     private void ShowTutorial(int index)
@@ -89,6 +94,10 @@ public class TutorialPanel : MonoBehaviour
         backButton.SetActive(false);
         nextButton.SetActive(false);
         readyButton.SetActive(false);
+        
+        IsTutorialFinished = true;
+        image.SetActive(false);
+
     }
 
 }
