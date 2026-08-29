@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Heal
   m_EditorClassIdentifier: Assembly-CSharp::EnemySkillData
   skillElement: 0
-  SkillName: "\u30D2\u30FC\u30EB"
+  SkillName: heal
   PP: 5
   Damage: 0
   Preemptive: 0

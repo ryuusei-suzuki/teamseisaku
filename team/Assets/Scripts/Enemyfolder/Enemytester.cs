@@ -313,6 +313,8 @@ public class Enemytester : MonoBehaviour
             case SkillType.Heal:
 
                 Debug.Log($"{enemyData.EnemyName} ‚Í‰ñ•œ‚ğg‚Á‚½I");
+                
+                NowEnemyHP += 40;
 
                 //‰ñ•œˆ—‚ğŒã‚Å‘‚­
                 break;

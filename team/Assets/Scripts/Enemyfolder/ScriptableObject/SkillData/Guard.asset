@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Guard
   m_EditorClassIdentifier: Assembly-CSharp::EnemySkillData
   skillElement: 0
-  SkillName: "\u30AC\u30FC\u30C9"
+  SkillName: guard
   PP: 5
   Damage: 0
   Preemptive: 0
