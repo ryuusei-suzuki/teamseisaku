@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -25,10 +25,12 @@ public class BattleManager : MonoBehaviour
 
     public TextMeshProUGUI playerHpText;
     public TextMeshProUGUI enemyHpText;
-    public TextMeshProUGUI battleLogText;
+    public TextMeshProUGUI playerActionLogText;  // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®è¡Œå‹•ãƒ­ã‚°è¡¨ç¤ºç”¨
+    public TextMeshProUGUI enemyActionLogText;  // æ•µã®è¡Œå‹•ãƒ­ã‚°è¡¨ç¤ºç”¨
+    public TextMeshProUGUI turnLogText;  // ã‚¿ãƒ¼ãƒ³å‡¦ç†(PPåˆ‡ã‚Œãƒ»APä¸è¶³ãƒ»å‹æ•—ãªã©)ã®ãƒ­ã‚°è¡¨ç¤ºç”¨
     public TextMeshProUGUI bossInfoText;
     public BattleState currentState = BattleState.Ongoing;
-    public GameObject restartButton; 
+    public GameObject restartButton;
 
     private bool isProcessingTurn = false;
     private bool waitingForClick = false;
@@ -45,7 +47,7 @@ public class BattleManager : MonoBehaviour
             availableSkills = SkillSelectionManager.Instance.SelectedSkills;
         }
         playerHp = maxPlayerHp;
-        restartButton.SetActive(false); 
+        restartButton.SetActive(false);
         SetupBossQueue();
         ShowBossInfo();
         SpawnNextBoss();
@@ -66,7 +68,7 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    
+
 
     private void SetupBossQueue()
     {
@@ -81,11 +83,11 @@ public class BattleManager : MonoBehaviour
                 entry.subElement = planEntry.subElement;
                 bossQueue.Enqueue(entry);
             }
-            BossPreviewData.bossPlan = null; // g‚¢I‚í‚Á‚½‚çƒNƒŠƒA
+            BossPreviewData.bossPlan = null; // ä½¿ã„çµ‚ã‚ã£ãŸã‚‰ã‚¯ãƒªã‚¢
         }
         else
         {
-            // SkillScene‚ğŒo—R‚µ‚È‚¢’P‘ÌƒeƒXƒg—p
+            // SkillSceneã‚’çµŒç”±ã—ãªã„å˜ä½“ãƒ†ã‚¹ãƒˆç”¨
             List<EnemyData> shuffled = new List<EnemyData>(bossList);
             for (int i = 0; i < shuffled.Count; i++)
             {
@@ -104,11 +106,11 @@ public class BattleManager : MonoBehaviour
 
     private void ShowBossInfo()
     {
-        string info = "oŒ»‚·‚éƒ{ƒX:\n";
+        string info = "å‡ºç¾ã™ã‚‹ãƒœã‚¹:\n";
         foreach (BossEntry entry in bossQueue)
         {
-            string sub = entry.subElement != null ? ElementToJapanese(entry.subElement.enemyElement) : "‚È‚µ";
-            info += $"{entry.data.EnemyName}(å‘®«: {ElementToJapanese(entry.data.enemyElement)} / •›‘®«: {sub})\n";
+            string sub = entry.subElement != null ? ElementToJapanese(entry.subElement.enemyElement) : "ãªã—";
+            info += $"{entry.data.EnemyName}(ä¸»å±æ€§: {ElementToJapanese(entry.data.enemyElement)} / å‰¯å±æ€§: {sub})\n";
         }
         bossInfoText.text = info;
     }
@@ -117,10 +119,10 @@ public class BattleManager : MonoBehaviour
     {
         switch (element)
         {
-            case EnemyElement.fire: return "‰Î";
-            case EnemyElement.Bubble: return "…";
-            case EnemyElement.wind: return "•—";
-            default: return "–³";
+            case EnemyElement.fire: return "ç«";
+            case EnemyElement.Bubble: return "æ°´";
+            case EnemyElement.wind: return "é¢¨";
+            default: return "ç„¡";
         }
     }
 
@@ -129,7 +131,7 @@ public class BattleManager : MonoBehaviour
         if (bossQueue.Count == 0)
         {
             currentState = BattleState.Win;
-            AddLog("‘S‚Ä‚Ìƒ{ƒX‚ğ“|‚µ‚½IƒNƒŠƒAI");
+            AddTurnLog("å…¨ã¦ã®ãƒœã‚¹ã‚’å€’ã—ãŸï¼ã‚¯ãƒªã‚¢ï¼");
             return;
         }
 
@@ -150,21 +152,21 @@ public class BattleManager : MonoBehaviour
         if (isProcessingTurn || currentState != BattleState.Ongoing)
             return;
 
-        Debug.Log(skill.SkillName + " ‚Ìc‚èAP: " + (skillAP.ContainsKey(skill) ? skillAP[skill].ToString() : "«‘‚É‘¶İ‚µ‚È‚¢"));
+        Debug.Log(skill.SkillName + " ã®æ®‹ã‚ŠAP: " + (skillAP.ContainsKey(skill) ? skillAP[skill].ToString() : "è¾æ›¸ã«å­˜åœ¨ã—ãªã„"));
 
         if (!HasAP(skill))
         {
-            string msg = skill.SkillName + " ‚ÍAP‚ª‚È‚¢I";
+            string msg = skill.SkillName + " ã¯APãŒãªã„ï¼";
             Debug.Log(msg);
-            AddLog(msg);
+            AddTurnLog(msg);
             return;
         }
 
         skillAP[skill]--;
-      
+
 
         playerSkill = skill;
-        Debug.Log("‘I‘ğ‚µ‚½‹Z: " + skill.SkillName);
+        Debug.Log("é¸æŠã—ãŸæŠ€: " + skill.SkillName);
         StartCoroutine(ExecuteTurn());
     }
     private bool HasAP(SkillData skill)
@@ -197,7 +199,7 @@ public class BattleManager : MonoBehaviour
         EnemySkillData enemySkill = enemy.UseSkillForBattle();
         if (enemySkill == null)
         {
-            AddLog("“G‚Í‹Z‚ğo‚¹‚È‚©‚Á‚½(PPØ‚ê)");
+            AddTurnLog("æ•µã¯æŠ€ã‚’å‡ºã›ãªã‹ã£ãŸ(PPåˆ‡ã‚Œ)");
             yield return StartCoroutine(WaitForClick());
 
             AttackEnemyOnlyWithLog();
@@ -224,9 +226,9 @@ public class BattleManager : MonoBehaviour
         {
             float damageToEnemy = calculator.CalculateDamage(playerSkill, enemyAttributes, enemyDistance, out string playerEffect);
             enemy.TakeDamage((int)damageToEnemy);
-            string playerMsg = $"ƒvƒŒƒCƒ„[: {playerSkill.SkillName}I {damageToEnemy}ƒ_ƒ[ƒW \n{playerEffect}";
+            string playerMsg = $"ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼: {playerSkill.SkillName}ï¼ {damageToEnemy}ãƒ€ãƒ¡ãƒ¼ã‚¸ \n{playerEffect}";
             Debug.Log(playerMsg);
-            AddLog(playerMsg);
+            AddPlayerLog(playerMsg);
             UpdateHpUI();
             yield return StartCoroutine(WaitForClick());
 
@@ -235,9 +237,9 @@ public class BattleManager : MonoBehaviour
                 List<AttributeType> playerAttributes = new List<AttributeType> { playerSkill.attribute };
                 float damageToPlayer = calculator.CalculateDamage(enemyAttackAttribute, enemyDistance, enemySkill.Damage, playerAttributes, playerSkill.distance, out string enemyEffect);
                 playerHp -= (int)damageToPlayer;
-                string enemyMsg = $"“G: {enemySkill.SkillName}I {damageToPlayer}ƒ_ƒ[ƒW \n{enemyEffect}";
+                string enemyMsg = $"æ•µ: {enemySkill.SkillName}ï¼ {damageToPlayer}ãƒ€ãƒ¡ãƒ¼ã‚¸ \n{enemyEffect}";
                 Debug.Log(enemyMsg);
-                AddLog(enemyMsg);
+                AddEnemyLog(enemyMsg);
                 UpdateHpUI();
                 yield return StartCoroutine(WaitForClick());
             }
@@ -247,9 +249,9 @@ public class BattleManager : MonoBehaviour
             List<AttributeType> playerAttributesForEnemyAttack = new List<AttributeType> { playerSkill.attribute };
             float damageToPlayer = calculator.CalculateDamage(enemyAttackAttribute, enemyDistance, enemySkill.Damage, playerAttributesForEnemyAttack, playerSkill.distance, out string enemyEffect);
             playerHp -= (int)damageToPlayer;
-            string enemyMsg = $"“G: {enemySkill.SkillName}I {damageToPlayer}ƒ_ƒ[ƒW \n{enemyEffect}";
+            string enemyMsg = $"æ•µ: {enemySkill.SkillName}ï¼ {damageToPlayer}ãƒ€ãƒ¡ãƒ¼ã‚¸ \n{enemyEffect}";
             Debug.Log(enemyMsg);
-            AddLog(enemyMsg);
+            AddEnemyLog(enemyMsg);
             UpdateHpUI();
             yield return StartCoroutine(WaitForClick());
 
@@ -257,9 +259,9 @@ public class BattleManager : MonoBehaviour
             {
                 float damageToEnemy = calculator.CalculateDamage(playerSkill, enemyAttributes, enemyDistance, out string playerEffect);
                 enemy.TakeDamage((int)damageToEnemy);
-                string playerMsg = $"ƒvƒŒƒCƒ„[: {playerSkill.SkillName}I {damageToEnemy}ƒ_ƒ[ƒW \n{playerEffect}";
+                string playerMsg = $"ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼: {playerSkill.SkillName}ï¼ {damageToEnemy}ãƒ€ãƒ¡ãƒ¼ã‚¸ \n{playerEffect}";
                 Debug.Log(playerMsg);
-                AddLog(playerMsg);
+                AddPlayerLog(playerMsg);
                 UpdateHpUI();
                 yield return StartCoroutine(WaitForClick());
             }
@@ -272,15 +274,15 @@ public class BattleManager : MonoBehaviour
 
     private void UpdateHpUI()
     {
-        playerHpText.text = "ƒvƒŒƒCƒ„[HP: " + playerHp;
+        playerHpText.text = "ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼HP: " + playerHp;
 
         if (enemy != null)
         {
-            enemyHpText.text = "“GHP: " + enemy.NowEnemyHP;
+            enemyHpText.text = "æ•µHP: " + enemy.NowEnemyHP;
         }
         else
         {
-            enemyHpText.text = "“GHP: -";
+            enemyHpText.text = "æ•µHP: -";
         }
     }
 
@@ -294,9 +296,9 @@ public class BattleManager : MonoBehaviour
 
         float damageToEnemy = calculator.CalculateDamage(playerSkill, enemyAttributes, enemyDistance, out string effect);
         enemy.TakeDamage((int)damageToEnemy);
-        string msg = $"ƒvƒŒƒCƒ„[: {playerSkill.SkillName}I {damageToEnemy}ƒ_ƒ[ƒW \n{effect}";
+        string msg = $"ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼: {playerSkill.SkillName}ï¼ {damageToEnemy}ãƒ€ãƒ¡ãƒ¼ã‚¸ \n{effect}";
         Debug.Log(msg);
-        AddLog(msg);
+        AddPlayerLog(msg);
         UpdateHpUI();
     }
 
@@ -323,7 +325,7 @@ public class BattleManager : MonoBehaviour
         if (playerHp <= 0)
         {
             currentState = BattleState.Lose;
-            AddLog("”s–k...");
+            AddTurnLog("æ•—åŒ—...");
             restartButton.SetActive(true);
             return;
         }
@@ -333,13 +335,13 @@ public class BattleManager : MonoBehaviour
             if (bossQueue.Count == 0)
             {
                 currentState = BattleState.Win;
-                AddLog("‘S‚Ä‚Ìƒ{ƒX‚ğ“|‚µ‚½IƒNƒŠƒAI");
+                AddTurnLog("å…¨ã¦ã®ãƒœã‚¹ã‚’å€’ã—ãŸï¼ã‚¯ãƒªã‚¢ï¼");
                 restartButton.SetActive(true);
             }
             else
             {
                 HealPlayer(0.3f);
-                AddLog("ƒ{ƒX‚ğ“|‚µ‚½I\nHP‚ª30%‰ñ•œ‚µ‚½");
+                AddTurnLog("ãƒœã‚¹ã‚’å€’ã—ãŸï¼\nHPãŒ30%å›å¾©ã—ãŸ");
                 SpawnNextBoss();
             }
         }
@@ -358,15 +360,28 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    
+
     public void RestartBattle()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    private void AddLog(string message)
+    // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®è¡Œå‹•ãƒ­ã‚°ã‚’è¡¨ç¤ºã™ã‚‹
+    private void AddPlayerLog(string message)
     {
-        battleLogText.text = message;
+        playerActionLogText.text = message;
     }
-    
+
+    // æ•µã®è¡Œå‹•ãƒ­ã‚°ã‚’è¡¨ç¤ºã™ã‚‹
+    private void AddEnemyLog(string message)
+    {
+        enemyActionLogText.text = message;
+    }
+
+    // ã‚¿ãƒ¼ãƒ³å‡¦ç†ç³»(PPåˆ‡ã‚Œãƒ»APä¸è¶³ãƒ»æ’ƒç ´ãƒ»å‹æ•—ãªã©)ã®ãƒ­ã‚°ã‚’è¡¨ç¤ºã™ã‚‹
+    private void AddTurnLog(string message)
+    {
+        turnLogText.text = message;
+    }
+
 }
