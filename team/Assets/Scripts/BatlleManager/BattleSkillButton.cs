@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,11 +10,19 @@ public class BattleSkillButton : MonoBehaviour
     private Button button;
     private SkillData skillData;
     private BattleManager battleManager;
+    private Action<SkillData> onSelectCallback; // BattleManager以外(TrialBattleManagerなど)からも使えるようにするコールバック
 
     public void Setup(SkillData skill, BattleManager manager)
     {
-        skillData = skill;
         battleManager = manager;
+        Setup(skill, manager.SelectPlayerSkill);
+    }
+
+    // BattleManagerに依存しない汎用セットアップ(TrialBattleManagerなどから利用)
+    public void Setup(SkillData skill, Action<SkillData> onSelect)
+    {
+        skillData = skill;
+        onSelectCallback = onSelect;
 
         if (label != null)
         {
@@ -32,7 +41,7 @@ public class BattleSkillButton : MonoBehaviour
 
     private void OnClick()
     {
-        battleManager.SelectPlayerSkill(skillData);
+        onSelectCallback?.Invoke(skillData);
     }
 
     public SkillData GetSkillData()
