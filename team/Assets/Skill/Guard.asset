@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c6a60f79ad597cf44b283ec44e8c1711, type: 3}
-  m_Name: Fire Sword
+  m_Name: Guard
   m_EditorClassIdentifier: Assembly-CSharp::SkillData
-  SkillName: Fire Sword
-  attribute: 0
-  distance: 0
-  Power: 20
+  SkillName: Guard
+  attribute: 3
+  distance: 2
+  Power: 0
   AP: 5
-  iconImage: {fileID: -4757776993293912737, guid: 95d165269e1b9844ca633f4591b92fa1, type: 3}
+  iconImage: {fileID: -7809785511404226330, guid: 09327f794ec28974496a1f136fcc701a, type: 3}

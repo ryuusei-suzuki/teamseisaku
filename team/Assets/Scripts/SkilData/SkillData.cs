@@ -10,4 +10,5 @@ public class SkillData : ScriptableObject
     public float Power;
     public int AP;
     public Sprite iconImage;
+
 }
