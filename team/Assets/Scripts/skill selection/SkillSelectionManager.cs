@@ -11,8 +11,12 @@ public class SkillSelectionManager : MonoBehaviour
 
     public IReadOnlyList<SkillData> SelectedSkills => selectedSkills;
 
+    public GameObject buttun;
+
     private void Awake()
     {
+        buttun.SetActive(false);
+
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -39,6 +43,10 @@ public class SkillSelectionManager : MonoBehaviour
             return false;
         }
 
+        if(selectedSkills.Count == MaxSkillCount-1)
+        {
+            buttun.SetActive(true);
+        }
         // “¯‚¶ƒXƒLƒ‹‚ð2‰ñ‘I‘ð‚Å‚«‚È‚¢
         if (selectedSkills.Contains(skill))
         {
@@ -55,13 +63,15 @@ public class SkillSelectionManager : MonoBehaviour
             selectedSkills.Count +
             "/5)"
         );
-
         return true;
     }
+
+   
 
     public void ClearSkills()
     {
         selectedSkills.Clear();
+        buttun.SetActive(false);
     }
 
     public bool IsFull()

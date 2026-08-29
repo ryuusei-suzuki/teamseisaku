@@ -54,4 +54,10 @@ public class SkillSelectionUI : MonoBehaviour
             skillIcons[i].enabled = true;
         }
     }
+
+    public void OnBackButton()
+    {
+        SkillSelectionManager.Instance.ClearSkills();
+        UpdateUI();
+    }
 }

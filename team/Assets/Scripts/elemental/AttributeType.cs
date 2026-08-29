@@ -4,13 +4,15 @@ public enum AttributeType
 {
     Fire,
     Water,
-    Wind
+    Wind,
+    none
 }
 
 public enum DistanceType
 {
     Melee,//‹ßÚ
-    Ranged//‰“‹——£
+    Ranged,//‰“‹——£
+    none
 }
 
 public enum DistanceRelation
