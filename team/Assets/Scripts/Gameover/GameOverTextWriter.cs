@@ -14,10 +14,12 @@ public class GameOverTextWriter : MonoBehaviour
     public GameObject text;
 
     private int currentIndex = 0;
+    public bool isDisplayed = true;
 
     private void Awake()
     {
         text.SetActive(false);
+        isDisplayed = true;
     }
 
     private void ShowGameOverText(int index)
@@ -33,8 +35,10 @@ public class GameOverTextWriter : MonoBehaviour
         GameOverText.DrawText(gameOverData[index].text);
     }
 
+
     public void GotoTitle()
     {
+        isDisplayed = false;
         text.SetActive(true);
 
         currentIndex = 0;
@@ -43,9 +47,16 @@ public class GameOverTextWriter : MonoBehaviour
 
     public void GotoBattle()
     {
+        isDisplayed = false;
         text.SetActive(true);
 
         currentIndex = 1;
         ShowGameOverText(currentIndex);
+    }
+
+    public void HideText()
+    {
+        isDisplayed = true;
+        text.SetActive(false);
     }
 }
