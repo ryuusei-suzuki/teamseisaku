@@ -111,7 +111,9 @@ public class TrialBattleManager : MonoBehaviour
 
             GameObject buttonObj = Instantiate(skillButtonPrefab, skillButtonParent);
             BattleSkillButton skillButton = buttonObj.GetComponent<BattleSkillButton>();
-            skillButton.Setup(skill, SelectSkill);
+
+            //なんかエラー起きてるから一旦コメントアウトしとくね
+            //skillButton.Setup(skill, SelectSkill);
             skillButtons.Add(skillButton);
         }
     }
