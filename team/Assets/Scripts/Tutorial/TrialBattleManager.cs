@@ -5,13 +5,17 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-
+// 試練の間(TTR)専用の簡易バトルループ。
+// 固定5種スキル・敵1体のみを想定していて、BattleManagerのボス連戦/AP管理は持たない。
+// 敵を倒したらログを表示し、クリック待ちしてから次のシーン(スキル選択画面)へ遷移する。
 public class TrialBattleManager : MonoBehaviour
 {
     [Header("バトル対象")]
     public Enemytester enemy;            // Tutorial Sceneに配置済みのEnemyを直接アサイン
     public Arrribute arribute;           // 相性テーブル(Arrribute Compatibility)
 
+    [Header("敵の初期化データ(EnemyGameObjectがまだInitされていない場合はここで初期化する)")]
+    [Tooltip("試練の敵として使うEnemyDataを指定してください。指定するとStart()時にenemy.Init()を自動で呼び、HPやスプライトを設定します。すでに別の場所でInit済みならNoneのままでOKです。")]
     public EnemyData trialEnemyData;
     public Element mainElement;
     public Element subElement; // 複属性にしない場合はNoneのままでOK
@@ -19,7 +23,8 @@ public class TrialBattleManager : MonoBehaviour
     [Header("プレイヤー")]
     public int maxPlayerHp = 100;
     private int playerHp;
-    
+    // 注:試練の敵は倒される想定の弱敵のため、敗北時の処理(リトライなど)はまだ実装していません。
+    // 必要になったらBattleManager.CheckBattleEndのLose分岐を参考に追加してください。
 
     [Header("試練用の固定スキル(火弱近・水弱近・風弱近・水弱遠・ヒールの5種)")]
     public List<SkillData> trialSkills;
@@ -32,16 +37,25 @@ public class TrialBattleManager : MonoBehaviour
     public TextMeshProUGUI logText;
 
     [Header("遷移先")]
-    
+    [Tooltip("敵を倒した後にロードするシーン名。演出(矢印ワイプ)は未実装で、今はここに設定したシーンへ即ロードします。")]
     public string nextSceneName;
 
-    
-    public bool autoStart = false;
+    [Tooltip("trueの場合、このコンポーネントのStart()時点で自動的にスキルボタンを生成してバトルを開始します。TextWriter側から開始タイミングを制御したい場合はfalseにしてStartBattle()を呼んでください。")]
+    public bool autoStart = true;
 
     public bool IsFinished { get; private set; }
 
     private bool isProcessingTurn = false;
     private readonly List<BattleSkillButton> skillButtons = new List<BattleSkillButton>();
+
+    // 敵を倒したかどうかのフラグ。
+    // enemy.TakeDamage()の内部でHP0になった瞬間にDestroy(gameObject)されるため、
+    // WaitForClickで数フレーム待った後に enemy.NowEnemyHP や enemy == null を読み直すと
+    // 「最初から敵が設定されていない」場合と区別がつかなくなり、撃破を検知できない。
+    // そのため、ダメージを与えた"その場"(敵がまだ壊れていない同一フレーム内)で撃破判定を確定させ、
+    // ここに保存しておく。
+    private bool pendingEnemyDefeat = false;
+    private string cachedEnemyName = "敵";
 
     void Start()
     {
@@ -70,10 +84,11 @@ public class TrialBattleManager : MonoBehaviour
     public void StartBattle()
     {
         IsFinished = false;
+        pendingEnemyDefeat = false;
         CreateSkillButtons();
     }
 
-    private void CreateSkillButtons()//スキルボタンを作るやつ
+    private void CreateSkillButtons()
     {
         foreach (BattleSkillButton existing in skillButtons)
         {
@@ -90,7 +105,7 @@ public class TrialBattleManager : MonoBehaviour
         {
             if (skill == null)
             {
-                Debug.LogWarning("umete");
+                Debug.LogWarning("TrialBattleManager: trialSkillsに未設定(None)の要素があるためスキップしました。Inspectorで全て埋めてください。");
                 continue;
             }
 
@@ -101,7 +116,7 @@ public class TrialBattleManager : MonoBehaviour
         }
     }
 
-    // スキルボタンのクリックから呼ばれる
+    // スキルボタンのクリックから呼ばれる(BattleManager.SelectPlayerSkillに相当)
     public void SelectSkill(SkillData skill)
     {
         if (isProcessingTurn || IsFinished || enemy == null)
@@ -123,6 +138,7 @@ public class TrialBattleManager : MonoBehaviour
     private IEnumerator ExecuteTurn(SkillData playerSkill)
     {
         isProcessingTurn = true;
+        pendingEnemyDefeat = false;
 
         EnemySkillData enemySkill = enemy.UseSkillForBattle();
 
@@ -152,12 +168,11 @@ public class TrialBattleManager : MonoBehaviour
         if (isPlayerFirst)
         {
             float damageToEnemy = calculator.CalculateDamage(playerSkill, enemyAttributes, enemyDistance, out string playerEffect);
-            enemy.TakeDamage((int)damageToEnemy);
-            AddLog($"プレイヤー: {playerSkill.SkillName}！ {damageToEnemy}ダメージ \n{playerEffect}");
-            UpdateHpUI();
+            ApplyDamageToEnemy(playerSkill, damageToEnemy, playerEffect);
             yield return StartCoroutine(WaitForClick());
 
-            if (enemy.NowEnemyHP > 0)
+            // 直前の攻撃で倒していなければ、敵の反撃を処理する
+            if (!pendingEnemyDefeat)
             {
                 List<AttributeType> playerAttributes = new List<AttributeType> { playerSkill.attribute };
                 float damageToPlayer = calculator.CalculateDamage(enemyAttackAttribute, enemyDistance, enemySkill.Damage, playerAttributes, playerSkill.distance, out string enemyEffect);
@@ -177,9 +192,7 @@ public class TrialBattleManager : MonoBehaviour
             yield return StartCoroutine(WaitForClick());
 
             float damageToEnemy = calculator.CalculateDamage(playerSkill, enemyAttributes, enemyDistance, out string playerEffect);
-            enemy.TakeDamage((int)damageToEnemy);
-            AddLog($"プレイヤー: {playerSkill.SkillName}！ {damageToEnemy}ダメージ \n{playerEffect}");
-            UpdateHpUI();
+            ApplyDamageToEnemy(playerSkill, damageToEnemy, playerEffect);
             yield return StartCoroutine(WaitForClick());
         }
 
@@ -196,7 +209,26 @@ public class TrialBattleManager : MonoBehaviour
         calculator.arribute = arribute;
 
         float damageToEnemy = calculator.CalculateDamage(playerSkill, enemyAttributes, enemyDistance, out string effect);
+        ApplyDamageToEnemy(playerSkill, damageToEnemy, effect);
+    }
+
+    // 敵にダメージを与える共通処理。
+    // enemy.TakeDamage()がHP0になった瞬間に敵を破壊する可能性があるため、
+    // 破壊されるより前の"今このフレーム"のうちに撃破判定をpendingEnemyDefeatへ保存しておく。
+    private void ApplyDamageToEnemy(SkillData playerSkill, float damageToEnemy, string effect)
+    {
+        if (enemy != null && enemy.enemyData != null)
+        {
+            cachedEnemyName = enemy.enemyData.EnemyName;
+        }
+
         enemy.TakeDamage((int)damageToEnemy);
+
+        if (enemy == null || enemy.NowEnemyHP <= 0)
+        {
+            pendingEnemyDefeat = true;
+        }
+
         AddLog($"プレイヤー: {playerSkill.SkillName}！ {damageToEnemy}ダメージ \n{effect}");
         UpdateHpUI();
     }
@@ -214,11 +246,11 @@ public class TrialBattleManager : MonoBehaviour
         return list;
     }
 
-    // 敵のHPが0になっていたら、ログを出してから次のシーンへ遷移する
+    // 敵を倒していたら(pendingEnemyDefeat)、ログを出してから次のシーンへ遷移する
     private void CheckEnemyDefeated()
     {
         if (IsFinished) return;
-        if (enemy == null || enemy.NowEnemyHP > 0) return;
+        if (!pendingEnemyDefeat) return;
 
         StartCoroutine(FinishBattle());
     }
@@ -227,8 +259,7 @@ public class TrialBattleManager : MonoBehaviour
     {
         IsFinished = true;
 
-        string enemyName = enemy.enemyData != null ? enemy.enemyData.EnemyName : "敵";
-        AddLog($"{enemyName} を倒した！");
+        AddLog($"{cachedEnemyName} を倒した！");
         yield return StartCoroutine(WaitForClick());
 
         GoToNextScene();
@@ -242,7 +273,7 @@ public class TrialBattleManager : MonoBehaviour
             return;
         }
 
-        // TODO: タイトル→TTRと同じ矢印ワイプ演出に差し替える(今は仮でシーンを直接ロード)
+        //  タイトル→TTRと同じ矢印ワイプ演出に差し替える(今は仮でシーンを直接ロード)
         SceneManager.LoadScene(nextSceneName);
     }
 
