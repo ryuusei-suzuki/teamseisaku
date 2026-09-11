@@ -162,7 +162,12 @@ public class TrialBattleManager : MonoBehaviour
         List<AttributeType> enemyAttributes = GetEnemyAttributes();
 
         TurnOrder turnOrder = new TurnOrder();
-        bool isPlayerFirst = turnOrder.IsPlayerFirst(playerSkill.distance, enemyDistance);
+        bool isPlayerFirst = playerSkill.skillType == SkillType.Guard
+            ? true
+            : turnOrder.IsPlayerFirst(playerSkill.distance, enemyDistance);
+
+        AddLog(isPlayerFirst ? "プレイヤーが先制した！" : "敵が先制した！");
+        yield return StartCoroutine(WaitForClick());
 
         DamageCalculator calculator = new DamageCalculator();
         calculator.arribute = arribute;
@@ -178,6 +183,7 @@ public class TrialBattleManager : MonoBehaviour
             {
                 List<AttributeType> playerAttributes = new List<AttributeType> { playerSkill.attribute };
                 float damageToPlayer = calculator.CalculateDamage(enemyAttackAttribute, enemyDistance, enemySkill.Damage, playerAttributes, playerSkill.distance, out string enemyEffect);
+                damageToPlayer = ApplyPlayerDamageReduction(damageToPlayer, playerSkill);
                 playerHp = Mathf.Max(0, playerHp - (int)damageToPlayer);
                 AddLog($"敵: {enemySkill.SkillName}！ {damageToPlayer}ダメージ \n{enemyEffect}");
                 UpdateHpUI();
@@ -188,6 +194,7 @@ public class TrialBattleManager : MonoBehaviour
         {
             List<AttributeType> playerAttributesForEnemyAttack = new List<AttributeType> { playerSkill.attribute };
             float damageToPlayer = calculator.CalculateDamage(enemyAttackAttribute, enemyDistance, enemySkill.Damage, playerAttributesForEnemyAttack, playerSkill.distance, out string enemyEffect);
+            damageToPlayer = ApplyPlayerDamageReduction(damageToPlayer, playerSkill);
             playerHp = Mathf.Max(0, playerHp - (int)damageToPlayer);
             AddLog($"敵: {enemySkill.SkillName}！ {damageToPlayer}ダメージ \n{enemyEffect}");
             UpdateHpUI();
@@ -233,6 +240,21 @@ public class TrialBattleManager : MonoBehaviour
 
         AddLog($"プレイヤー: {playerSkill.SkillName}！ {damageToEnemy}ダメージ \n{effect}");
         UpdateHpUI();
+    }
+
+    // ガード使用時: 相手の攻撃を完全に無効化(0ダメージ)
+    // 近距離の弱攻撃(CloseWeak)使用時: 受けるダメージを0.5倍に軽減
+    private float ApplyPlayerDamageReduction(float damageToPlayer, SkillData skill)
+    {
+        if (skill.skillType == SkillType.Guard)
+        {
+            return 0f;
+        }
+        if (skill.skillType == SkillType.CloseWeak)
+        {
+            return damageToPlayer * 0.5f;
+        }
+        return damageToPlayer;
     }
 
     private List<AttributeType> GetEnemyAttributes()
