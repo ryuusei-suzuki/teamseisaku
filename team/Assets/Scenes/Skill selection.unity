@@ -365,6 +365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 575396d835e45554ead3a8571f950613, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillSelectionManager
+  buttun: {fileID: 728445313}
 --- !u!4 &95913545
 Transform:
   m_ObjectHideFlags: 0
