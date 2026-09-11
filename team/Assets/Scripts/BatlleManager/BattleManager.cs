@@ -26,6 +26,8 @@ public class BattleManager : MonoBehaviour
     public TextMeshProUGUI playerHpText;
     public TextMeshProUGUI enemyHpText;
     public TextMeshProUGUI battleLogText;
+    public TextMeshProUGUI playerActionText;
+    public TextMeshProUGUI enemyActionText;
     public TextMeshProUGUI bossInfoText;
     public BattleState currentState = BattleState.Ongoing;
     public GameObject restartButton; 
@@ -52,6 +54,7 @@ public class BattleManager : MonoBehaviour
         UpdateHpUI();
         InitializeSkillAP();
         CreateSkillButtons();
+        AddLog("スキルを選んでください");
     }
 
 
@@ -206,6 +209,10 @@ public class BattleManager : MonoBehaviour
             CheckBattleEnd();
             UpdateHpUI();
             isProcessingTurn = false;
+            if (currentState == BattleState.Ongoing)
+            {
+                AddLog("スキルを選んでください");
+            }
             yield break;
         }
 
@@ -215,7 +222,12 @@ public class BattleManager : MonoBehaviour
         List<AttributeType> enemyAttributes = GetEnemyAttributes();
 
         TurnOrder turnOrder = new TurnOrder();
-        bool isPlayerFirst = turnOrder.IsPlayerFirst(playerSkill.distance, enemyDistance);
+        bool isPlayerFirst = playerSkill.skillType == SkillType.Guard
+            ? true
+            : turnOrder.IsPlayerFirst(playerSkill.distance, enemyDistance);
+
+        AddLog(isPlayerFirst ? "プレイヤーが先制した！" : "敵が先制した！");
+        yield return StartCoroutine(WaitForClick());
 
         DamageCalculator calculator = new DamageCalculator();
         calculator.arribute = arribute;
@@ -226,7 +238,7 @@ public class BattleManager : MonoBehaviour
             enemy.TakeDamage((int)damageToEnemy);
             string playerMsg = $"プレイヤー: {playerSkill.SkillName}！ {damageToEnemy}ダメージ \n{playerEffect}";
             Debug.Log(playerMsg);
-            AddLog(playerMsg);
+            AddPlayerActionLog(playerMsg);
             UpdateHpUI();
             yield return StartCoroutine(WaitForClick());
 
@@ -234,10 +246,11 @@ public class BattleManager : MonoBehaviour
             {
                 List<AttributeType> playerAttributes = new List<AttributeType> { playerSkill.attribute };
                 float damageToPlayer = calculator.CalculateDamage(enemyAttackAttribute, enemyDistance, enemySkill.Damage, playerAttributes, playerSkill.distance, out string enemyEffect);
+                damageToPlayer = ApplyPlayerDamageReduction(damageToPlayer);
                 playerHp -= (int)damageToPlayer;
                 string enemyMsg = $"敵: {enemySkill.SkillName}！ {damageToPlayer}ダメージ \n{enemyEffect}";
                 Debug.Log(enemyMsg);
-                AddLog(enemyMsg);
+                AddEnemyActionLog(enemyMsg);
                 UpdateHpUI();
                 yield return StartCoroutine(WaitForClick());
             }
@@ -246,10 +259,11 @@ public class BattleManager : MonoBehaviour
         {
             List<AttributeType> playerAttributesForEnemyAttack = new List<AttributeType> { playerSkill.attribute };
             float damageToPlayer = calculator.CalculateDamage(enemyAttackAttribute, enemyDistance, enemySkill.Damage, playerAttributesForEnemyAttack, playerSkill.distance, out string enemyEffect);
+            damageToPlayer = ApplyPlayerDamageReduction(damageToPlayer);
             playerHp -= (int)damageToPlayer;
             string enemyMsg = $"敵: {enemySkill.SkillName}！ {damageToPlayer}ダメージ \n{enemyEffect}";
             Debug.Log(enemyMsg);
-            AddLog(enemyMsg);
+            AddEnemyActionLog(enemyMsg);
             UpdateHpUI();
             yield return StartCoroutine(WaitForClick());
 
@@ -259,7 +273,7 @@ public class BattleManager : MonoBehaviour
                 enemy.TakeDamage((int)damageToEnemy);
                 string playerMsg = $"プレイヤー: {playerSkill.SkillName}！ {damageToEnemy}ダメージ \n{playerEffect}";
                 Debug.Log(playerMsg);
-                AddLog(playerMsg);
+                AddPlayerActionLog(playerMsg);
                 UpdateHpUI();
                 yield return StartCoroutine(WaitForClick());
             }
@@ -268,6 +282,10 @@ public class BattleManager : MonoBehaviour
         CheckBattleEnd();
         UpdateHpUI();
         isProcessingTurn = false;
+        if (currentState == BattleState.Ongoing)
+        {
+            AddLog("スキルを選んでください");
+        }
     }
 
     private void UpdateHpUI()
@@ -296,7 +314,7 @@ public class BattleManager : MonoBehaviour
         enemy.TakeDamage((int)damageToEnemy);
         string msg = $"プレイヤー: {playerSkill.SkillName}！ {damageToEnemy}ダメージ \n{effect}";
         Debug.Log(msg);
-        AddLog(msg);
+        AddPlayerActionLog(msg);
         UpdateHpUI();
     }
 
@@ -316,6 +334,21 @@ public class BattleManager : MonoBehaviour
     private bool IsEnemyDead()
     {
         return enemy == null || enemy.NowEnemyHP <= 0;
+    }
+
+    // ガード使用時: 相手の攻撃を完全に無効化(0ダメージ)
+    // 近距離の弱攻撃(CloseWeak)使用時: 受けるダメージを0.5倍に軽減
+    private float ApplyPlayerDamageReduction(float damageToPlayer)
+    {
+        if (playerSkill.skillType == SkillType.Guard)
+        {
+            return 0f;
+        }
+        if (playerSkill.skillType == SkillType.CloseWeak)
+        {
+            return damageToPlayer * 0.5f;
+        }
+        return damageToPlayer;
     }
 
     private void CheckBattleEnd()
@@ -367,6 +400,16 @@ public class BattleManager : MonoBehaviour
     private void AddLog(string message)
     {
         battleLogText.text = message;
+    }
+
+    private void AddPlayerActionLog(string message)
+    {
+        playerActionText.text = message;
+    }
+
+    private void AddEnemyActionLog(string message)
+    {
+        enemyActionText.text = message;
     }
     
 }
