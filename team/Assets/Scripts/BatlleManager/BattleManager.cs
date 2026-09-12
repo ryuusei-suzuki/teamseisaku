@@ -246,7 +246,7 @@ public class BattleManager : MonoBehaviour
             {
                 List<AttributeType> playerAttributes = new List<AttributeType> { playerSkill.attribute };
                 float damageToPlayer = calculator.CalculateDamage(enemyAttackAttribute, enemyDistance, enemySkill.Damage, playerAttributes, playerSkill.distance, out string enemyEffect);
-                damageToPlayer = ApplyPlayerDamageReduction(damageToPlayer);
+                damageToPlayer = ApplyPlayerDamageReduction(damageToPlayer, isPlayerFirst);
                 playerHp -= (int)damageToPlayer;
                 string enemyMsg = $"敵: {enemySkill.SkillName}！ {damageToPlayer}ダメージ \n{enemyEffect}";
                 Debug.Log(enemyMsg);
@@ -259,7 +259,7 @@ public class BattleManager : MonoBehaviour
         {
             List<AttributeType> playerAttributesForEnemyAttack = new List<AttributeType> { playerSkill.attribute };
             float damageToPlayer = calculator.CalculateDamage(enemyAttackAttribute, enemyDistance, enemySkill.Damage, playerAttributesForEnemyAttack, playerSkill.distance, out string enemyEffect);
-            damageToPlayer = ApplyPlayerDamageReduction(damageToPlayer);
+            damageToPlayer = ApplyPlayerDamageReduction(damageToPlayer, isPlayerFirst);
             playerHp -= (int)damageToPlayer;
             string enemyMsg = $"敵: {enemySkill.SkillName}！ {damageToPlayer}ダメージ \n{enemyEffect}";
             Debug.Log(enemyMsg);
@@ -337,16 +337,16 @@ public class BattleManager : MonoBehaviour
     }
 
     // ガード使用時: 相手の攻撃を完全に無効化(0ダメージ)
-    // 近距離の弱攻撃(CloseWeak)使用時: 受けるダメージを0.5倍に軽減
-    private float ApplyPlayerDamageReduction(float damageToPlayer)
+    // 遠距離の弱攻撃使用時 受けるダメージを0.8倍に軽減
+    private float ApplyPlayerDamageReduction(float damageToPlayer, bool isPlayerFirst)
     {
         if (playerSkill.skillType == SkillType.Guard)
         {
             return 0f;
         }
-        if (playerSkill.skillType == SkillType.CloseWeak)
+        if (playerSkill.skillType == SkillType.LongWeak && isPlayerFirst)
         {
-            return damageToPlayer * 0.5f;
+            return damageToPlayer * 0.8f;
         }
         return damageToPlayer;
     }
