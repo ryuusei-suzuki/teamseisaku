@@ -111,9 +111,7 @@ public class TrialBattleManager : MonoBehaviour
 
             GameObject buttonObj = Instantiate(skillButtonPrefab, skillButtonParent);
             BattleSkillButton skillButton = buttonObj.GetComponent<BattleSkillButton>();
-
-            //なんかエラー起きてるから一旦コメントアウトしとくね
-            //skillButton.Setup(skill, SelectSkill);
+            skillButton.Setup(skill, SelectSkill);
             skillButtons.Add(skillButton);
         }
     }
@@ -165,9 +163,6 @@ public class TrialBattleManager : MonoBehaviour
         bool isPlayerFirst = playerSkill.skillType == SkillType.Guard
             ? true
             : turnOrder.IsPlayerFirst(playerSkill.distance, enemyDistance);
-
-        AddLog(isPlayerFirst ? "プレイヤーが先制した！" : "敵が先制した！");
-        yield return StartCoroutine(WaitForClick());
 
         DamageCalculator calculator = new DamageCalculator();
         calculator.arribute = arribute;
