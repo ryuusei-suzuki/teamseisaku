@@ -18,3 +18,4 @@ MonoBehaviour:
   LongWeakAttack: {fileID: 11400000, guid: 59ca40ed09cb04849b024a4bb6ff1448, type: 2}
   LongStrongAttack: {fileID: 11400000, guid: 9809ee22f832f2148b161923985fd4de, type: 2}
   enemySprite: {fileID: -3324127139131516111, guid: d386dba9a5cfa094bbcde4cda4ad05a5, type: 3}
+  enemyAttackSprite: {fileID: 7618281097375298806, guid: 2842686e04bbf9044af46de005e2c81f, type: 3}

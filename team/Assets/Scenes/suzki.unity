@@ -158,6 +158,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d190be66b7896a746b50add05769e71b, type: 2}
   - {fileID: 11400000, guid: 1002a4eca0dc8ad40a9603d87aace4ae, type: 2}
   - {fileID: 11400000, guid: 3b5afb009ba538148a514c1cc59be97a, type: 2}
+  playerSpriteRenderer: {fileID: 1683502620}
+  playerCloseAttackSprite: {fileID: -2055877082121754722, guid: 1fbc7e2bf43296c46895a7580f551497, type: 3}
+  playerLongAttackSprite: {fileID: -7636517050695650545, guid: 14c13054e275198479fade297d75dea5, type: 3}
   playerHpText: {fileID: 935401894}
   enemyHpText: {fileID: 265841196}
   battleLogText: {fileID: 2036632836}
@@ -1431,7 +1434,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 41, y: -420}
+  m_AnchoredPosition: {x: 43, y: -474}
   m_SizeDelta: {x: 1200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1284261141

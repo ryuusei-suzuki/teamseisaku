@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,6 +22,15 @@ public class Enemytester : MonoBehaviour
     [SerializeField] private List<string> debugPP = new();
     public SpriteRenderer spriteRenderer;
 
+    private Sprite idleSprite;
+    private Sprite attackSprite;
+
+    // 2枚目のフレーム(未設定ならアニメーションせず1枚絵のまま)
+    private Sprite idleSprite2;
+    private Sprite attackSprite2;
+    private Coroutine poseAnimCoroutine;
+    private const float PoseFrameInterval = 0.45f; // 1コマの表示時間(秒)
+
 
     public void Init(EnemyData data, Element mainData, Element subData)
     {
@@ -32,9 +42,12 @@ public class Enemytester : MonoBehaviour
         MainEnemyElement = mainData.enemyElement;
 
         // 見た目を主属性の画像に差し替える
-        if (spriteRenderer != null && mainData.enemySprite != null)
+        idleSprite = mainData.enemySprite;
+        attackSprite = mainData.enemyAttackSprite;
+
+        if (spriteRenderer != null && idleSprite != null)
         {
-            spriteRenderer.sprite = mainData.enemySprite;
+            spriteRenderer.sprite = idleSprite;
         }
 
 
@@ -94,6 +107,86 @@ public class Enemytester : MonoBehaviour
         if (skill != null && !allSkills.Contains(skill))
         {
             allSkills.Add(skill);
+        }
+    }
+
+    // チュートリアルなど、Elementの画像とは別の画像を使いたい場合に呼ぶ。
+    // idle2/attack2は2コマアニメーションさせたい場合だけ指定する(不要ならnullでOK)
+    public void SetPoseSprites(Sprite idle, Sprite attack, Sprite idle2 = null, Sprite attack2 = null)
+    {
+        if (idle != null) idleSprite = idle;
+        if (attack != null) attackSprite = attack;
+        idleSprite2 = idle2;
+        attackSprite2 = attack2;
+
+        if (spriteRenderer != null && idleSprite != null)
+        {
+            spriteRenderer.sprite = idleSprite;
+        }
+    }
+
+    // 攻撃時に攻撃ポーズの画像に切り替える
+    public void ShowAttackPose()
+    {
+        StopPoseAnimation();
+
+        if (spriteRenderer != null && attackSprite != null)
+        {
+            spriteRenderer.sprite = attackSprite;
+        }
+
+        if (attackSprite2 != null)
+        {
+            poseAnimCoroutine = StartCoroutine(AnimatePose(attackSprite, attackSprite2, loop: false));
+        }
+    }
+
+    // 通常の画像に戻す
+    public void ShowIdlePose()
+    {
+        StopPoseAnimation();
+
+        if (spriteRenderer != null && idleSprite != null)
+        {
+            spriteRenderer.sprite = idleSprite;
+        }
+
+        if (idleSprite2 != null)
+        {
+            poseAnimCoroutine = StartCoroutine(AnimatePose(idleSprite, idleSprite2, loop: true));
+        }
+    }
+
+    private void StopPoseAnimation()
+    {
+        if (poseAnimCoroutine != null)
+        {
+            StopCoroutine(poseAnimCoroutine);
+            poseAnimCoroutine = null;
+        }
+    }
+
+    // frame1とframe2を一定間隔で交互に表示する簡易パラパラアニメ
+    // loop=true : 待機用。ポーズを切り替えている間はずっと往復し続ける
+    // loop=false: 攻撃用。ずっと往復すると不自然なので、1回だけ切り替えて止める
+    private IEnumerator AnimatePose(Sprite frame1, Sprite frame2, bool loop)
+    {
+        bool showFirst = true;
+
+        while (true)
+        {
+            yield return new WaitForSeconds(PoseFrameInterval);
+            showFirst = !showFirst;
+
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.sprite = showFirst ? frame1 : frame2;
+            }
+
+            if (!loop)
+            {
+                yield break;
+            }
         }
     }
 

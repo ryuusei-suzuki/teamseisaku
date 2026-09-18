@@ -48,4 +48,13 @@ public class BattleSkillButton : MonoBehaviour
     {
         return skillData;
     }
+
+    // 自分のターンが始まるまで(テキストを読み終わるまで)はクリックできないようにする
+    public void SetInteractable(bool interactable)
+    {
+        if (button != null)
+        {
+            button.interactable = interactable;
+        }
+    }
 }
