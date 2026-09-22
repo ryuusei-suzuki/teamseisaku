@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,19 +9,11 @@ public class BattleSkillButton : MonoBehaviour
     private Button button;
     private SkillData skillData;
     private BattleManager battleManager;
-    private Action<SkillData> onSelectCallback; // BattleManager以外(TrialBattleManagerなど)からも使えるようにするコールバック
 
     public void Setup(SkillData skill, BattleManager manager)
     {
-        battleManager = manager;
-        Setup(skill, manager.SelectPlayerSkill);
-    }
-
-    // BattleManagerに依存しない汎用セットアップ(TrialBattleManagerなどから利用)
-    public void Setup(SkillData skill, Action<SkillData> onSelect)
-    {
         skillData = skill;
-        onSelectCallback = onSelect;
+        battleManager = manager;
 
         if (label != null)
         {
@@ -41,20 +32,11 @@ public class BattleSkillButton : MonoBehaviour
 
     private void OnClick()
     {
-        onSelectCallback?.Invoke(skillData);
+        battleManager.SelectPlayerSkill(skillData);
     }
 
     public SkillData GetSkillData()
     {
         return skillData;
-    }
-
-    // 自分のターンが始まるまで(テキストを読み終わるまで)はクリックできないようにする
-    public void SetInteractable(bool interactable)
-    {
-        if (button != null)
-        {
-            button.interactable = interactable;
-        }
     }
 }
