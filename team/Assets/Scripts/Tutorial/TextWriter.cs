@@ -5,7 +5,7 @@ using static Unity.Collections.AllocatorManager;
 public class TextWriter : MonoBehaviour
 {
     [SerializeField] private TutorialPanel tutorialPanel;
-    [SerializeField] private TrialBattleManager trialBattleManager; // ttrmanagerをInspectorで割り当てる
+
     public UIText uitext;
     public GameObject TutorialPanel;
 
@@ -35,10 +35,8 @@ public class TextWriter : MonoBehaviour
 
         yield return new WaitUntil(() => tutorialPanel.IsTutorialFinished);
 
-        uitext.DrawText("使用するスキルを選ぼう");
+        uitext.DrawText("w");
         yield return StartCoroutine("Skip");
-
-        trialBattleManager.StartBattle();
 
     }
 }

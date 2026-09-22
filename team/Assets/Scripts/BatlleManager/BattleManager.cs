@@ -23,16 +23,9 @@ public class BattleManager : MonoBehaviour
     public EnemySpawner spawner;
     public List<EnemyData> bossList;
 
-    public SpriteRenderer playerSpriteRenderer;
-    public Sprite playerCloseAttackSprite;
-    public Sprite playerLongAttackSprite;
-    private Sprite playerIdleSprite;
-
     public TextMeshProUGUI playerHpText;
     public TextMeshProUGUI enemyHpText;
     public TextMeshProUGUI battleLogText;
-    public TextMeshProUGUI playerActionText;
-    public TextMeshProUGUI enemyActionText;
     public TextMeshProUGUI bossInfoText;
     public BattleState currentState = BattleState.Ongoing;
     public GameObject restartButton; 
@@ -52,10 +45,6 @@ public class BattleManager : MonoBehaviour
             availableSkills = SkillSelectionManager.Instance.SelectedSkills;
         }
         playerHp = maxPlayerHp;
-        if (playerSpriteRenderer != null)
-        {
-            playerIdleSprite = playerSpriteRenderer.sprite;
-        }
         restartButton.SetActive(false); 
         SetupBossQueue();
         ShowBossInfo();
@@ -63,7 +52,6 @@ public class BattleManager : MonoBehaviour
         UpdateHpUI();
         InitializeSkillAP();
         CreateSkillButtons();
-        AddLog("スキルを選んでください");
     }
 
 
@@ -206,27 +194,18 @@ public class BattleManager : MonoBehaviour
             yield break;
         }
 
-        SetSkillButtonsInteractable(false);
-
         EnemySkillData enemySkill = enemy.UseSkillForBattle();
         if (enemySkill == null)
         {
-            AddLog("敵は技を出せなかった(PP切れ)", true);
+            AddLog("敵は技を出せなかった(PP切れ)");
             yield return StartCoroutine(WaitForClick());
 
-            ShowPlayerAttackPose(playerSkill.distance);
             AttackEnemyOnlyWithLog();
             yield return StartCoroutine(WaitForClick());
-            ShowPlayerIdlePose();
 
             CheckBattleEnd();
             UpdateHpUI();
             isProcessingTurn = false;
-            if (currentState == BattleState.Ongoing)
-            {
-                AddLog("スキルを選んでください");
-                SetSkillButtonsInteractable(true);
-            }
             yield break;
         }
 
@@ -236,79 +215,59 @@ public class BattleManager : MonoBehaviour
         List<AttributeType> enemyAttributes = GetEnemyAttributes();
 
         TurnOrder turnOrder = new TurnOrder();
-        bool isPlayerFirst = playerSkill.skillType == SkillType.Guard
-            ? true
-            : turnOrder.IsPlayerFirst(playerSkill.distance, enemyDistance);
-
-        AddLog(isPlayerFirst ? "プレイヤーが先制した！" : "敵が先制した！", true);
-        yield return StartCoroutine(WaitForClick());
+        bool isPlayerFirst = turnOrder.IsPlayerFirst(playerSkill.distance, enemyDistance);
 
         DamageCalculator calculator = new DamageCalculator();
         calculator.arribute = arribute;
 
         if (isPlayerFirst)
         {
-            ShowPlayerAttackPose(playerSkill.distance);
             float damageToEnemy = calculator.CalculateDamage(playerSkill, enemyAttributes, enemyDistance, out string playerEffect);
             enemy.TakeDamage((int)damageToEnemy);
             string playerMsg = $"プレイヤー: {playerSkill.SkillName}！ {damageToEnemy}ダメージ \n{playerEffect}";
             Debug.Log(playerMsg);
-            AddPlayerActionLog(playerMsg);
+            AddLog(playerMsg);
             UpdateHpUI();
             yield return StartCoroutine(WaitForClick());
-            ShowPlayerIdlePose();
 
             if (!IsEnemyDead())
             {
-                enemy.ShowAttackPose();
                 List<AttributeType> playerAttributes = new List<AttributeType> { playerSkill.attribute };
                 float damageToPlayer = calculator.CalculateDamage(enemyAttackAttribute, enemyDistance, enemySkill.Damage, playerAttributes, playerSkill.distance, out string enemyEffect);
-                damageToPlayer = ApplyPlayerDamageReduction(damageToPlayer, isPlayerFirst);
                 playerHp -= (int)damageToPlayer;
                 string enemyMsg = $"敵: {enemySkill.SkillName}！ {damageToPlayer}ダメージ \n{enemyEffect}";
                 Debug.Log(enemyMsg);
-                AddEnemyActionLog(enemyMsg);
+                AddLog(enemyMsg);
                 UpdateHpUI();
                 yield return StartCoroutine(WaitForClick());
-                enemy.ShowIdlePose();
             }
         }
         else
         {
-            enemy.ShowAttackPose();
             List<AttributeType> playerAttributesForEnemyAttack = new List<AttributeType> { playerSkill.attribute };
             float damageToPlayer = calculator.CalculateDamage(enemyAttackAttribute, enemyDistance, enemySkill.Damage, playerAttributesForEnemyAttack, playerSkill.distance, out string enemyEffect);
-            damageToPlayer = ApplyPlayerDamageReduction(damageToPlayer, isPlayerFirst);
             playerHp -= (int)damageToPlayer;
             string enemyMsg = $"敵: {enemySkill.SkillName}！ {damageToPlayer}ダメージ \n{enemyEffect}";
             Debug.Log(enemyMsg);
-            AddEnemyActionLog(enemyMsg);
+            AddLog(enemyMsg);
             UpdateHpUI();
             yield return StartCoroutine(WaitForClick());
-            enemy.ShowIdlePose();
 
             if (playerHp > 0)
             {
-                ShowPlayerAttackPose(playerSkill.distance);
                 float damageToEnemy = calculator.CalculateDamage(playerSkill, enemyAttributes, enemyDistance, out string playerEffect);
                 enemy.TakeDamage((int)damageToEnemy);
                 string playerMsg = $"プレイヤー: {playerSkill.SkillName}！ {damageToEnemy}ダメージ \n{playerEffect}";
                 Debug.Log(playerMsg);
-                AddPlayerActionLog(playerMsg);
+                AddLog(playerMsg);
                 UpdateHpUI();
                 yield return StartCoroutine(WaitForClick());
-                ShowPlayerIdlePose();
             }
         }
 
         CheckBattleEnd();
         UpdateHpUI();
         isProcessingTurn = false;
-        if (currentState == BattleState.Ongoing)
-        {
-            AddLog("スキルを選んでください");
-            SetSkillButtonsInteractable(true);
-        }
     }
 
     private void UpdateHpUI()
@@ -337,7 +296,7 @@ public class BattleManager : MonoBehaviour
         enemy.TakeDamage((int)damageToEnemy);
         string msg = $"プレイヤー: {playerSkill.SkillName}！ {damageToEnemy}ダメージ \n{effect}";
         Debug.Log(msg);
-        AddPlayerActionLog(msg);
+        AddLog(msg);
         UpdateHpUI();
     }
 
@@ -357,42 +316,6 @@ public class BattleManager : MonoBehaviour
     private bool IsEnemyDead()
     {
         return enemy == null || enemy.NowEnemyHP <= 0;
-    }
-
-    // 攻撃時に攻撃ポーズの画像に切り替える
-    private void ShowPlayerAttackPose(DistanceType distance)
-    {
-        if (playerSpriteRenderer == null) return;
-
-        Sprite attackSprite = distance == DistanceType.Ranged ? playerLongAttackSprite : playerCloseAttackSprite;
-        if (attackSprite != null)
-        {
-            playerSpriteRenderer.sprite = attackSprite;
-        }
-    }
-
-    // 通常の画像に戻す
-    private void ShowPlayerIdlePose()
-    {
-        if (playerSpriteRenderer != null && playerIdleSprite != null)
-        {
-            playerSpriteRenderer.sprite = playerIdleSprite;
-        }
-    }
-
-    // ガード使用時: 相手の攻撃を完全に無効化(0ダメージ)
-    // 遠距離の弱攻撃使用時 受けるダメージを0.8倍に軽減
-    private float ApplyPlayerDamageReduction(float damageToPlayer, bool isPlayerFirst)
-    {
-        if (playerSkill.skillType == SkillType.Guard)
-        {
-            return 0f;
-        }
-        if (playerSkill.skillType == SkillType.LongWeak && isPlayerFirst)
-        {
-            return damageToPlayer * 0.8f;
-        }
-        return damageToPlayer;
     }
 
     private void CheckBattleEnd()
@@ -433,47 +356,17 @@ public class BattleManager : MonoBehaviour
             skillButton.Setup(skill, this);
             skillButtons.Add(skillButton);
         }
-        SetSkillButtonsInteractable(true);
-    }
-
-    // 自分のターンが始まるまで(テキストを読み終わるまで)はスキルをクリックできないようにする
-    private void SetSkillButtonsInteractable(bool interactable)
-    {
-        foreach (BattleSkillButton skillButton in skillButtons)
-        {
-            if (skillButton != null)
-            {
-                skillButton.SetInteractable(interactable);
-            }
-        }
     }
 
     
     public void RestartBattle()
     {
-        if (currentState == BattleState.Win)
-        {
-            SceneManager.LoadScene("Skill selection");
-        }
-        else
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    private void AddLog(string message, bool showClickHint = false)
+    private void AddLog(string message)
     {
-        battleLogText.text = showClickHint ? message + "\n(クリックで進む)" : message;
-    }
-
-    private void AddPlayerActionLog(string message)
-    {
-        playerActionText.text = message;
-    }
-
-    private void AddEnemyActionLog(string message)
-    {
-        enemyActionText.text = message;
+        battleLogText.text = message;
     }
     
 }

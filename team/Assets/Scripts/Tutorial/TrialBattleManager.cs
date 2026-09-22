@@ -31,30 +31,10 @@ public class TrialBattleManager : MonoBehaviour
     public GameObject skillButtonPrefab;
     public Transform skillButtonParent;
 
-    [Header("プレイヤーの見た目")]
-    public SpriteRenderer playerSpriteRenderer;
-    public Sprite playerCloseAttackSprite;
-    public Sprite playerLongAttackSprite;
-    private Sprite playerIdleSprite;
-    private Vector3 playerBaseScale = Vector3.one;
-    private float playerIdlePixelsPerUnit = 100f;
-
-    [Header("敵の見た目(チュートリアル専用の画像。未設定ならElementの画像のまま)")]
-    public Sprite enemyIdleSprite;
-    public Sprite enemyIdleSprite2;
-    public Sprite enemyAttackSprite;
-    public Sprite enemyAttackSprite2;
-
     [Header("UI")]
     public TextMeshProUGUI playerHpText;
     public TextMeshProUGUI enemyHpText;
     public TextMeshProUGUI logText;
-    public TextMeshProUGUI playerActionText;
-    public TextMeshProUGUI enemyActionText;
-
-    [Tooltip("戦闘開始まではログ枠を非表示にしておき、StartBattle()時に表示する")]
-    public GameObject playerActionBox;
-    public GameObject enemyActionBox;
 
     [Header("遷移先")]
     [Tooltip("敵を倒した後にロードするシーン名。演出(矢印ワイプ)は未実装で、今はここに設定したシーンへ即ロードします。")]
@@ -81,25 +61,6 @@ public class TrialBattleManager : MonoBehaviour
     {
         InitEnemyIfNeeded();
 
-        if (playerSpriteRenderer != null)
-        {
-            playerIdleSprite = playerSpriteRenderer.sprite;
-            playerBaseScale = playerSpriteRenderer.transform.localScale;
-
-            // attack画像は共有アセット(剣を振る勇者/弓を射る勇者)で、
-            // メインバトル側のPPUに合わせて調整済みのため、このシーンの拡大率とは合わない。
-            // idle画像のPPUとの比率でスケールを補正し、見た目のサイズをidleと揃える。
-            if (playerIdleSprite != null)
-            {
-                playerIdlePixelsPerUnit = playerIdleSprite.pixelsPerUnit;
-            }
-        }
-
-        if (enemy != null)
-        {
-            enemy.SetPoseSprites(enemyIdleSprite, enemyAttackSprite, enemyIdleSprite2, enemyAttackSprite2);
-        }
-
         playerHp = maxPlayerHp;
         UpdateHpUI();
 
@@ -124,10 +85,6 @@ public class TrialBattleManager : MonoBehaviour
     {
         IsFinished = false;
         pendingEnemyDefeat = false;
-
-        if (playerActionBox != null) playerActionBox.SetActive(true);
-        if (enemyActionBox != null) enemyActionBox.SetActive(true);
-
         CreateSkillButtons();
     }
 
@@ -154,7 +111,9 @@ public class TrialBattleManager : MonoBehaviour
 
             GameObject buttonObj = Instantiate(skillButtonPrefab, skillButtonParent);
             BattleSkillButton skillButton = buttonObj.GetComponent<BattleSkillButton>();
-            skillButton.Setup(skill, SelectSkill);
+
+            //なんかエラー起きてるから一旦コメントアウトしとくね
+            //skillButton.Setup(skill, SelectSkill);
             skillButtons.Add(skillButton);
         }
     }
@@ -187,13 +146,11 @@ public class TrialBattleManager : MonoBehaviour
 
         if (enemySkill == null)
         {
-            AddLog("敵は技を出せなかった(PP切れ)", true);
+            AddLog("敵は技を出せなかった(PP切れ)");
             yield return StartCoroutine(WaitForClick());
 
-            ShowPlayerAttackPose(playerSkill.distance);
             AttackEnemyOnly(playerSkill);
             yield return StartCoroutine(WaitForClick());
-            ShowPlayerIdlePose();
 
             isProcessingTurn = false;
             CheckEnemyDefeated();
@@ -205,52 +162,40 @@ public class TrialBattleManager : MonoBehaviour
         List<AttributeType> enemyAttributes = GetEnemyAttributes();
 
         TurnOrder turnOrder = new TurnOrder();
-        bool isPlayerFirst = playerSkill.skillType == SkillType.Guard
-            ? true
-            : turnOrder.IsPlayerFirst(playerSkill.distance, enemyDistance);
+        bool isPlayerFirst = turnOrder.IsPlayerFirst(playerSkill.distance, enemyDistance);
 
         DamageCalculator calculator = new DamageCalculator();
         calculator.arribute = arribute;
 
         if (isPlayerFirst)
         {
-            ShowPlayerAttackPose(playerSkill.distance);
             float damageToEnemy = calculator.CalculateDamage(playerSkill, enemyAttributes, enemyDistance, out string playerEffect);
             ApplyDamageToEnemy(playerSkill, damageToEnemy, playerEffect);
             yield return StartCoroutine(WaitForClick());
-            ShowPlayerIdlePose();
 
             // 直前の攻撃で倒していなければ、敵の反撃を処理する
             if (!pendingEnemyDefeat)
             {
-                enemy.ShowAttackPose();
                 List<AttributeType> playerAttributes = new List<AttributeType> { playerSkill.attribute };
                 float damageToPlayer = calculator.CalculateDamage(enemyAttackAttribute, enemyDistance, enemySkill.Damage, playerAttributes, playerSkill.distance, out string enemyEffect);
-                damageToPlayer = ApplyPlayerDamageReduction(damageToPlayer, playerSkill);
                 playerHp = Mathf.Max(0, playerHp - (int)damageToPlayer);
-                AddEnemyActionLog($"敵: {enemySkill.SkillName}！ {damageToPlayer}ダメージ \n{enemyEffect}");
+                AddLog($"敵: {enemySkill.SkillName}！ {damageToPlayer}ダメージ \n{enemyEffect}");
                 UpdateHpUI();
                 yield return StartCoroutine(WaitForClick());
-                enemy.ShowIdlePose();
             }
         }
         else
         {
-            enemy.ShowAttackPose();
             List<AttributeType> playerAttributesForEnemyAttack = new List<AttributeType> { playerSkill.attribute };
             float damageToPlayer = calculator.CalculateDamage(enemyAttackAttribute, enemyDistance, enemySkill.Damage, playerAttributesForEnemyAttack, playerSkill.distance, out string enemyEffect);
-            damageToPlayer = ApplyPlayerDamageReduction(damageToPlayer, playerSkill);
             playerHp = Mathf.Max(0, playerHp - (int)damageToPlayer);
-            AddEnemyActionLog($"敵: {enemySkill.SkillName}！ {damageToPlayer}ダメージ \n{enemyEffect}");
+            AddLog($"敵: {enemySkill.SkillName}！ {damageToPlayer}ダメージ \n{enemyEffect}");
             UpdateHpUI();
             yield return StartCoroutine(WaitForClick());
-            enemy.ShowIdlePose();
 
-            ShowPlayerAttackPose(playerSkill.distance);
             float damageToEnemy = calculator.CalculateDamage(playerSkill, enemyAttributes, enemyDistance, out string playerEffect);
             ApplyDamageToEnemy(playerSkill, damageToEnemy, playerEffect);
             yield return StartCoroutine(WaitForClick());
-            ShowPlayerIdlePose();
         }
 
         isProcessingTurn = false;
@@ -286,56 +231,8 @@ public class TrialBattleManager : MonoBehaviour
             pendingEnemyDefeat = true;
         }
 
-        AddPlayerActionLog($"プレイヤー: {playerSkill.SkillName}！ {damageToEnemy}ダメージ \n{effect}");
+        AddLog($"プレイヤー: {playerSkill.SkillName}！ {damageToEnemy}ダメージ \n{effect}");
         UpdateHpUI();
-    }
-
-    // 攻撃時に攻撃ポーズの画像に切り替える
-    private void ShowPlayerAttackPose(DistanceType distance)
-    {
-        if (playerSpriteRenderer == null) return;
-
-        Sprite attackSprite = distance == DistanceType.Ranged ? playerLongAttackSprite : playerCloseAttackSprite;
-        if (attackSprite != null)
-        {
-            ApplyPlayerSpriteWithScaleCompensation(attackSprite);
-        }
-    }
-
-    // 通常の画像に戻す
-    private void ShowPlayerIdlePose()
-    {
-        if (playerSpriteRenderer != null && playerIdleSprite != null)
-        {
-            ApplyPlayerSpriteWithScaleCompensation(playerIdleSprite);
-        }
-    }
-
-    // 画像ごとにPPUが違っても、idle画像と同じ見た目のサイズになるようscaleを補正して適用する
-    private void ApplyPlayerSpriteWithScaleCompensation(Sprite sprite)
-    {
-        playerSpriteRenderer.sprite = sprite;
-
-        if (sprite != null && playerIdlePixelsPerUnit > 0f)
-        {
-            float ratio = sprite.pixelsPerUnit / playerIdlePixelsPerUnit;
-            playerSpriteRenderer.transform.localScale = playerBaseScale * ratio;
-        }
-    }
-
-    // ガード使用時: 相手の攻撃を完全に無効化(0ダメージ)
-    // 近距離の弱攻撃(CloseWeak)使用時: 受けるダメージを0.5倍に軽減
-    private float ApplyPlayerDamageReduction(float damageToPlayer, SkillData skill)
-    {
-        if (skill.skillType == SkillType.Guard)
-        {
-            return 0f;
-        }
-        if (skill.skillType == SkillType.CloseWeak)
-        {
-            return damageToPlayer * 0.5f;
-        }
-        return damageToPlayer;
     }
 
     private List<AttributeType> GetEnemyAttributes()
@@ -364,7 +261,7 @@ public class TrialBattleManager : MonoBehaviour
     {
         IsFinished = true;
 
-        AddLog($"{cachedEnemyName} を倒した！", true);
+        AddLog($"{cachedEnemyName} を倒した！");
         yield return StartCoroutine(WaitForClick());
 
         GoToNextScene();
@@ -395,27 +292,11 @@ public class TrialBattleManager : MonoBehaviour
         }
     }
 
-    private void AddLog(string message, bool showClickHint = false)
+    private void AddLog(string message)
     {
         if (logText != null)
         {
-            logText.text = showClickHint ? message + "\n(クリックで進む)" : message;
-        }
-    }
-
-    private void AddPlayerActionLog(string message)
-    {
-        if (playerActionText != null)
-        {
-            playerActionText.text = message;
-        }
-    }
-
-    private void AddEnemyActionLog(string message)
-    {
-        if (enemyActionText != null)
-        {
-            enemyActionText.text = message;
+            logText.text = message;
         }
     }
 }
