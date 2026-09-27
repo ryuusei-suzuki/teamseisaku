@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,12 +9,14 @@ public class BattleSkillButton : MonoBehaviour
     [SerializeField] private Image iconImage;
     private Button button;
     private SkillData skillData;
-    private BattleManager battleManager;
+    private Action<SkillData> onSelect;
 
-    public void Setup(SkillData skill, BattleManager manager)
+    // BattleManager(通常戦)とTrialBattleManager(チュートリアル)の両方から
+    // 使い回せるように、呼び出し先を直接の型ではなくコールバックで受け取る。
+    public void Setup(SkillData skill, Action<SkillData> onSelectCallback)
     {
         skillData = skill;
-        battleManager = manager;
+        onSelect = onSelectCallback;
 
         if (label != null)
         {
@@ -32,11 +35,20 @@ public class BattleSkillButton : MonoBehaviour
 
     private void OnClick()
     {
-        battleManager.SelectPlayerSkill(skillData);
+        onSelect?.Invoke(skillData);
     }
 
     public SkillData GetSkillData()
     {
         return skillData;
+    }
+
+    // 自分のターンが始まるまで(演出を見終わるまで)はクリックできないようにするためのロック
+    public void SetInteractable(bool interactable)
+    {
+        if (button != null)
+        {
+            button.interactable = interactable;
+        }
     }
 }

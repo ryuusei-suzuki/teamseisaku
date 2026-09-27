@@ -19,4 +19,5 @@ public class Element : ScriptableObject
     public EnemySkillData LongStrongAttack;
 
     public Sprite enemySprite;
+    public Sprite enemyAttackSprite;
 }

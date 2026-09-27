@@ -5,7 +5,7 @@ public class TitleManager : MonoBehaviour
 {
     public void StartGame()
     {
-        SceneManager.LoadScene("Skill selection");
+        SceneManager.LoadScene("Tutorial Scene");
     }
 
     public void BattleGame()
