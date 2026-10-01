@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
 {
@@ -29,6 +30,8 @@ public class BattleManager : MonoBehaviour
 
     public TextMeshProUGUI playerHpText;
     public TextMeshProUGUI enemyHpText;
+    public Image playerHpFillImage;
+    public Image enemyHpFillImage;
     public TextMeshProUGUI battleLogText;
     public TextMeshProUGUI playerActionText;
     public TextMeshProUGUI enemyActionText;
@@ -311,13 +314,29 @@ public class BattleManager : MonoBehaviour
     {
         playerHpText.text = "ƒvƒŒƒCƒ„[HP: " + playerHp;
 
+        if (playerHpFillImage != null)
+        {
+            float playerRate = maxPlayerHp > 0 ? (float)playerHp / maxPlayerHp : 0f;
+            playerHpFillImage.fillAmount = Mathf.Clamp01(playerRate);
+        }
+
         if (enemy != null)
         {
             enemyHpText.text = "“GHP: " + enemy.NowEnemyHP;
+
+            if (enemyHpFillImage != null)
+            {
+                enemyHpFillImage.fillAmount = Mathf.Clamp01(enemy.GetHPRate());
+            }
         }
         else
         {
             enemyHpText.text = "“GHP: -";
+
+            if (enemyHpFillImage != null)
+            {
+                enemyHpFillImage.fillAmount = 0f;
+            }
         }
     }
 
