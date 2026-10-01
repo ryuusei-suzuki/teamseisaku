@@ -13,27 +13,27 @@ public class ChangeSceneAnim : MonoBehaviour
     void Start()
     {
         // ‰ŠúˆÊ’u‚ðÝ’è
-        triangleA.localPosition = new Vector3(-25f,0, 0f);
-        triangleB.localPosition = new Vector3(-25f,0, 0f);
-        triangleC.localPosition = new Vector3(-25f, 0, 0f);
-        triangleMask.localPosition = new Vector3(-25f, 0, 0f);
+        triangleA.localPosition = new Vector3(-7000f, 0, 0f);
+        triangleB.localPosition = new Vector3(-7000f, 0, 0f);
+        triangleC.localPosition = new Vector3(-7000f, 0, 0f);
+        triangleMask.localPosition = new Vector3(-2808, 0, 0f);
     }
     public void ScreenTransition()
     {
         DOTween.Sequence()
 
-            .Append(triangleA.DOLocalMoveX(15f, 2f))
+            .Append(triangleA.DOLocalMoveX(41f, 3f)).SetEase(Ease.InOutCubic)
 
             .Join(
                 triangleB
-                    .DOLocalMoveX(15f, 2f)
-                    .SetDelay(0.3f)
+                    .DOLocalMoveX(41f, 3f).SetEase(Ease.InOutCubic)
+                    .SetDelay(1f)
             )
 
             .Join(
                 triangleC
-                    .DOLocalMoveX(0.5f, 2f)
-                    .SetDelay(0.4f)
+                    .DOLocalMoveX(41f, 3f).SetEase(Ease.InOutCubic)
+                    .SetDelay(1f)
             )
 
             .AppendCallback(() =>

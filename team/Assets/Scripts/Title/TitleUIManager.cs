@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Unity.Collections.AllocatorManager;
 
 public class TitleUIManager : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class TitleUIManager : MonoBehaviour
     [Header("終了確認画面")]
     [SerializeField] private GameObject exitPanel;
     [SerializeField] private EXITWindow exitwindow;
+    [SerializeField] private GameObject Blocker;
+
 
     private void Start()
     {
@@ -24,6 +27,7 @@ public class TitleUIManager : MonoBehaviour
         mainMenu.SetActive(true);
         optionPanel.SetActive(false);
         exitPanel.SetActive(false);
+        Blocker.SetActive(false);
     }
 
     // オプションを表示
@@ -32,13 +36,15 @@ public class TitleUIManager : MonoBehaviour
         mainMenu.SetActive(false);
         optionPanel.SetActive(true);
         exitPanel.SetActive(false);
-
+        Blocker.SetActive(true);
         volumeBoard.Show();
     }
 
     public void HideOption()
     {
+        Blocker.SetActive(false);
         volumeBoard.Hide();
+
     }
 
     // 終了確認を表示

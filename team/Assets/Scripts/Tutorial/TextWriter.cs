@@ -6,17 +6,19 @@ public class TextWriter : MonoBehaviour
 {
     [SerializeField] private TutorialPanel tutorialPanel;
     [SerializeField] private TrialBattleManager trialBattleManager;
-
+    public GameObject texbox;
     public UIText uitext;
     public GameObject TutorialPanel;
 
     void Awake()
     {
         TutorialPanel.SetActive(false);
+        texbox.SetActive(false);
     }
-    void Start()
+    public void effectfin()
     {
-        StartCoroutine("Cotest");
+        texbox.SetActive(true);
+        StartCoroutine(Cotest());
     }
     // クリック待ちのコルーチン
     IEnumerator Skip()
