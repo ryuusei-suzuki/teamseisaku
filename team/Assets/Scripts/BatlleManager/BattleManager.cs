@@ -223,6 +223,7 @@ public class BattleManager : MonoBehaviour
                 AddLog("スキルを選んでください");
                 SetSkillButtonsInteractable(true);
                 playerActionText.text = "";
+                enemyActionText.text = "";
             }
             yield break;
         }
@@ -302,6 +303,7 @@ public class BattleManager : MonoBehaviour
             AddLog("スキルを選んでください");
             SetSkillButtonsInteractable(true);
             playerActionText.text = "";
+            enemyActionText.text = "";
         }
     }
 
