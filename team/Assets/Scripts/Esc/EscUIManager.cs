@@ -28,6 +28,8 @@ public class EscUIManager : MonoBehaviour
     [SerializeField] private int TouchButtonPosition = -100;
     [SerializeField] private int AftterButtonPosition = 0;
 
+    [SerializeField] private GameObject[] TTR;
+
     [SerializeField] private GameObject[] Parameters;
 
     [SerializeField] private GameObject[] ExitObj;
@@ -35,6 +37,8 @@ public class EscUIManager : MonoBehaviour
     [SerializeField] private GameObject blocker;
 
     [SerializeField] private bool isEscPanelOpen = false;
+
+    [SerializeField] private TTR ttr;
     private void Start()
     {
         blocker.SetActive(false);
@@ -54,7 +58,10 @@ public class EscUIManager : MonoBehaviour
         {
             exitobj.SetActive(false);
         }
-
+        foreach (GameObject ttr in TTR)
+        {
+            ttr.SetActive(false);
+        }
     }
 
 
@@ -170,11 +177,21 @@ public class EscUIManager : MonoBehaviour
             exitobj.SetActive(false);
         }
 
+        foreach (GameObject ttr in TTR)
+        {
+            ttr.SetActive(false);
+        }
+
         switch (index)
         {
             case EscPanelIndex.Tutorial:
                 tutorialPanel.SetActive(true);
                 SetButtonPosition(tutorialButton, AftterButtonPosition);
+                foreach (GameObject ttr in TTR)
+                {
+                    ttr.SetActive(true);
+                }
+                ttr.StartTutorial();
                 break;
 
             case EscPanelIndex.Sound:

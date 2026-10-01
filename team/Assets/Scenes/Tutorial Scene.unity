@@ -1645,20 +1645,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1c594a6ccdf0e8a418a7f677bec91b95, type: 2}
   skillButtonPrefab: {fileID: 1593316635321440543, guid: 68f26069fae4e78478bebef4ba4d5b7d, type: 3}
   skillButtonParent: {fileID: 1591929888}
-  playerSpriteRenderer: {fileID: 1778289293}
-  playerCloseAttackSprite: {fileID: -2055877082121754722, guid: 1fbc7e2bf43296c46895a7580f551497, type: 3}
-  playerLongAttackSprite: {fileID: -7636517050695650545, guid: 14c13054e275198479fade297d75dea5, type: 3}
-  enemyIdleSprite: {fileID: 3594445353921340965, guid: abf07f4e6debc374590a979597da6cd0, type: 3}
-  enemyIdleSprite2: {fileID: 2452416082818317041, guid: 719e97d32971761439fcdce58948d270, type: 3}
-  enemyAttackSprite: {fileID: -5043314905170331628, guid: d2c6200de70f9a74c91010348e6f4342, type: 3}
-  enemyAttackSprite2: {fileID: -1136236550584383175, guid: fa1efa56c61703640a4320617daaa137, type: 3}
   playerHpText: {fileID: 1439588697}
   enemyHpText: {fileID: 1545737540}
   logText: {fileID: 844961738}
-  playerActionText: {fileID: 5000000011}
-  enemyActionText: {fileID: 5000000023}
-  playerActionBox: {fileID: 5000000001}
-  enemyActionBox: {fileID: 5000000013}
   nextSceneName: Skill selection
   autoStart: 0
 --- !u!4 &1300456466
@@ -1706,7 +1695,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TextWriter
   tutorialPanel: {fileID: 2130411255}
-  trialBattleManager: {fileID: 1300456465}
   uitext: {fileID: 844961740}
   TutorialPanel: {fileID: 449464935}
 --- !u!4 &1419071759
@@ -2221,6 +2209,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 119195675452680931, guid: 9e289fda50240424c8018ff72e0abe1f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 119195675452680931, guid: 9e289fda50240424c8018ff72e0abe1f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 119195675452680931, guid: 9e289fda50240424c8018ff72e0abe1f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 119195675452680931, guid: 9e289fda50240424c8018ff72e0abe1f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.89
       objectReference: {fileID: 0}
@@ -2259,18 +2259,6 @@ PrefabInstance:
     - target: {fileID: 119195675452680931, guid: 9e289fda50240424c8018ff72e0abe1f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 119195675452680931, guid: 9e289fda50240424c8018ff72e0abe1f, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 119195675452680931, guid: 9e289fda50240424c8018ff72e0abe1f, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 119195675452680931, guid: 9e289fda50240424c8018ff72e0abe1f, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1976853968164752930, guid: 9e289fda50240424c8018ff72e0abe1f, type: 3}
       propertyPath: m_Name
@@ -2967,11 +2955,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialPanel
   tutorials:
-  - image: {fileID: 21300000, guid: 3d7968d32aa02fc42abddcec41646d32, type: 3}
+  - image: {fileID: 21300000, guid: dc1fce2e101441a4f93c8386bf56a481, type: 3}
     text: "\u653B\u6483\u306E\u30C0\u30E1\u30FC\u30B8\u306F\u3001\u304A\u4E92\u3044\u304C\u51FA\u3057\u305F\u30B9\u30AD\u30EB\u306B\u3088\u3063\u3066\u6C7A\u5B9A\u3059\u308B\u3088"
-  - image: {fileID: 21300000, guid: d5d5fbe8ba9bf934aa7503601ff09179, type: 3}
+  - image: {fileID: 21300000, guid: c4845d91bc9383043bda2cd749cdb78c, type: 3}
     text: "\u81EA\u5206\u306E\u6301\u3063\u3066\u3044\u308B\u5C5E\u6027\u306E\u653B\u6483\u3092\u3059\u308B\u3053\u3068\u304C\u3067\u304D\u308B\u3088"
-  - image: {fileID: 21300000, guid: 980470da631fe7748afd07a1d1e54409, type: 3}
+  - image: {fileID: 21300000, guid: e9459e48a17d05443ac3909c29ec01ec, type: 3}
+    text: "\u30C0\u30E1\u30FC\u30B8\u306E\u5024\u306F\u4F7F\u3063\u305F\u300C\u30B9\u30AD\u30EB\u300D\u304C\u3059\u3079\u3066\uFF01"
+  - image: {fileID: 21300000, guid: fe1a8f41eab8f3540a47b9bab3b6d032, type: 3}
+    text: "\u30C0\u30E1\u30FC\u30B8\u306E\u5024\u306F\u4F7F\u3063\u305F\u300C\u30B9\u30AD\u30EB\u300D\u304C\u3059\u3079\u3066\uFF01"
+  - image: {fileID: 21300000, guid: 80742ee04f971b4438e4e2c8628fcae7, type: 3}
     text: "\u30C0\u30E1\u30FC\u30B8\u306E\u5024\u306F\u4F7F\u3063\u305F\u300C\u30B9\u30AD\u30EB\u300D\u304C\u3059\u3079\u3066\uFF01"
   tutorialImage: {fileID: 449464938}
   uiText: {fileID: 844961740}
