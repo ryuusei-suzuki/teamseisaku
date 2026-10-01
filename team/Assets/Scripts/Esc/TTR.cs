@@ -2,24 +2,20 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [System.Serializable]
-public class TutorialData
+public class EscTTR
 {
     public Sprite image;
-
-    [TextArea(2, 5)]
-    public string text;
 }
 
-public class TutorialPanel : MonoBehaviour
+public class TTR : MonoBehaviour
 {
-    [SerializeField] private TutorialData[] tutorials;
+    [SerializeField] private EscTTR[] tutorials;
     [SerializeField] private Image tutorialImage;
-    [SerializeField] private UIText uiText;
     [SerializeField] private GameObject nextButton;
     [SerializeField] private GameObject backButton;
-    [SerializeField] private GameObject readyButton;
     [SerializeField] private GameObject Blocker;
     [SerializeField] private GameObject image;
+
     public bool IsTutorialFinished { get; private set; }
 
     void Start()
@@ -28,7 +24,6 @@ public class TutorialPanel : MonoBehaviour
         Blocker.SetActive(false);
         backButton.SetActive(false);
         nextButton.SetActive(false);
-        readyButton.SetActive(false);
         image.SetActive(false);
     }
 
@@ -46,29 +41,23 @@ public class TutorialPanel : MonoBehaviour
     private void ShowTutorial(int index)
     {
         tutorialImage.sprite = tutorials[index].image;
-        uiText.DrawText(tutorials[index].text);
     }
 
 
     public void NextTutorial()
     {
-        if (uiText.playing)
-            return;
         currentIndex++;
         ShowTutorial(currentIndex);
         backButton.SetActive(true);
 
-        if (currentIndex == tutorials.Length-1)
+        if (currentIndex == tutorials.Length - 1)
         {
             nextButton.SetActive(false);
-            readyButton.SetActive(true);
         }
     }
 
     public void BackTutorial()
     {
-        if (uiText.playing)
-            return;
         if (currentIndex <= 0)
             return;
         currentIndex--;
@@ -78,11 +67,6 @@ public class TutorialPanel : MonoBehaviour
         {
             backButton.SetActive(false);
         }
-
-        if (currentIndex == tutorials.Length - 2)
-        {
-            readyButton.SetActive(false);
-        }
     }
     public void EndTutorial()
     {
@@ -90,11 +74,8 @@ public class TutorialPanel : MonoBehaviour
         Blocker.SetActive(false);
         backButton.SetActive(false);
         nextButton.SetActive(false);
-        readyButton.SetActive(false);
-        
+
         IsTutorialFinished = true;
         image.SetActive(false);
-
     }
-
 }
