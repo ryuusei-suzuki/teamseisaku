@@ -17,5 +17,5 @@ MonoBehaviour:
   distance: 0
   Power: 10
   AP: 15
-  iconImage: {fileID: -7378866418529837861, guid: 03befcc62112a864387047bff7b8d0fd, type: 3}
+  iconImage: {fileID: -1222655377541718045, guid: 7c9f8719d13b5b842a35261926896b85, type: 3}
   skillType: 0
