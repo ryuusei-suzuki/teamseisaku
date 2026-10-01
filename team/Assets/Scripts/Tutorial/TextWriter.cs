@@ -5,6 +5,7 @@ using static Unity.Collections.AllocatorManager;
 public class TextWriter : MonoBehaviour
 {
     [SerializeField] private TutorialPanel tutorialPanel;
+    [SerializeField] private TrialBattleManager trialBattleManager;
 
     public UIText uitext;
     public GameObject TutorialPanel;
@@ -35,8 +36,9 @@ public class TextWriter : MonoBehaviour
 
         yield return new WaitUntil(() => tutorialPanel.IsTutorialFinished);
 
-        uitext.DrawText("w");
-        yield return StartCoroutine("Skip");
-
+        if (trialBattleManager != null)
+        {
+            trialBattleManager.StartBattle();
+        }
     }
 }
