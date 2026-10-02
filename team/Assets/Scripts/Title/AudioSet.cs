@@ -13,21 +13,26 @@ public class AudioSet : MonoBehaviour
 
     private void Start()
     {
-        //Master
-        audioMixer.GetFloat("Master", out float masterVolume);
-        MasterSlider.value = masterVolume;
-        //BGM
-        audioMixer.GetFloat("BGM", out float bgmVolume);
-        BGMSlider.value = bgmVolume;
-        //SE
-        audioMixer.GetFloat("SE", out float seVolume);
-        SESlider.value = seVolume;
+        // 初期音量を設定
+        SetInitialVolume("Master", MasterSlider, 5f);
+        SetInitialVolume("BGM", BGMSlider, 5f);
+        SetInitialVolume("SE", SESlider, 0f);
+    }
+
+    private void SetInitialVolume(string parameter, Slider slider, float volume)
+    {
+        // スライダーの位置を設定
+        slider.SetValueWithoutNotify(volume);
+
+        // AudioMixerの音量を設定
+        audioMixer.SetFloat(parameter, volume);
     }
 
     public void SetMaster(float volume)
     {
         Debug.Log("Master Volume : " + volume);
         audioMixer.SetFloat("Master", volume);
+
     }
     public void SetBGM(float volume)
     {

@@ -10,6 +10,8 @@ public class ChangeSceneAnim : MonoBehaviour
     [SerializeField] private Transform triangleC;
     [SerializeField] private Transform triangleMask;
     [SerializeField] private GameObject blocker;
+    [SerializeField] private TitleSound TitleSound;
+
     void Start()
     {
         // ‰ŠúˆÊ’u‚ğİ’è
@@ -21,6 +23,8 @@ public class ChangeSceneAnim : MonoBehaviour
     }
     public void ScreenTransition()
     {
+        TitleSound.OnClick();
+
         blocker.SetActive(true);   
         DOTween.Sequence()
 

@@ -15,6 +15,8 @@ public class TitleUIManager : MonoBehaviour
     [SerializeField] private EXITWindow exitwindow;
     [SerializeField] private GameObject Blocker;
 
+    [Header("サウンド")]
+    [SerializeField] private TitleSound TitleSound;
 
     private void Start()
     {
@@ -33,6 +35,7 @@ public class TitleUIManager : MonoBehaviour
     // オプションを表示
     public void ShowOption()
     {
+        TitleSound.OnClick();
         mainMenu.SetActive(false);
         optionPanel.SetActive(true);
         exitPanel.SetActive(false);
@@ -42,6 +45,7 @@ public class TitleUIManager : MonoBehaviour
 
     public void HideOption()
     {
+        TitleSound.OnClick();
         Blocker.SetActive(false);
         volumeBoard.Hide();
 
@@ -50,6 +54,7 @@ public class TitleUIManager : MonoBehaviour
     // 終了確認を表示
     public void ShowExit()
     {
+        TitleSound.OnClick();
         mainMenu.SetActive(false);
         optionPanel.SetActive(false);
         exitPanel.SetActive(true);
@@ -60,11 +65,13 @@ public class TitleUIManager : MonoBehaviour
 
     public void HideExit()
     {
+        TitleSound.OnClick();
         exitwindow.Hide();
     }
 
     public void BackHome()
     {
+
         mainMenu.SetActive(false);
         optionPanel.SetActive(false);
         exitPanel.SetActive(false);
