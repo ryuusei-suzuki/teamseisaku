@@ -19,3 +19,4 @@ MonoBehaviour:
   AP: 15
   iconImage: {fileID: 4133255848321579371, guid: 65235d7cb469b45499959dba6330e5dc, type: 3}
   skillType: 0
+  skillSE: {fileID: 8300000, guid: 656d17c8935289046b15de7b7a8adabe, type: 3}
