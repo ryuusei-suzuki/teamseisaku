@@ -12,4 +12,5 @@ public class SkillData : ScriptableObject
     public Sprite iconImage;
     public SkillType skillType;
 
+    public AudioClip skillSE;
 }
