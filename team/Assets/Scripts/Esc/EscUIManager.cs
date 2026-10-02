@@ -23,103 +23,159 @@ public class EscUIManager : MonoBehaviour
     [SerializeField] private GameObject soundPanel;
     [SerializeField] private GameObject exitPanel;
 
+    [Header("ボタン位置")]
     [SerializeField] private int currentPanelIndex = 0;
     [SerializeField] private int BeforeButtonPosition = -200;
     [SerializeField] private int TouchButtonPosition = -100;
     [SerializeField] private int AftterButtonPosition = 0;
 
+    [Header("チュートリアル")]
     [SerializeField] private GameObject[] TTR;
 
+    [Header("サウンド設定")]
     [SerializeField] private GameObject[] Parameters;
 
+    [Header("終了確認")]
     [SerializeField] private GameObject[] ExitObj;
 
+    [Header("その他")]
     [SerializeField] private GameObject blocker;
 
     [SerializeField] private bool isEscPanelOpen = false;
 
+    [Header("TTR管理")]
     [SerializeField] private TTR ttr;
-    private void Start()
+
+
+    private void Awake()
     {
         blocker.SetActive(false);
+
         tutorialButton.SetActive(false);
         soundButton.SetActive(false);
         ExitButton.SetActive(false);
+
         escPanel.SetActive(false);
 
         tutorialPanel.SetActive(false);
         soundPanel.SetActive(false);
         exitPanel.SetActive(false);
+
         foreach (GameObject parameter in Parameters)
         {
-            parameter.SetActive(false);
+            if (parameter != null)
+            {
+                parameter.SetActive(false);
+            }
         }
+
         foreach (GameObject exitobj in ExitObj)
         {
-            exitobj.SetActive(false);
+            if (exitobj != null)
+            {
+                exitobj.SetActive(false);
+            }
         }
-        foreach (GameObject ttr in TTR)
+
+        foreach (GameObject obj in TTR)
         {
-            ttr.SetActive(false);
+            if (obj != null)
+            {
+                obj.SetActive(false);
+            }
         }
     }
 
 
     private void Update()
     {
-        if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame && !isEscPanelOpen)
+        if (Keyboard.current == null)
+            return;
+
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
-            OpenEscPanel();
-        }
-        else if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame && isEscPanelOpen)
-        {
-            CloseEscPanel();
+            if (!isEscPanelOpen)
+            {
+                OpenEscPanel();
+            }
+            else
+            {
+                CloseEscPanel();
+            }
         }
     }
+
 
     private void OpenEscPanel()
     {
         blocker.SetActive(true);
         escPanel.SetActive(true);
+
         isEscPanelOpen = true;
+
+        // チュートリアルを表示
         ShowPanel(EscPanelIndex.Tutorial);
     }
+
 
     public void CloseEscPanel()
     {
         isEscPanelOpen = false;
+
         blocker.SetActive(false);
         escPanel.SetActive(false);
+
         tutorialButton.SetActive(false);
         soundButton.SetActive(false);
         ExitButton.SetActive(false);
+
         tutorialPanel.SetActive(false);
         soundPanel.SetActive(false);
         exitPanel.SetActive(false);
+
         foreach (GameObject parameter in Parameters)
         {
-            parameter.SetActive(false);
+            if (parameter != null)
+            {
+                parameter.SetActive(false);
+            }
         }
+
         foreach (GameObject exitobj in ExitObj)
         {
-            exitobj.SetActive(false);
+            if (exitobj != null)
+            {
+                exitobj.SetActive(false);
+            }
+        }
+
+        foreach (GameObject obj in TTR)
+        {
+            if (obj != null)
+            {
+                obj.SetActive(false);
+            }
         }
     }
+
 
     public void OnTutorialButton()
     {
         ShowPanel(EscPanelIndex.Tutorial);
     }
 
+
     public void OnSoundButton()
     {
         ShowPanel(EscPanelIndex.Sound);
     }
 
+
     public void OnExitButton()
     {
         ShowPanel(EscPanelIndex.Exit);
     }
+
 
     public void OnMouseEnterButton(int index)
     {
@@ -127,14 +183,21 @@ public class EscUIManager : MonoBehaviour
             return;
 
         if (index == 0)
+        {
             SetButtonPosition(tutorialButton, TouchButtonPosition);
+        }
 
         if (index == 1)
+        {
             SetButtonPosition(soundButton, TouchButtonPosition);
+        }
 
         if (index == 2)
+        {
             SetButtonPosition(ExitButton, TouchButtonPosition);
+        }
     }
+
 
     public void OnMouseExitButton(int index)
     {
@@ -142,14 +205,21 @@ public class EscUIManager : MonoBehaviour
             return;
 
         if (index == 0)
+        {
             SetButtonPosition(tutorialButton, BeforeButtonPosition);
+        }
 
         if (index == 1)
+        {
             SetButtonPosition(soundButton, BeforeButtonPosition);
+        }
 
         if (index == 2)
+        {
             SetButtonPosition(ExitButton, BeforeButtonPosition);
+        }
     }
+
 
     private void ShowPanel(EscPanelIndex index)
     {
@@ -159,67 +229,124 @@ public class EscUIManager : MonoBehaviour
 
         currentPanelIndex = (int)index;
 
+        // いったん全部非表示
         tutorialPanel.SetActive(false);
         soundPanel.SetActive(false);
         exitPanel.SetActive(false);
 
-        SetButtonPosition(tutorialButton, BeforeButtonPosition);
-        SetButtonPosition(soundButton, BeforeButtonPosition);
-        SetButtonPosition(ExitButton, BeforeButtonPosition);
-
         foreach (GameObject parameter in Parameters)
         {
-            parameter.SetActive(false);
+            if (parameter != null)
+            {
+                parameter.SetActive(false);
+            }
         }
 
         foreach (GameObject exitobj in ExitObj)
         {
-            exitobj.SetActive(false);
+            if (exitobj != null)
+            {
+                exitobj.SetActive(false);
+            }
         }
 
-        foreach (GameObject ttr in TTR)
+        foreach (GameObject obj in TTR)
         {
-            ttr.SetActive(false);
+            if (obj != null)
+            {
+                obj.SetActive(false);
+            }
         }
+
+        // ボタンを初期位置に戻す
+        SetButtonPosition(tutorialButton, BeforeButtonPosition);
+        SetButtonPosition(soundButton, BeforeButtonPosition);
+        SetButtonPosition(ExitButton, BeforeButtonPosition);
+
 
         switch (index)
         {
             case EscPanelIndex.Tutorial:
+
                 tutorialPanel.SetActive(true);
-                SetButtonPosition(tutorialButton, AftterButtonPosition);
-                foreach (GameObject ttr in TTR)
+
+                SetButtonPosition(
+                    tutorialButton,
+                    AftterButtonPosition
+                );
+
+                // TTRを表示
+                foreach (GameObject obj in TTR)
                 {
-                    ttr.SetActive(true);
+                    if (obj != null)
+                    {
+                        obj.SetActive(true);
+                    }
                 }
-                ttr.StartTutorial();
+
+                // TTRのStartTutorialを実行
+                if (ttr != null)
+                {
+                    ttr.StartTutorial();
+                }
+
                 break;
 
+
             case EscPanelIndex.Sound:
+
                 soundPanel.SetActive(true);
-                SetButtonPosition(soundButton, AftterButtonPosition);
+
+                SetButtonPosition(
+                    soundButton,
+                    AftterButtonPosition
+                );
 
                 foreach (GameObject parameter in Parameters)
                 {
-                    parameter.SetActive(true);
+                    if (parameter != null)
+                    {
+                        parameter.SetActive(true);
+                    }
                 }
+
                 break;
 
+
             case EscPanelIndex.Exit:
+
                 exitPanel.SetActive(true);
-                SetButtonPosition(ExitButton, AftterButtonPosition);
+
+                SetButtonPosition(
+                    ExitButton,
+                    AftterButtonPosition
+                );
+
                 foreach (GameObject exitobj in ExitObj)
                 {
-                    exitobj.SetActive(true);
+                    if (exitobj != null)
+                    {
+                        exitobj.SetActive(true);
+                    }
                 }
+
                 break;
         }
     }
 
+
     private void SetButtonPosition(GameObject button, int xPosition)
     {
+        if (button == null)
+            return;
+
         RectTransform rect = button.GetComponent<RectTransform>();
 
+        if (rect == null)
+            return;
+
         Vector2 position = rect.anchoredPosition;
+
         position.x = xPosition;
 
         rect.anchoredPosition = position;

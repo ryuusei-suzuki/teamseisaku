@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class BlackCover : MonoBehaviour
 {
@@ -41,6 +42,8 @@ public class BlackCover : MonoBehaviour
         blackRect
             .DOAnchorPosY(endY, moveDuration)
             .SetEase(Ease.InOutCubic);
+
+        SceneManager.LoadScene("GameOver");
     }
 
     // çïÇ¢âÊñ Çâ∫Ç÷ñﬂÇ∑

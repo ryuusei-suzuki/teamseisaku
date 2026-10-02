@@ -151,6 +151,7 @@ public class GameOverTextWriter : MonoBehaviour
         SetPosition(true);
 
         currentIndex = 0;
+        SkillSelectionManager.Instance.ClearSkills();
         ShowGameOverText(currentIndex);
     }
 
