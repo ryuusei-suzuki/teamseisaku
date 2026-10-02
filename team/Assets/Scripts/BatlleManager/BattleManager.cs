@@ -42,6 +42,7 @@ public class BattleManager : MonoBehaviour
     public IReadOnlyList<SkillData> availableSkills;
     public GameObject skillButtonPrefab;
     public Transform skillButtonParent;
+    public BlackCover blackCover;
     private Dictionary<SkillData, int> skillAP = new Dictionary<SkillData, int>();
     private List<BattleSkillButton> skillButtons = new List<BattleSkillButton>();
     private Sprite playerIdleSprite;
@@ -394,7 +395,8 @@ public class BattleManager : MonoBehaviour
         {
             currentState = BattleState.Lose;
             AddLog("”s–k...");
-            restartButton.SetActive(true);
+
+            blackCover.ShowBlackCover();
             return;
         }
 

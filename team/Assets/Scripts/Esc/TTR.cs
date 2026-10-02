@@ -18,7 +18,8 @@ public class TTR : MonoBehaviour
 
     public bool IsTutorialFinished { get; private set; }
 
-    void Start()
+    //void Start()
+        private void Awake()
     {
         IsTutorialFinished = false;
         Blocker.SetActive(false);
