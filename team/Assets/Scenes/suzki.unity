@@ -323,6 +323,7 @@ MonoBehaviour:
   restartButton: {fileID: 296548507}
   skillButtonPrefab: {fileID: 1593316635321440543, guid: 68f26069fae4e78478bebef4ba4d5b7d, type: 3}
   skillButtonParent: {fileID: 980195150}
+  blackCover: {fileID: 0}
 --- !u!4 &231561867
 Transform:
   m_ObjectHideFlags: 0
@@ -2143,6 +2144,73 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1550198517}
   m_CullTransparentMesh: 1
+--- !u!1 &1581905920
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1581905922}
+  - component: {fileID: 1581905921}
+  - component: {fileID: 1581905923}
+  m_Layer: 0
+  m_Name: ParticlesystemManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1581905921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1581905920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6e01723df13776449db58a20926ab05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ParticleEffect
+  particles:
+  - {fileID: 7748174654665023762, guid: 125bbcc4fb1dfb947ba8b9f196293d82, type: 3}
+  - {fileID: 478200147176133191, guid: 33b42374077982a438aec3e1d34e7125, type: 3}
+  - {fileID: 4859332853317981254, guid: a4f0d79159a739d4891625f48077eb36, type: 3}
+  - {fileID: 6989427999890271992, guid: f29cdde49991b804585359a0b05a6159, type: 3}
+--- !u!4 &1581905922
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1581905920}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1581905923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1581905920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e572a2549a136f944b08949cd0a9cd47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Spown
+  effectPrefab: {fileID: 1581905921}
+  fireball: {fileID: 8300000, guid: 43ea453a93437014d91b5a8a35c27afd, type: 3}
+  rain: {fileID: 8300000, guid: bdce38595f17e0841ae24793f69845dd, type: 3}
+  wind: {fileID: 8300000, guid: cab25cf6a876ddc41bd15e63fab72eb8, type: 3}
+  heel: {fileID: 8300000, guid: dc9b1b8223f8c6342bca3213db3e3966, type: 3}
 --- !u!1 &1683502619
 GameObject:
   m_ObjectHideFlags: 0
@@ -2700,3 +2768,4 @@ SceneRoots:
   - {fileID: 318917847}
   - {fileID: 1455480659}
   - {fileID: 1683502621}
+  - {fileID: 1581905922}
