@@ -1784,20 +1784,20 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1c594a6ccdf0e8a418a7f677bec91b95, type: 2}
   skillButtonPrefab: {fileID: 1593316635321440543, guid: 68f26069fae4e78478bebef4ba4d5b7d, type: 3}
   skillButtonParent: {fileID: 1591929888}
-  playerSpriteRenderer: {fileID: 0}
-  playerCloseAttackSprite: {fileID: 0}
-  playerLongAttackSprite: {fileID: 0}
-  enemyIdleSprite: {fileID: 0}
-  enemyIdleSprite2: {fileID: 0}
-  enemyAttackSprite: {fileID: 0}
-  enemyAttackSprite2: {fileID: 0}
+  playerSpriteRenderer: {fileID: 1778289293}
+  playerCloseAttackSprite: {fileID: -2055877082121754722, guid: 1fbc7e2bf43296c46895a7580f551497, type: 3}
+  playerLongAttackSprite: {fileID: -7636517050695650545, guid: 14c13054e275198479fade297d75dea5, type: 3}
+  enemyIdleSprite: {fileID: 3594445353921340965, guid: abf07f4e6debc374590a979597da6cd0, type: 3}
+  enemyIdleSprite2: {fileID: 2452416082818317041, guid: 719e97d32971761439fcdce58948d270, type: 3}
+  enemyAttackSprite: {fileID: 21300000, guid: ec66244069f30c94dadd322211ad2cdb, type: 3}
+  enemyAttackSprite2: {fileID: -1136236550584383175, guid: fa1efa56c61703640a4320617daaa137, type: 3}
   playerHpText: {fileID: 1439588697}
   enemyHpText: {fileID: 1545737540}
   logText: {fileID: 844961738}
-  playerActionText: {fileID: 0}
-  enemyActionText: {fileID: 0}
-  playerActionBox: {fileID: 0}
-  enemyActionBox: {fileID: 0}
+  playerActionText: {fileID: 5000000011}
+  enemyActionText: {fileID: 5000000023}
+  playerActionBox: {fileID: 5000000001}
+  enemyActionBox: {fileID: 5000000013}
   nextSceneName: Skill selection
   autoStart: 0
 --- !u!4 &1300456466
