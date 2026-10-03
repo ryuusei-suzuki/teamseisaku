@@ -46,8 +46,8 @@ public class TitleUIManager : MonoBehaviour
     public void HideOption()
     {
         TitleSound.OnClick();
-        Blocker.SetActive(false);
         volumeBoard.Hide();
+        Blocker.SetActive(false);
 
     }
 

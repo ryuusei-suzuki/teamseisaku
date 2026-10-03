@@ -11,6 +11,7 @@ public class EXITWindow : MonoBehaviour
     [SerializeField] private float startOffset = 500f;
     [SerializeField] private float speed = 500f;
     [SerializeField] private TitleUIManager titleuimanager;
+    [SerializeField] private GameObject blocker;
     private bool isSliding = false;
     private bool hide = false;
 
@@ -20,10 +21,12 @@ public class EXITWindow : MonoBehaviour
 
         // 本来の位置を保存
         initPosition = rect.anchoredPosition;
+        blocker.SetActive(false);
     }
 
     public void Show()
     {
+        blocker.SetActive(true);
         // 画面の下から開始
         rect.anchoredPosition = initPosition + Vector2.down * startOffset;
         //真ん中を目標にする
@@ -41,6 +44,8 @@ public class EXITWindow : MonoBehaviour
         targetPosition = initPosition + Vector2.down * startOffset;
         hide = true;
         isSliding = true;
+        blocker.SetActive(false);
+
 
     }
     private void Update()

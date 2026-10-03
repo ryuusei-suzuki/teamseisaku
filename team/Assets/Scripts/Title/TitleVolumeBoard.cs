@@ -23,8 +23,9 @@ public class TitleVolumeBoard : MonoBehaviour
     private bool isFalling = false;
     private bool isSwinging = false;
     private bool isHiding = false;
-
+    public bool OKclick = true;
     private float swingTime = 0f;
+   // [SerializeField] private GameObject blocker;
 
     private void Awake()
     {
@@ -34,7 +35,7 @@ public class TitleVolumeBoard : MonoBehaviour
         }
 
         rect = GetComponent<RectTransform>();
-
+       // blocker.SetActive(false);
         //à íuÇï€ë∂
         targetPosition = rect.anchoredPosition;
     }
@@ -42,6 +43,9 @@ public class TitleVolumeBoard : MonoBehaviour
 
     public void Show()
     {
+
+        OKclick = false;
+        //blocker.SetActive(true);
         // âÊñ è„Ç©ÇÁäJén
         rect.anchoredPosition = targetPosition + Vector2.up * 800f;
 
@@ -115,6 +119,8 @@ public class TitleVolumeBoard : MonoBehaviour
             {
                 isHiding = false;
                 TitleUIManager.BackHome();
+                OKclick = true;
+                //blocker.SetActive(false);
             }
         }
     }
