@@ -598,7 +598,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -1.4064941, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -2630,7 +2630,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8451315303641504970, guid: 8947f8ceee56d9943b91d1e988b010ef, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 200
+      value: 314.5287
       objectReference: {fileID: 0}
     - target: {fileID: 8451315303641504970, guid: 8947f8ceee56d9943b91d1e988b010ef, type: 3}
       propertyPath: m_SizeDelta.y
@@ -2666,7 +2666,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8451315303641504970, guid: 8947f8ceee56d9943b91d1e988b010ef, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -566
+      value: -515.91
       objectReference: {fileID: 0}
     - target: {fileID: 8451315303641504970, guid: 8947f8ceee56d9943b91d1e988b010ef, type: 3}
       propertyPath: m_AnchoredPosition.y
