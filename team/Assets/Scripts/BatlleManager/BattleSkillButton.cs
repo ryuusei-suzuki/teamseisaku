@@ -35,7 +35,11 @@ public class BattleSkillButton : MonoBehaviour
 
     private void OnClick()
     {
-        onSelect?.Invoke(skillData);
+        if (skillData != null && skillData.skillSE != null)
+        {
+            AudioManager.Instance.PlaySE(skillData.skillSE);
+        }
+        onSelect?.Invoke(skillData); 
     }
 
     public SkillData GetSkillData()
