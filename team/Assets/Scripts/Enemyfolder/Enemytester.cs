@@ -22,6 +22,10 @@ public class Enemytester : MonoBehaviour
     [SerializeField] private List<string> debugPP = new();
     public SpriteRenderer spriteRenderer;
 
+    [Header("攻撃時のSE/エフェクト")]
+    public GameObject attackEffectPrefab;
+    public float attackEffectLifetime = 2f;
+
     private Sprite idleSprite;
     private Sprite attackSprite;
 
@@ -125,8 +129,8 @@ public class Enemytester : MonoBehaviour
         }
     }
 
-    // 攻撃時に攻撃ポーズの画像に切り替える
-    public void ShowAttackPose()
+    // 攻撃時に攻撃ポーズの画像に切り替える(skillを渡すと画像切り替えと同時にSE/エフェクトも再生する)
+    public void ShowAttackPose(EnemySkillData skill = null)
     {
         StopPoseAnimation();
 
@@ -138,6 +142,24 @@ public class Enemytester : MonoBehaviour
         if (attackSprite2 != null)
         {
             poseAnimCoroutine = StartCoroutine(AnimatePose(attackSprite, attackSprite2, loop: false));
+        }
+
+        PlayAttackSEAndEffect(skill);
+    }
+
+    // 画像切り替えと同時にSEとエフェクトを再生する
+    private void PlayAttackSEAndEffect(EnemySkillData skill)
+    {
+        if (skill != null && skill.skillSE != null && AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySE(skill.skillSE);
+        }
+
+        if (attackEffectPrefab != null)
+        {
+            Vector3 spawnPos = spriteRenderer != null ? spriteRenderer.transform.position : transform.position;
+            GameObject effect = Instantiate(attackEffectPrefab, spawnPos, Quaternion.identity);
+            Destroy(effect, attackEffectLifetime);
         }
     }
 
@@ -217,6 +239,13 @@ public class Enemytester : MonoBehaviour
     {
         Debug.Log(enemyData.EnemyName + " を倒した！");
         Destroy(gameObject);
+    }
+
+    // ヒールスキル用(固定量回復、最大HPを超えない)
+    public void HealSelf(int amount)
+    {
+        NowEnemyHP = Mathf.Min(MaxEnemyHP, NowEnemyHP + amount);
+        Debug.Log($"{enemyData.EnemyName} は回復した！ 残りHP:{NowEnemyHP}/{MaxEnemyHP}");
     }
 
     void AddWeightSkill(List<EnemySkillData> list, EnemySkillData skill, int weight)

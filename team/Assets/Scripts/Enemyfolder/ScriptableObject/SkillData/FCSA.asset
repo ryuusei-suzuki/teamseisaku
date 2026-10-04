@@ -18,3 +18,4 @@ MonoBehaviour:
   Damage: 20
   Preemptive: 0
   skillType: 1
+  skillSE: {fileID: 8300000, guid: 43ea453a93437014d91b5a8a35c27afd, type: 3}
