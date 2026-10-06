@@ -130,7 +130,8 @@ public class Enemytester : MonoBehaviour
     }
 
     // 攻撃時に攻撃ポーズの画像に切り替える(skillを渡すと画像切り替えと同時にSE/エフェクトも再生する)
-    public void ShowAttackPose(EnemySkillData skill = null)
+    // effectTargetPosition: エフェクトを出す位置を指定したい場合(省略時は自分の位置に出す)
+    public void ShowAttackPose(EnemySkillData skill = null, Vector3? effectTargetPosition = null)
     {
         StopPoseAnimation();
 
@@ -144,11 +145,11 @@ public class Enemytester : MonoBehaviour
             poseAnimCoroutine = StartCoroutine(AnimatePose(attackSprite, attackSprite2, loop: false));
         }
 
-        PlayAttackSEAndEffect(skill);
+        PlayAttackSEAndEffect(skill, effectTargetPosition);
     }
 
     // 画像切り替えと同時にSEとエフェクトを再生する
-    private void PlayAttackSEAndEffect(EnemySkillData skill)
+    private void PlayAttackSEAndEffect(EnemySkillData skill, Vector3? effectTargetPosition = null)
     {
         if (skill != null && skill.skillSE != null && AudioManager.Instance != null)
         {
@@ -157,8 +158,9 @@ public class Enemytester : MonoBehaviour
 
         if (attackEffectPrefab != null)
         {
-            Vector3 spawnPos = spriteRenderer != null ? spriteRenderer.transform.position : transform.position;
+            Vector3 spawnPos = effectTargetPosition ?? (spriteRenderer != null ? spriteRenderer.transform.position : transform.position);
             GameObject effect = Instantiate(attackEffectPrefab, spawnPos, Quaternion.identity);
+            if (skill != null) { AttributeColorUtility.ApplyAttributeColor(effect, EnemyConverter.ToAttributeType(skill.skillElement)); }
             Destroy(effect, attackEffectLifetime);
         }
     }

@@ -1,4 +1,4 @@
-﻿﻿using System.Collections;
+﻿﻿﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -296,7 +296,7 @@ public class TrialBattleManager : MonoBehaviour
     {
         if (enemySkill.skillType == SkillType.Heal)
         {
-            enemy.ShowAttackPose();
+            enemy.ShowAttackPose(null, GetPlayerEffectPosition());
             enemy.HealSelf(40);
             AddEnemyActionLog($"敵: {enemySkill.SkillName}！ HPを40回復した");
             UpdateHpUI();
@@ -305,14 +305,14 @@ public class TrialBattleManager : MonoBehaviour
         }
         else if (enemySkill.skillType == SkillType.Guard)
         {
-            enemy.ShowAttackPose();
+            enemy.ShowAttackPose(null, GetPlayerEffectPosition());
             AddEnemyActionLog($"敵: {enemySkill.SkillName}！ 身を守っている");
             yield return StartCoroutine(WaitForClick());
             enemy.ShowIdlePose();
         }
         else
         {
-            enemy.ShowAttackPose();
+            enemy.ShowAttackPose(null, GetPlayerEffectPosition());
             List<AttributeType> playerAttributes = new List<AttributeType> { playerSkill.attribute };
             float damageToPlayer = calculator.CalculateDamage(enemyAttackAttribute, enemyDistance, enemySkill.Damage, playerAttributes, playerSkill.distance, out string enemyEffect);
 
@@ -440,6 +440,12 @@ public class TrialBattleManager : MonoBehaviour
 
         playerSpriteRenderer.sprite = playerIdleSprite;
         playerSpriteRenderer.transform.localScale = playerIdleScale;
+    }
+
+    // 敵のエフェクトを出す位置(プレイヤー側)
+    private Vector3 GetPlayerEffectPosition()
+    {
+        return playerSpriteRenderer != null ? playerSpriteRenderer.transform.position : transform.position;
     }
 
     private void AddLog(string message, bool showClickHint = false)

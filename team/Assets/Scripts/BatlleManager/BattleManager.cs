@@ -361,7 +361,7 @@ public class BattleManager : MonoBehaviour
     {
         if (enemySkill.skillType == SkillType.Heal)
         {
-            enemy.ShowAttackPose(enemySkill);
+            enemy.ShowAttackPose(enemySkill, GetPlayerEffectPosition());
             enemy.HealSelf(40);
             string healMsg = $"敵: {enemySkill.SkillName}！ HPが40回復した";
             Debug.Log(healMsg);
@@ -372,7 +372,7 @@ public class BattleManager : MonoBehaviour
         }
         else if (enemySkill.skillType == SkillType.Guard)
         {
-            enemy.ShowAttackPose(enemySkill);
+            enemy.ShowAttackPose(enemySkill, GetPlayerEffectPosition());
             string guardMsg = $"敵: {enemySkill.SkillName}！ 身を守っている";
             Debug.Log(guardMsg);
             AddEnemyActionLog(guardMsg);
@@ -381,7 +381,7 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            enemy.ShowAttackPose(enemySkill);
+            enemy.ShowAttackPose(enemySkill, GetPlayerEffectPosition());
             List<AttributeType> playerAttributes = new List<AttributeType> { playerSkill.attribute };
             float damageToPlayer = calculator.CalculateDamage(enemyAttackAttribute, enemyDistance, enemySkill.Damage, playerAttributes, playerSkill.distance, out string enemyEffect);
 
@@ -460,7 +460,7 @@ public class BattleManager : MonoBehaviour
         PlayPlayerAttackSEAndEffect();
     }
 
-    // 画像切り替えと同時にSEとエフェクトを再生する
+    // 画像切り替えと同時にSEとエフェクトを再生する(エフェクトは敵の位置に出す)
     private void PlayPlayerAttackSEAndEffect()
     {
         if (playerSkill != null && playerSkill.skillSE != null && AudioManager.Instance != null)
@@ -470,10 +470,31 @@ public class BattleManager : MonoBehaviour
 
         if (playerAttackEffectPrefab != null)
         {
-            Vector3 spawnPos = playerSpriteRenderer != null ? playerSpriteRenderer.transform.position : transform.position;
+            Vector3 spawnPos = GetEnemyEffectPosition();
             GameObject effect = Instantiate(playerAttackEffectPrefab, spawnPos, Quaternion.identity);
+            if (playerSkill != null) { AttributeColorUtility.ApplyAttributeColor(effect, playerSkill.attribute); }
             Destroy(effect, playerAttackEffectLifetime);
         }
+    }
+
+    // エフェクトを出す位置(敵側)
+    private Vector3 GetEnemyEffectPosition()
+    {
+        if (enemy != null && enemy.spriteRenderer != null)
+        {
+            return enemy.spriteRenderer.transform.position;
+        }
+        if (enemy != null)
+        {
+            return enemy.transform.position;
+        }
+        return transform.position;
+    }
+
+    // エフェクトを出す位置(プレイヤー側)
+    private Vector3 GetPlayerEffectPosition()
+    {
+        return playerSpriteRenderer != null ? playerSpriteRenderer.transform.position : transform.position;
     }
 
     // 通常の画像に戻す

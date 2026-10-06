@@ -21,6 +21,7 @@ public class BattleSkillButton : MonoBehaviour
         if (label != null)
         {
             label.text = skill.SkillName;
+            label.color = AttributeColorUtility.GetColor(skill.attribute);
         }
 
         if (iconImage != null && skill.iconImage != null)
@@ -55,4 +56,5 @@ public class BattleSkillButton : MonoBehaviour
             button.interactable = interactable;
         }
     }
+
 }
