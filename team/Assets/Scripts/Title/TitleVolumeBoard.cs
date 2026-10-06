@@ -25,7 +25,7 @@ public class TitleVolumeBoard : MonoBehaviour
     private bool isHiding = false;
     public bool OKclick = true;
     private float swingTime = 0f;
-   // [SerializeField] private GameObject blocker;
+    [SerializeField] private GameObject blocker;
 
     private void Awake()
     {
@@ -35,7 +35,7 @@ public class TitleVolumeBoard : MonoBehaviour
         }
 
         rect = GetComponent<RectTransform>();
-       // blocker.SetActive(false);
+        blocker.SetActive(false);
         //à íuÇï€ë∂
         targetPosition = rect.anchoredPosition;
     }
@@ -45,7 +45,7 @@ public class TitleVolumeBoard : MonoBehaviour
     {
 
         OKclick = false;
-        //blocker.SetActive(true);
+        blocker.SetActive(true);
         // âÊñ è„Ç©ÇÁäJén
         rect.anchoredPosition = targetPosition + Vector2.up * 800f;
 
@@ -69,7 +69,10 @@ public class TitleVolumeBoard : MonoBehaviour
 
         foreach (GameObject obj in AudioUI)
         {
-            obj.SetActive(false);
+            if (obj != null)
+            {
+                obj.SetActive(false);
+            }
         }
 
         isHiding = true;
@@ -80,16 +83,24 @@ public class TitleVolumeBoard : MonoBehaviour
         // óéâ∫
         if (isFalling)
         {
-            rect.anchoredPosition = Vector2.MoveTowards(rect.anchoredPosition,targetPosition,fallSpeed * Time.deltaTime);
-            // ìûíÖ
+            rect.anchoredPosition = Vector2.MoveTowards(
+                rect.anchoredPosition,
+                targetPosition,
+                fallSpeed * Time.deltaTime
+            );
+
             if (rect.anchoredPosition == targetPosition)
             {
                 isFalling = false;
                 isSwinging = true;
                 swingTime = 0f;
+
                 foreach (GameObject obj in AudioUI)
                 {
-                    obj.SetActive(true);
+                    if (obj != null)
+                    {
+                        obj.SetActive(true);
+                    }
                 }
             }
         }
@@ -120,7 +131,7 @@ public class TitleVolumeBoard : MonoBehaviour
                 isHiding = false;
                 TitleUIManager.BackHome();
                 OKclick = true;
-                //blocker.SetActive(false);
+                blocker.SetActive(false);
             }
         }
     }

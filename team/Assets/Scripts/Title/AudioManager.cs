@@ -7,23 +7,17 @@ public class AudioManager : MonoBehaviour
     [Header("AudioSource")]
     [SerializeField] private AudioSource bgmSource;
     [SerializeField] private AudioSource seSource;
-    [SerializeField] private GameObject SEobj;
 
     private void Awake()
     {
-        if (Instance != null)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
-        if (Instance != null)
-        {
-            Destroy(SEobj);
-            return;
-        }
+
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        DontDestroyOnLoad(SEobj);
     }
 
     // BGMçƒê∂

@@ -45,8 +45,6 @@ public class EXITWindow : MonoBehaviour
         hide = true;
         isSliding = true;
         blocker.SetActive(false);
-
-
     }
     private void Update()
     {
@@ -61,6 +59,7 @@ public class EXITWindow : MonoBehaviour
             isSliding = false;
             titleuimanager.BackHome();
             hide = false;
+
         }
         else if (rect.anchoredPosition == initPosition)
         {

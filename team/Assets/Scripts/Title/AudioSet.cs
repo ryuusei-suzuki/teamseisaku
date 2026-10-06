@@ -1,46 +1,64 @@
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.UI;
 
 public class AudioSet : MonoBehaviour
 {
-    [SerializeField] AudioMixer audioMixer;
+    public static AudioSet Instance { get; private set; }
 
-    [Header("スライダー")]
-    [SerializeField] Slider MasterSlider;
-    [SerializeField] Slider BGMSlider;
-    [SerializeField] Slider SESlider;
+    [SerializeField] private AudioMixer audioMixer;
 
-    private void Start()
+    // ★ Sceneをまたいで保存する音量
+    public float MasterVolume { get; private set; }
+    public float BGMVolume { get; private set; }
+    public float SEVolume { get; private set; }
+
+
+    private void Awake()
     {
-        // 初期音量を設定
-        SetInitialVolume("Master", MasterSlider, 5f);
-        SetInitialVolume("BGM", BGMSlider, 5f);
-        SetInitialVolume("SE", SESlider, 0f);
+        // ★ シングルトン
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+
+        // ★ Sceneが変わっても残す
+        DontDestroyOnLoad(gameObject);
+
+        // 初期値
+        MasterVolume = -20f;
+        BGMVolume = -20f;
+        SEVolume = -20f;
+
+        // AudioMixerに反映
+        audioMixer.SetFloat("Master", MasterVolume);
+        audioMixer.SetFloat("BGM", BGMVolume);
+        audioMixer.SetFloat("SE", SEVolume);
     }
 
-    private void SetInitialVolume(string parameter, Slider slider, float volume)
-    {
-        // スライダーの位置を設定
-        slider.SetValueWithoutNotify(volume);
 
-        // AudioMixerの音量を設定
-        audioMixer.SetFloat(parameter, volume);
-    }
-
+    // Master
     public void SetMaster(float volume)
     {
-        Debug.Log("Master Volume : " + volume);
+        MasterVolume = volume;
         audioMixer.SetFloat("Master", volume);
-
     }
+
+
+    // BGM
     public void SetBGM(float volume)
     {
+        BGMVolume = volume;
         audioMixer.SetFloat("BGM", volume);
     }
 
+
+    // SE
     public void SetSE(float volume)
     {
+        SEVolume = volume;
         audioMixer.SetFloat("SE", volume);
     }
 }
