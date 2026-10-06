@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 // 試練の間(TTR)専用の簡易バトルループ。
 // 固定5種スキル・敵1体のみを想定していて、BattleManagerのボス連戦/AP管理は持たない。
@@ -46,6 +47,8 @@ public class TrialBattleManager : MonoBehaviour
     public TextMeshProUGUI logText;
     public TextMeshProUGUI playerActionText;
     public TextMeshProUGUI enemyActionText;
+    public Image playerSkillIconImage;
+    public Image enemySkillIconImage;
     public GameObject playerActionBox;
     public GameObject enemyActionBox;
 
@@ -178,9 +181,28 @@ public class TrialBattleManager : MonoBehaviour
 
         EnemySkillData enemySkill = enemy.UseSkillForBattle();
 
+        // 今何が起こっているか分かりやすくするため、選択されたスキルのアイコンを画面中央(プレイヤー/敵の間)に即時表示する
+        if (playerSkillIconImage != null && playerSkill != null && playerSkill.iconImage != null)
+        {
+            playerSkillIconImage.sprite = playerSkill.iconImage;
+            playerSkillIconImage.gameObject.SetActive(true);
+        }
+        if (enemySkillIconImage != null)
+        {
+            if (enemySkill != null && enemySkill.icon != null)
+            {
+                enemySkillIconImage.sprite = enemySkill.icon;
+                enemySkillIconImage.gameObject.SetActive(true);
+            }
+            else
+            {
+                enemySkillIconImage.gameObject.SetActive(false);
+            }
+        }
+
         DamageCalculator calculator = new DamageCalculator();
         calculator.arribute = arribute;
-        List<AttributeType> enemyAttributes = GetEnemyAttributes();
+        List<AttributeType> enemyAttributes = GetEnemyAttributes(enemySkill);
 
         if (enemySkill == null)
         {
@@ -353,17 +375,17 @@ public class TrialBattleManager : MonoBehaviour
         UpdateHpUI();
     }
 
-    private List<AttributeType> GetEnemyAttributes()
+    // 「技を使ったらその属性になる」という仕様を敵の防御側にも適用する。
+    // プレイヤーの攻撃を受ける時も、敵がこのターンに選んだ技の属性で効果判定する
+    // (敵の攻撃を受ける時のenemyAttackAttributeと同じ考え方)。
+    // enemySkillがnull(PP切れで技を出せなかった)の時だけ、敵の主属性にフォールバックする。
+    private List<AttributeType> GetEnemyAttributes(EnemySkillData enemySkill)
     {
-        List<AttributeType> list = new List<AttributeType>
-        {
-            EnemyConverter.ToAttributeType(enemy.MainEnemyElement)
-        };
-        if (enemy.SubEnemyElement != EnemyElement.None)
-        {
-            list.Add(EnemyConverter.ToAttributeType(enemy.SubEnemyElement));
-        }
-        return list;
+        AttributeType attribute = enemySkill != null
+            ? EnemyConverter.ToAttributeType(enemySkill.skillElement)
+            : EnemyConverter.ToAttributeType(enemy.MainEnemyElement);
+
+        return new List<AttributeType> { attribute };
     }
 
     // 敵を倒していたら(pendingEnemyDefeat)、ログを出してから次のシーンへ遷移する
