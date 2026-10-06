@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public enum EscPanelIndex
 {
@@ -34,6 +35,11 @@ public class EscUIManager : MonoBehaviour
 
     [Header("サウンド設定")]
     [SerializeField] private GameObject[] Parameters;
+
+    [Header("音量Slider")]
+    [SerializeField] private Slider masterSlider;
+    [SerializeField] private Slider bgmSlider;
+    [SerializeField] private Slider seSlider;
 
     [Header("終了確認")]
     [SerializeField] private GameObject[] ExitObj;
@@ -86,7 +92,13 @@ public class EscUIManager : MonoBehaviour
         }
     }
 
-
+    private void Start()
+    {
+        // AudioSetに保存されている値をSliderに反映
+        masterSlider.SetValueWithoutNotify(AudioSet.Instance.MasterVolume);
+        bgmSlider.SetValueWithoutNotify(AudioSet.Instance.BGMVolume);
+        seSlider.SetValueWithoutNotify(AudioSet.Instance.SEVolume);
+    }
     private void Update()
     {
         if (Keyboard.current == null)
@@ -104,8 +116,20 @@ public class EscUIManager : MonoBehaviour
             }
         }
     }
+    public void SetMaster(float value)
+    {
+        AudioSet.Instance.SetMaster(value);
+    }
 
+    public void SetBGM(float value)
+    {
+        AudioSet.Instance.SetBGM(value);
+    }
 
+    public void SetSE(float value)
+    {
+        AudioSet.Instance.SetSE(value);
+    }
     private void OpenEscPanel()
     {
         blocker.SetActive(true);

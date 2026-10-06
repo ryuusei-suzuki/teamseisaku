@@ -37,7 +37,9 @@ public class TextWriter : MonoBehaviour
         tutorialPanel.StartTutorial();
 
         yield return new WaitUntil(() => tutorialPanel.IsTutorialFinished);
-
+        uitext.DrawText("「ルールはわかりましたか？ESCを押すといつでもルールが見れますよ」");
+        yield return StartCoroutine("Skip");
+        uitext.DrawText("「ではバトルスタート!」");
         if (trialBattleManager != null)
         {
             trialBattleManager.StartBattle();

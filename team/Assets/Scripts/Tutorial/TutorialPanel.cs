@@ -20,6 +20,7 @@ public class TutorialPanel : MonoBehaviour
     [SerializeField] private GameObject readyButton;
     [SerializeField] private GameObject Blocker;
     [SerializeField] private GameObject image;
+    [SerializeField] private GameObject texbox;
     public bool IsTutorialFinished { get; private set; }
 
     void Start()
@@ -30,6 +31,7 @@ public class TutorialPanel : MonoBehaviour
         nextButton.SetActive(false);
         readyButton.SetActive(false);
         image.SetActive(false);
+
     }
 
     private int currentIndex = 0;
@@ -41,19 +43,19 @@ public class TutorialPanel : MonoBehaviour
         ShowTutorial(0);
         nextButton.SetActive(true);
         image.SetActive(true);
+        texbox.SetActive(false);
     }
 
     private void ShowTutorial(int index)
     {
         tutorialImage.sprite = tutorials[index].image;
-        uiText.DrawText(tutorials[index].text);
+        //uiText.DrawText(tutorials[index].text);
     }
 
 
     public void NextTutorial()
     {
-        if (uiText.playing)
-            return;
+
         currentIndex++;
         ShowTutorial(currentIndex);
         backButton.SetActive(true);
@@ -67,8 +69,7 @@ public class TutorialPanel : MonoBehaviour
 
     public void BackTutorial()
     {
-        if (uiText.playing)
-            return;
+
         if (currentIndex <= 0)
             return;
         currentIndex--;
@@ -94,7 +95,7 @@ public class TutorialPanel : MonoBehaviour
         
         IsTutorialFinished = true;
         image.SetActive(false);
-
+        texbox.SetActive(true);
     }
 
 }

@@ -13,10 +13,11 @@ public class TitleUIManager : MonoBehaviour
     [Header("終了確認画面")]
     [SerializeField] private GameObject exitPanel;
     [SerializeField] private EXITWindow exitwindow;
-    [SerializeField] private GameObject Blocker;
+
 
     [Header("サウンド")]
     [SerializeField] private TitleSound TitleSound;
+    public bool isOptionVisible = false;
 
     private void Start()
     {
@@ -29,37 +30,42 @@ public class TitleUIManager : MonoBehaviour
         mainMenu.SetActive(true);
         optionPanel.SetActive(false);
         exitPanel.SetActive(false);
-        Blocker.SetActive(false);
+        isOptionVisible = false;
     }
 
     // オプションを表示
     public void ShowOption()
     {
+        if (isOptionVisible)
+            return;
         TitleSound.OnClick();
         mainMenu.SetActive(false);
         optionPanel.SetActive(true);
         exitPanel.SetActive(false);
-        Blocker.SetActive(true);
+
         volumeBoard.Show();
+        isOptionVisible = true;
     }
 
     public void HideOption()
     {
         TitleSound.OnClick();
         volumeBoard.Hide();
-        Blocker.SetActive(false);
 
     }
 
     // 終了確認を表示
     public void ShowExit()
     {
+        if (isOptionVisible)
+            return;
         TitleSound.OnClick();
         mainMenu.SetActive(false);
         optionPanel.SetActive(false);
         exitPanel.SetActive(true);
 
         exitwindow.Show();
+        isOptionVisible = true;
 
     }
 
@@ -75,6 +81,7 @@ public class TitleUIManager : MonoBehaviour
         mainMenu.SetActive(false);
         optionPanel.SetActive(false);
         exitPanel.SetActive(false);
+        isOptionVisible = false;
     }
     //一旦これ
 }
