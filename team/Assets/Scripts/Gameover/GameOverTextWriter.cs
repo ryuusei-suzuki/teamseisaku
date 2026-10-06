@@ -34,6 +34,10 @@ public class GameOverTextWriter : MonoBehaviour
     [Header("スタート表示")]
     [SerializeField] private float fadeDuration = 2.0f;
 
+    [Header("ボタンの拡大設定")]
+    [SerializeField] private float hoverScale = 1.2f;
+    [SerializeField] private float hoverDuration = 0.2f;
+
     private RectTransform gameOverRect;
     private CanvasGroup canvasGroup;
 
@@ -151,7 +155,6 @@ public class GameOverTextWriter : MonoBehaviour
         SetPosition(true);
 
         currentIndex = 0;
-        SkillSelectionManager.Instance.ClearSkills();
         ShowGameOverText(currentIndex);
     }
 
@@ -183,5 +186,19 @@ public class GameOverTextWriter : MonoBehaviour
         SetPosition(true);
 
         text.SetActive(false);
+    }
+
+    public void ButtonPointerEnter(GameObject button)
+    {
+        button.transform.DOKill();
+
+        button.transform.DOScale(hoverScale, hoverDuration).SetEase(Ease.OutCubic);
+    }
+
+    public void ButtonPointerExit(GameObject button)
+    {
+        button.transform.DOKill();
+
+        button.transform.DOScale(5f, hoverDuration).SetEase(Ease.OutCubic);
     }
 }

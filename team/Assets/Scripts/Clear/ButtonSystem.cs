@@ -1,15 +1,16 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameOver : MonoBehaviour
+public class ButtonSystem : MonoBehaviour
 {
     public void GotoTitle()
     {
         SkillSelectionManager.Instance.ClearSkills();
         SceneManager.LoadScene("TitleScene");
     }
-    public void GotoRetry()
+    public void GotoSkillSelection()
     {
-        SceneManager.LoadScene("suzki");
+        SkillSelectionManager.Instance.ClearSkills();
+        SceneManager.LoadScene("Skill selection");
     }
 }
