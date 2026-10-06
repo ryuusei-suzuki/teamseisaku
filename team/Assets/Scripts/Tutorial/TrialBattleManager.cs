@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿﻿﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -159,6 +159,18 @@ public class TrialBattleManager : MonoBehaviour
         }
     }
 
+    // プレイヤーのヒール処理(固定回復量)
+    private void HealPlayerFlat(int amount)
+    {
+        playerHp = Mathf.Min(maxPlayerHp, playerHp + amount);
+    }
+
+    // Guard/Heal など、必ず先制になる技かどうか
+    private bool IsPreemptiveSkill(SkillType skillType)
+    {
+        return skillType == SkillType.Guard || skillType == SkillType.Heal;
+    }
+
     private IEnumerator ExecuteTurn(SkillData playerSkill)
     {
         isProcessingTurn = true;
@@ -166,15 +178,17 @@ public class TrialBattleManager : MonoBehaviour
 
         EnemySkillData enemySkill = enemy.UseSkillForBattle();
 
+        DamageCalculator calculator = new DamageCalculator();
+        calculator.arribute = arribute;
+        List<AttributeType> enemyAttributes = GetEnemyAttributes();
+
         if (enemySkill == null)
         {
             AddLog("敵は技を出せなかった(PP切れ)", true);
             yield return StartCoroutine(WaitForClick());
 
-            ShowPlayerAttackPose(playerSkill.distance);
-            AttackEnemyOnly(playerSkill);
-            yield return StartCoroutine(WaitForClick());
-            ShowPlayerIdlePose();
+            DistanceType fallbackEnemyDistance = EnemyConverter.ToDistanceType(SkillType.CloseWeak);
+            yield return StartCoroutine(ExecutePlayerAction(playerSkill, calculator, enemyAttributes, fallbackEnemyDistance));
 
             isProcessingTurn = false;
             if (!pendingEnemyDefeat)
@@ -187,56 +201,45 @@ public class TrialBattleManager : MonoBehaviour
 
         DistanceType enemyDistance = EnemyConverter.ToDistanceType(enemySkill.skillType);
         AttributeType enemyAttackAttribute = EnemyConverter.ToAttributeType(enemySkill.skillElement);
-        List<AttributeType> enemyAttributes = GetEnemyAttributes();
+
+        bool playerIsPreemptive = IsPreemptiveSkill(playerSkill.skillType);
+        bool enemyIsPreemptive = IsPreemptiveSkill(enemySkill.skillType);
 
         TurnOrder turnOrder = new TurnOrder();
-        bool isPlayerFirst = playerSkill.skillType == SkillType.Guard
-            ? true
-            : turnOrder.IsPlayerFirst(playerSkill.distance, enemyDistance);
+        bool isPlayerFirst;
+        if (playerIsPreemptive != enemyIsPreemptive)
+        {
+            // ガード・ヒールは必ず先制
+            isPlayerFirst = playerIsPreemptive;
+        }
+        else
+        {
+            isPlayerFirst = turnOrder.IsPlayerFirst(playerSkill.distance, enemyDistance);
+        }
 
         AddLog(isPlayerFirst ? "プレイヤーが先制した！" : "敵が先制した！", true);
         yield return StartCoroutine(WaitForClick());
 
-        DamageCalculator calculator = new DamageCalculator();
-        calculator.arribute = arribute;
-
         if (isPlayerFirst)
         {
-            ShowPlayerAttackPose(playerSkill.distance);
-            float damageToEnemy = calculator.CalculateDamage(playerSkill, enemyAttributes, enemyDistance, out string playerEffect);
-            ApplyDamageToEnemy(playerSkill, damageToEnemy, playerEffect);
-            yield return StartCoroutine(WaitForClick());
-            ShowPlayerIdlePose();
+            yield return StartCoroutine(ExecutePlayerAction(playerSkill, calculator, enemyAttributes, enemyDistance));
+            bool playerGuarded = playerSkill.skillType == SkillType.Guard;
 
             // 直前の攻撃で倒していなければ、敵の反撃を処理する
             if (!pendingEnemyDefeat)
             {
-                enemy.ShowAttackPose();
-                List<AttributeType> playerAttributes = new List<AttributeType> { playerSkill.attribute };
-                float damageToPlayer = calculator.CalculateDamage(enemyAttackAttribute, enemyDistance, enemySkill.Damage, playerAttributes, playerSkill.distance, out string enemyEffect);
-                playerHp = Mathf.Max(0, playerHp - (int)damageToPlayer);
-                AddEnemyActionLog($"敵: {enemySkill.SkillName}！ {(int)damageToPlayer}ダメージ \n{enemyEffect}");
-                UpdateHpUI();
-                yield return StartCoroutine(WaitForClick());
-                enemy.ShowIdlePose();
+                yield return StartCoroutine(ExecuteEnemyAction(playerSkill, enemySkill, calculator, enemyAttackAttribute, enemyDistance, playerGuarded));
             }
         }
         else
         {
-            enemy.ShowAttackPose();
-            List<AttributeType> playerAttributesForEnemyAttack = new List<AttributeType> { playerSkill.attribute };
-            float damageToPlayer = calculator.CalculateDamage(enemyAttackAttribute, enemyDistance, enemySkill.Damage, playerAttributesForEnemyAttack, playerSkill.distance, out string enemyEffect);
-            playerHp = Mathf.Max(0, playerHp - (int)damageToPlayer);
-            AddEnemyActionLog($"敵: {enemySkill.SkillName}！ {(int)damageToPlayer}ダメージ \n{enemyEffect}");
-            UpdateHpUI();
-            yield return StartCoroutine(WaitForClick());
-            enemy.ShowIdlePose();
+            yield return StartCoroutine(ExecuteEnemyAction(playerSkill, enemySkill, calculator, enemyAttackAttribute, enemyDistance, false));
+            bool enemyGuarded = enemySkill.skillType == SkillType.Guard;
 
-            ShowPlayerAttackPose(playerSkill.distance);
-            float damageToEnemy = calculator.CalculateDamage(playerSkill, enemyAttributes, enemyDistance, out string playerEffect);
-            ApplyDamageToEnemy(playerSkill, damageToEnemy, playerEffect);
-            yield return StartCoroutine(WaitForClick());
-            ShowPlayerIdlePose();
+            if (playerHp > 0)
+            {
+                yield return StartCoroutine(ExecutePlayerAction(playerSkill, calculator, enemyAttributes, enemyDistance, enemyGuarded));
+            }
         }
 
         isProcessingTurn = false;
@@ -247,16 +250,86 @@ public class TrialBattleManager : MonoBehaviour
         CheckEnemyDefeated();
     }
 
-    private void AttackEnemyOnly(SkillData playerSkill)
+    // プレイヤーの行動を実行する(通常攻撃/ガード/ヒール)
+    // blockedByEnemyGuard: 敵が直前にガードしていて、プレイヤーの攻撃が防がれた場合にtrue
+    private IEnumerator ExecutePlayerAction(SkillData playerSkill, DamageCalculator calculator, List<AttributeType> enemyAttributes, DistanceType enemyDistance, bool blockedByEnemyGuard = false)
     {
-        List<AttributeType> enemyAttributes = GetEnemyAttributes();
-        DistanceType enemyDistance = EnemyConverter.ToDistanceType(SkillType.CloseWeak);
+        if (playerSkill.skillType == SkillType.Heal)
+        {
+            ShowPlayerAttackPose(playerSkill.distance);
+            HealPlayerFlat(40);
+            AddPlayerActionLog($"プレイヤー: {playerSkill.SkillName}！ HPを40回復した");
+            UpdateHpUI();
+            yield return StartCoroutine(WaitForClick());
+            ShowPlayerIdlePose();
+        }
+        else if (playerSkill.skillType == SkillType.Guard)
+        {
+            ShowPlayerAttackPose(playerSkill.distance);
+            AddPlayerActionLog($"プレイヤー: {playerSkill.SkillName}！ 身を守っている");
+            yield return StartCoroutine(WaitForClick());
+            ShowPlayerIdlePose();
+        }
+        else
+        {
+            ShowPlayerAttackPose(playerSkill.distance);
+            float damageToEnemy = calculator.CalculateDamage(playerSkill, enemyAttributes, enemyDistance, out string playerEffect);
 
-        DamageCalculator calculator = new DamageCalculator();
-        calculator.arribute = arribute;
+            if (blockedByEnemyGuard)
+            {
+                AddPlayerActionLog($"プレイヤー: {playerSkill.SkillName}！ しかし敵がガードした！ 0ダメージ");
+                UpdateHpUI();
+            }
+            else
+            {
+                ApplyDamageToEnemy(playerSkill, damageToEnemy, playerEffect);
+            }
 
-        float damageToEnemy = calculator.CalculateDamage(playerSkill, enemyAttributes, enemyDistance, out string effect);
-        ApplyDamageToEnemy(playerSkill, damageToEnemy, effect);
+            yield return StartCoroutine(WaitForClick());
+            ShowPlayerIdlePose();
+        }
+    }
+
+    // 敵の行動を実行する(通常攻撃/ガード/ヒール)
+    // blockedByPlayerGuard: プレイヤーが直前にガードしていて、敵の攻撃が防がれた場合にtrue
+    private IEnumerator ExecuteEnemyAction(SkillData playerSkill, EnemySkillData enemySkill, DamageCalculator calculator, AttributeType enemyAttackAttribute, DistanceType enemyDistance, bool blockedByPlayerGuard = false)
+    {
+        if (enemySkill.skillType == SkillType.Heal)
+        {
+            enemy.ShowAttackPose(null, GetPlayerEffectPosition());
+            enemy.HealSelf(40);
+            AddEnemyActionLog($"敵: {enemySkill.SkillName}！ HPを40回復した");
+            UpdateHpUI();
+            yield return StartCoroutine(WaitForClick());
+            enemy.ShowIdlePose();
+        }
+        else if (enemySkill.skillType == SkillType.Guard)
+        {
+            enemy.ShowAttackPose(null, GetPlayerEffectPosition());
+            AddEnemyActionLog($"敵: {enemySkill.SkillName}！ 身を守っている");
+            yield return StartCoroutine(WaitForClick());
+            enemy.ShowIdlePose();
+        }
+        else
+        {
+            enemy.ShowAttackPose(null, GetPlayerEffectPosition());
+            List<AttributeType> playerAttributes = new List<AttributeType> { playerSkill.attribute };
+            float damageToPlayer = calculator.CalculateDamage(enemyAttackAttribute, enemyDistance, enemySkill.Damage, playerAttributes, playerSkill.distance, out string enemyEffect);
+
+            if (blockedByPlayerGuard)
+            {
+                AddEnemyActionLog($"敵: {enemySkill.SkillName}！ しかしプレイヤーがガードした！ 0ダメージ");
+            }
+            else
+            {
+                playerHp = Mathf.Max(0, playerHp - (int)damageToPlayer);
+                AddEnemyActionLog($"敵: {enemySkill.SkillName}！ {(int)damageToPlayer}ダメージ \n{enemyEffect}");
+            }
+
+            UpdateHpUI();
+            yield return StartCoroutine(WaitForClick());
+            enemy.ShowIdlePose();
+        }
     }
 
     // 敵にダメージを与える共通処理。
@@ -367,6 +440,12 @@ public class TrialBattleManager : MonoBehaviour
 
         playerSpriteRenderer.sprite = playerIdleSprite;
         playerSpriteRenderer.transform.localScale = playerIdleScale;
+    }
+
+    // 敵のエフェクトを出す位置(プレイヤー側)
+    private Vector3 GetPlayerEffectPosition()
+    {
+        return playerSpriteRenderer != null ? playerSpriteRenderer.transform.position : transform.position;
     }
 
     private void AddLog(string message, bool showClickHint = false)

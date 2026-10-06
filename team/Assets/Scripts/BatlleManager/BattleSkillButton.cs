@@ -21,6 +21,7 @@ public class BattleSkillButton : MonoBehaviour
         if (label != null)
         {
             label.text = skill.SkillName;
+            label.color = AttributeColorUtility.GetColor(skill.attribute);
         }
 
         if (iconImage != null && skill.iconImage != null)
@@ -35,7 +36,7 @@ public class BattleSkillButton : MonoBehaviour
 
     private void OnClick()
     {
-        if (skillData != null && skillData.skillSE != null)
+        if (skillData != null && skillData.skillSE != null && AudioManager.Instance != null)
         {
             AudioManager.Instance.PlaySE(skillData.skillSE);
         }
@@ -55,4 +56,5 @@ public class BattleSkillButton : MonoBehaviour
             button.interactable = interactable;
         }
     }
+
 }

@@ -21,6 +21,7 @@ public class EnemySkillData : ScriptableObject
     public bool Preemptive;
 
     public SkillType skillType;
+    public AudioClip skillSE;
 
 }
 
