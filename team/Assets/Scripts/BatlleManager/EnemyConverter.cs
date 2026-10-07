@@ -14,8 +14,8 @@ public static class EnemyConverter
             case EnemyElement.wind:
                 return AttributeType.Wind;
             default:
-                // EnemyElement.Noneが来た場合の暫定対応。要確認。
-                return AttributeType.Fire;
+                // EnemyElement.None(ガード・ヒールなど無属性技)の場合は等倍(無属性)として扱う
+                return AttributeType.none;
         }
     }
 

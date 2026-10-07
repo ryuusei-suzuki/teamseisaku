@@ -22,6 +22,7 @@ public class EnemySkillData : ScriptableObject
 
     public SkillType skillType;
     public AudioClip skillSE;
+    public Sprite icon;
 
 }
 

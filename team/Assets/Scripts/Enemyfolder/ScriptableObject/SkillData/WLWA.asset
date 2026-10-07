@@ -19,3 +19,4 @@ MonoBehaviour:
   Preemptive: 1
   skillType: 0
   skillSE: {fileID: 8300000, guid: e4a165e6405d4c347bee8ebd6036969f, type: 3}
+  icon: {fileID: 6193190459052367719, guid: 672bba7c74db80444b6087eb4fc4a59b, type: 3}
