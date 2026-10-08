@@ -27,6 +27,10 @@ public class TrialBattleManager : MonoBehaviour
     // 注:試練の敵は倒される想定の弱敵のため、敗北時の処理(リトライなど)はまだ実装していません。
     // 必要になったらBattleManager.CheckBattleEndのLose分岐を参考に追加してください。
 
+    [Header("プレイヤー攻撃エフェクト")]
+    public GameObject playerAttackEffectPrefab;
+    public float playerAttackEffectLifetime = 2f;
+
     [Header("試練用の固定スキル(火弱近・水弱近・風弱近・水弱遠・ヒールの5種)")]
     public List<SkillData> trialSkills;
     public GameObject skillButtonPrefab;
@@ -54,6 +58,9 @@ public class TrialBattleManager : MonoBehaviour
 
     public Image playerHpFillImage;
     public Image enemyHpFillImage;
+
+    [Header("攻撃SE")]
+    public TutorialSoundSound tutorialSound;
 
     [Header("遷移先")]
     [Tooltip("敵を倒した後にロードするシーン名。演出(矢印ワイプ)は未実装で、今はここに設定したシーンへ即ロードします。")]
@@ -281,7 +288,7 @@ public class TrialBattleManager : MonoBehaviour
     {
         if (playerSkill.skillType == SkillType.Heal)
         {
-            ShowPlayerAttackPose(playerSkill.distance);
+            ShowPlayerAttackPose(playerSkill);
             HealPlayerFlat(40);
             AddPlayerActionLog($"プレイヤー: {playerSkill.SkillName}！ HPを40回復した");
             UpdateHpUI();
@@ -290,14 +297,14 @@ public class TrialBattleManager : MonoBehaviour
         }
         else if (playerSkill.skillType == SkillType.Guard)
         {
-            ShowPlayerAttackPose(playerSkill.distance);
+            ShowPlayerAttackPose(playerSkill);
             AddPlayerActionLog($"プレイヤー: {playerSkill.SkillName}！ 身を守っている");
             yield return StartCoroutine(WaitForClick());
             ShowPlayerIdlePose();
         }
         else
         {
-            ShowPlayerAttackPose(playerSkill.distance);
+            ShowPlayerAttackPose(playerSkill);
             float damageToEnemy = calculator.CalculateDamage(playerSkill, enemyAttributes, enemyDistance, out string playerEffect);
 
             if (blockedByEnemyGuard)
@@ -453,7 +460,7 @@ public class TrialBattleManager : MonoBehaviour
     }
 
     // 攻撃時に攻撃ポーズの画像に切り替える(PPUが違う画像でも見た目のサイズが変わらないよう補正する)
-    private void ShowPlayerAttackPose(DistanceType distance)
+    private void ShowPlayerAttackPose(SkillData playerSkill)
     {
         if (playerSpriteRenderer == null) return;
 
@@ -463,16 +470,73 @@ public class TrialBattleManager : MonoBehaviour
             playerIdleScale = playerSpriteRenderer.transform.localScale;
         }
 
-        Sprite attackSprite = distance == DistanceType.Ranged ? playerLongAttackSprite : playerCloseAttackSprite;
+        // 遠距離なら遠距離攻撃画像、近距離なら近距離攻撃画像
+        Sprite attackSprite =
+            playerSkill.distance == DistanceType.Ranged
+            ? playerLongAttackSprite
+            : playerCloseAttackSprite;
+
         if (attackSprite == null) return;
 
+        // PPUの違いによる見た目のサイズ差を補正
         if (playerIdleSprite != null && playerIdleSprite.pixelsPerUnit > 0)
         {
-            float ratio = attackSprite.pixelsPerUnit / playerIdleSprite.pixelsPerUnit;
-            playerSpriteRenderer.transform.localScale = playerIdleScale * ratio;
+            float ratio =
+                attackSprite.pixelsPerUnit /
+                playerIdleSprite.pixelsPerUnit;
+
+            playerSpriteRenderer.transform.localScale =
+                playerIdleScale * ratio;
         }
 
         playerSpriteRenderer.sprite = attackSprite;
+
+        // ★ プレイヤー攻撃エフェクト
+        PlayPlayerAttackEffect(playerSkill);
+    }
+
+    private void PlayPlayerAttackEffect(SkillData playerSkill)
+    {
+        if (playerAttackEffectPrefab == null)
+        {
+            Debug.LogWarning("playerAttackEffectPrefab が設定されていません。");
+            return;
+        }
+
+        Vector3 spawnPos = GetEnemyEffectPosition();
+        spawnPos.x -= 2f;
+
+        GameObject effect = Instantiate(
+            playerAttackEffectPrefab,
+            spawnPos,
+            Quaternion.Euler(0f, 180f, 0f)
+        );
+
+        if (playerSkill != null)
+        {
+            AttributeColorUtility.ApplyAttributeColor(effect,playerSkill.attribute);
+            if (tutorialSound != null)
+            {
+                tutorialSound.PlayAttributeAttackSE(playerSkill.attribute);
+            }
+        }
+
+        Destroy(effect, playerAttackEffectLifetime);
+    }
+
+    private Vector3 GetEnemyEffectPosition()
+    {
+        if (enemy != null && enemy.spriteRenderer != null)
+        {
+            return enemy.spriteRenderer.transform.position;
+        }
+
+        if (enemy != null)
+        {
+            return enemy.transform.position;
+        }
+
+        return transform.position;
     }
 
     // 通常の画像に戻す

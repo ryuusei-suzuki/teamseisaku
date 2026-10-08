@@ -138,6 +138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BattleSkillButton
   label: {fileID: 3569995989213371107}
   iconImage: {fileID: 2208869672003745100}
+  TutorialSoundonclickSound: {fileID: 8300000, guid: f46e7c0e6c792024481abf668a8dc3d7, type: 3}
 --- !u!114 &8111014399753285715
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -31,6 +31,12 @@ public class BattleManager : MonoBehaviour
     [Header("攻撃時のエフェクト")]
     public GameObject playerAttackEffectPrefab;
     public float playerAttackEffectLifetime = 2f;
+    [Header("回復時のエフェクト")]
+    public GameObject playerHealEffectPrefab;
+    public float playerHealEffectLifetime = 2f;
+    [Header("ガード時のエフェクト")]
+    public GameObject playerGuardEffectPrefab;
+    public float playerGuardEffectLifetime = 2f;
 
     public TextMeshProUGUI playerHpText;
     public TextMeshProUGUI enemyHpText;
@@ -43,7 +49,8 @@ public class BattleManager : MonoBehaviour
     public Image enemySkillIconImage;
     public TextMeshProUGUI bossInfoText;
     public BattleState currentState = BattleState.Ongoing;
-    public GameObject restartButton; 
+    public GameObject restartButton;
+    public SlideObject slideObject;
 
     private bool isProcessingTurn = false;
     private bool waitingForClick = false;
@@ -333,11 +340,11 @@ public class BattleManager : MonoBehaviour
 
     // プレイヤーの行動を実行する(通常攻撃/ガード/ヒール)
     // blockedByEnemyGuard: 敵が先にガードしていて、プレイヤーの攻撃が防がれる場合はtrue
-    private IEnumerator ExecutePlayerAction(DamageCalculator calculator, List<AttributeType> enemyAttributes, DistanceType enemyDistance, bool blockedByEnemyGuard = false)
+    private IEnumerator ExecutePlayerAction(DamageCalculator calculator,List<AttributeType> enemyAttributes,DistanceType enemyDistance,bool blockedByEnemyGuard = false)
     {
         if (playerSkill.skillType == SkillType.Heal)
         {
-            ShowPlayerAttackPose(playerSkill.distance);
+            PlayPlayerHealEffect();
             HealPlayerFlat(40);
             string healMsg = $"プレイヤー: {playerSkill.SkillName}！ HPが40回復した";
             Debug.Log(healMsg);
@@ -348,7 +355,7 @@ public class BattleManager : MonoBehaviour
         }
         else if (playerSkill.skillType == SkillType.Guard)
         {
-            ShowPlayerAttackPose(playerSkill.distance);
+            PlayPlayerGuardEffect();
             string guardMsg = $"プレイヤー: {playerSkill.SkillName}！ 身を守っている";
             Debug.Log(guardMsg);
             AddPlayerActionLog(guardMsg);
@@ -358,22 +365,21 @@ public class BattleManager : MonoBehaviour
         else
         {
             ShowPlayerAttackPose(playerSkill.distance);
-            float damageToEnemy = calculator.CalculateDamage(playerSkill, enemyAttributes, enemyDistance, out string playerEffect);
-
+            PlayPlayerAttackSEAndEffect();
+            float damageToEnemy = calculator.CalculateDamage(playerSkill,enemyAttributes,enemyDistance,out string playerEffect );
             if (blockedByEnemyGuard)
             {
-                string blockedMsg = $"プレイヤー: {playerSkill.SkillName}！ しかし敵が防いだ！ 0ダメージ";
+                string blockedMsg =$"プレイヤー: {playerSkill.SkillName}！ しかし敵が防いだ！ 0ダメージ";
                 Debug.Log(blockedMsg);
                 AddPlayerActionLog(blockedMsg);
             }
             else
             {
                 enemy.TakeDamage((int)damageToEnemy);
-                string playerMsg = $"プレイヤー: {playerSkill.SkillName}！ {(int)damageToEnemy}ダメージ \n{playerEffect}";
+                string playerMsg =$"プレイヤー: {playerSkill.SkillName}！ {(int)damageToEnemy}ダメージ\n{playerEffect}";
                 Debug.Log(playerMsg);
                 AddPlayerActionLog(playerMsg);
             }
-
             UpdateHpUI();
             yield return StartCoroutine(WaitForClick());
             ShowPlayerIdlePose();
@@ -430,6 +436,27 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    private void PlayPlayerHealEffect()
+    {
+        if (playerHealEffectPrefab == null)
+            return;
+        Vector3 spawnPos = playerSpriteRenderer.transform.position;
+        spawnPos.y -= 3f;
+        GameObject effect = Instantiate( playerHealEffectPrefab, spawnPos, Quaternion.identity);
+        Destroy(effect, playerHealEffectLifetime);
+    }
+
+    private void PlayPlayerGuardEffect()
+    {
+        if (playerGuardEffectPrefab == null)
+            return;
+        if (playerSpriteRenderer == null)
+            return;
+        Vector3 spawnPos = playerSpriteRenderer.transform.position;
+        GameObject effect = Instantiate( playerGuardEffectPrefab, spawnPos, Quaternion.identity);
+        Destroy(effect, playerGuardEffectLifetime);
+    }
+
     private void UpdateHpUI()
     {
         playerHpText.text = "プレイヤーHP: " + playerHp;
@@ -464,25 +491,19 @@ public class BattleManager : MonoBehaviour
     private void ShowPlayerAttackPose(DistanceType distance)
     {
         if (playerSpriteRenderer == null) return;
-
         if (playerIdleSprite == null)
         {
             playerIdleSprite = playerSpriteRenderer.sprite;
             playerIdleScale = playerSpriteRenderer.transform.localScale;
         }
-
-        Sprite attackSprite = distance == DistanceType.Ranged ? playerLongAttackSprite : playerCloseAttackSprite;
+        Sprite attackSprite = distance == DistanceType.Ranged ? playerLongAttackSprite: playerCloseAttackSprite;
         if (attackSprite == null) return;
-
         if (playerIdleSprite != null && playerIdleSprite.pixelsPerUnit > 0)
         {
             float ratio = attackSprite.pixelsPerUnit / playerIdleSprite.pixelsPerUnit;
             playerSpriteRenderer.transform.localScale = playerIdleScale * ratio;
         }
-
         playerSpriteRenderer.sprite = attackSprite;
-
-        PlayPlayerAttackSEAndEffect();
     }
 
     // 画像切り替えと同時にSEとエフェクトを再生する(エフェクトは敵の位置に出す)
@@ -497,7 +518,14 @@ public class BattleManager : MonoBehaviour
         {
             Vector3 spawnPos = GetEnemyEffectPosition();
             GameObject effect = Instantiate(playerAttackEffectPrefab, spawnPos, Quaternion.identity);
-            if (playerSkill != null) { AttributeColorUtility.ApplyAttributeColor(effect, playerSkill.attribute); }
+            Vector3 scale = effect.transform.localScale;
+            scale.x *= -1f;
+            effect.transform.localScale = scale;
+            effect.transform.position += Vector3.left * 1f;
+            if (playerSkill != null) 
+            {
+                AttributeColorUtility.ApplyAttributeColor(effect, playerSkill.attribute); 
+            }
             Destroy(effect, playerAttackEffectLifetime);
         }
     }
@@ -574,8 +602,9 @@ public class BattleManager : MonoBehaviour
             if (bossQueue.Count == 0)
             {
                 currentState = BattleState.Win;
-                AddLog("全てのボスを倒した！クリア！");
-                restartButton.SetActive(true);
+                AddLog("全てのボスを倒した！");
+                AddLog("クリア！！");
+                slideObject.Play();
             }
             else
             {

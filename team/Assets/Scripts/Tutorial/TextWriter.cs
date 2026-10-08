@@ -31,15 +31,17 @@ public class TextWriter : MonoBehaviour
     {
         uitext.DrawText("「試練の間に挑戦されるんですね！」");
         yield return StartCoroutine("Skip");
-        uitext.DrawText("「あなたの実力はいかほどか…まずはこのモンスターを倒してみてください」");
+        uitext.DrawText("「あなたの実力はいかほどか…まずはこのモンスターをたおしてみてください」");
         yield return StartCoroutine("Skip");
         TutorialPanel.SetActive(true);
         tutorialPanel.StartTutorial();
 
         yield return new WaitUntil(() => tutorialPanel.IsTutorialFinished);
-        uitext.DrawText("「ルールはわかりましたか？ESCを押すといつでもルールが見れますよ」");
+        uitext.DrawText("「ルールはわかりましたか？ESCをおすといつでもルールが見れますよ」");
         yield return StartCoroutine("Skip");
         uitext.DrawText("「ではバトルスタート!」");
+        yield return StartCoroutine("Skip");
+        uitext.DrawText("「スキルアイコンを押してこうげきしよう！」");
         if (trialBattleManager != null)
         {
             trialBattleManager.StartBattle();

@@ -15,10 +15,6 @@ public class SlideObject : MonoBehaviour
     [Header("ç∂í[ÇÃà íu")]
     [SerializeField] private float leftX = -1000f;
 
-    void Start()
-    {
-        Play();
-    }
     public void Play()
     {
         Obj.transform.localPosition = new Vector3(rightX, Obj.transform.localPosition.y,Obj.transform.localPosition.z);
