@@ -52,6 +52,9 @@ public class TrialBattleManager : MonoBehaviour
     public GameObject playerActionBox;
     public GameObject enemyActionBox;
 
+    public Image playerHpFillImage;
+    public Image enemyHpFillImage;
+
     [Header("遷移先")]
     [Tooltip("敵を倒した後にロードするシーン名。演出(矢印ワイプ)は未実装で、今はここに設定したシーンへ即ロードします。")]
     public string nextSceneName;
@@ -421,14 +424,31 @@ public class TrialBattleManager : MonoBehaviour
 
     private void UpdateHpUI()
     {
-        if (playerHpText != null)
+        playerHpText.text = "プレイヤーHP: " + playerHp;
+
+        if (playerHpFillImage != null)
         {
-            playerHpText.text = "プレイヤーHP: " + playerHp;
+            float playerRate = maxPlayerHp > 0 ? (float)playerHp / maxPlayerHp : 0f;
+            playerHpFillImage.fillAmount = Mathf.Clamp01(playerRate);
         }
 
-        if (enemyHpText != null)
+        if (enemy != null)
         {
-            enemyHpText.text = enemy != null ? "敵HP: " + enemy.NowEnemyHP : "敵HP: -";
+            enemyHpText.text = "敵HP: " + enemy.NowEnemyHP;
+
+            if (enemyHpFillImage != null)
+            {
+                enemyHpFillImage.fillAmount = Mathf.Clamp01(enemy.GetHPRate());
+            }
+        }
+        else
+        {
+            enemyHpText.text = "敵HP: -";
+
+            if (enemyHpFillImage != null)
+            {
+                enemyHpFillImage.fillAmount = 0f;
+            }
         }
     }
 
