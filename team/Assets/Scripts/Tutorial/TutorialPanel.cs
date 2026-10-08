@@ -21,6 +21,7 @@ public class TutorialPanel : MonoBehaviour
     [SerializeField] private GameObject Blocker;
     [SerializeField] private GameObject image;
     [SerializeField] private GameObject texbox;
+    [SerializeField] private TutorialSoundSound TutorialSoundSound;
     public bool IsTutorialFinished { get; private set; }
 
     void Start()
@@ -59,6 +60,7 @@ public class TutorialPanel : MonoBehaviour
         currentIndex++;
         ShowTutorial(currentIndex);
         backButton.SetActive(true);
+        TutorialSoundSound.TTR();
 
         if (currentIndex == tutorials.Length-1)
         {
@@ -75,6 +77,7 @@ public class TutorialPanel : MonoBehaviour
         currentIndex--;
         ShowTutorial(currentIndex);
         nextButton.SetActive(true);
+        TutorialSoundSound.TTR();
         if (currentIndex == 0)
         {
             backButton.SetActive(false);
@@ -96,6 +99,7 @@ public class TutorialPanel : MonoBehaviour
         IsTutorialFinished = true;
         image.SetActive(false);
         texbox.SetActive(true);
+        TutorialSoundSound.OnClick();
     }
 
 }

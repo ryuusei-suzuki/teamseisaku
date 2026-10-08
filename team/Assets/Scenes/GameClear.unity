@@ -1314,7 +1314,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0f72c30af4cb6704a90e5b75b1ea7228, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7c6dc02d46330fa4cb4234726e713319, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1430,6 +1430,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1846778345}
   - component: {fileID: 1846778344}
+  - component: {fileID: 1846778346}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -1464,6 +1465,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1846778346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1846778343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4672ced2fe378194ebd20f4559c3c4f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClearSound
+  ClearSoundBGMSound: {fileID: 8300000, guid: 2a8f8ce7dbfedcf4fa5141f771620df1, type: 3}
 --- !u!1 &1857050991
 GameObject:
   m_ObjectHideFlags: 0
