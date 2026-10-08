@@ -21,9 +21,8 @@ public class SlideObject : MonoBehaviour
     }
     public void Play()
     {
-        Obj.transform.localPosition = new Vector3( rightX,Obj.transform.localPosition.y,Obj.transform.localPosition.z);
-        Obj.transform.DOLocalMoveX(leftX,moveDuration).SetEase(Ease.Linear);
-        SceneManager.LoadScene("GameClear");
+        Obj.transform.localPosition = new Vector3(rightX, Obj.transform.localPosition.y,Obj.transform.localPosition.z);
 
+        Obj.transform.DOLocalMoveX(leftX, moveDuration).SetEase(Ease.Linear).OnComplete(() =>{DOVirtual.DelayedCall(1f, () =>{ SceneManager.LoadScene("GameClear"); });});
     }
 }

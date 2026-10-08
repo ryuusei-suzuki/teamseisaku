@@ -2070,6 +2070,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1419071759}
   - component: {fileID: 1419071758}
+  - component: {fileID: 1419071760}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -2109,6 +2110,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1039213493}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1419071760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1419071757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31fb65cfe4780104995f1105cd89171b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialSoundSound
+  TutorialSoundBGMSound: {fileID: 8300000, guid: cc88efca8f68b884fa36627089d84e5e, type: 3}
+  TutorialSoundonclickSound: {fileID: 8300000, guid: f46e7c0e6c792024481abf668a8dc3d7, type: 3}
+  TutorialSoundTTRSound: {fileID: 8300000, guid: ef3dbf4988cc2f548a01a106d7d9187a, type: 3}
 --- !u!224 &1439588696 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8451315303641504970, guid: 8947f8ceee56d9943b91d1e988b010ef, type: 3}
@@ -3537,6 +3553,7 @@ MonoBehaviour:
   Blocker: {fileID: 1744001593}
   image: {fileID: 449464935}
   texbox: {fileID: 2067724557}
+  TutorialSoundSound: {fileID: 1419071760}
 --- !u!1 &2142273933
 GameObject:
   m_ObjectHideFlags: 0
