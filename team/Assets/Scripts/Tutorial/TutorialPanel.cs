@@ -22,6 +22,7 @@ public class TutorialPanel : MonoBehaviour
     [SerializeField] private GameObject image;
     [SerializeField] private GameObject texbox;
     [SerializeField] private TutorialSoundSound TutorialSoundSound;
+    [SerializeField] private GameObject[] HPUI;
     public bool IsTutorialFinished { get; private set; }
 
     void Start()
@@ -32,7 +33,10 @@ public class TutorialPanel : MonoBehaviour
         nextButton.SetActive(false);
         readyButton.SetActive(false);
         image.SetActive(false);
-
+        foreach (GameObject obj in HPUI)
+        {
+            obj.SetActive(false);
+        }
     }
 
     private int currentIndex = 0;
@@ -99,6 +103,10 @@ public class TutorialPanel : MonoBehaviour
         IsTutorialFinished = true;
         image.SetActive(false);
         texbox.SetActive(true);
+        foreach (GameObject obj in HPUI)
+        {
+            obj.SetActive(true);
+        }
         TutorialSoundSound.OnClick();
     }
 
