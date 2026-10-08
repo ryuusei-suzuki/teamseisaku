@@ -6,6 +6,7 @@ public class Starteffct : MonoBehaviour
     [SerializeField] private Transform transtriangle;
     [SerializeField] private GameObject square;
     [SerializeField] private TextWriter textWriter;
+    [SerializeField] private GameObject EscExit;
 
     void Awake()
     {
@@ -26,6 +27,7 @@ public class Starteffct : MonoBehaviour
             {
                 triangle.SetActive(false);
                 square.SetActive(false);
+                EscExit.SetActive(true);
                 textWriter.effectfin();
             });
     }

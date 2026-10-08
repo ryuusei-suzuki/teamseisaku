@@ -23,30 +23,20 @@ public class BlackCover : MonoBehaviour
         // Å‰‚Í”ñ•\¦
         blackObj.SetActive(false);
     }
-
-    // ‰º‚©‚çã‚Ö•‚¢‰æ–Ê‚ğo‚·
     public void ShowBlackCover()
     {
         blackObj.SetActive(true);
-
-        // Œ»İ‚ÌDOTween‚ğ’â~
         blackRect.DOKill();
-
-        // Å‰‚Í‰æ–Ê‚Ì‰º
         blackRect.anchoredPosition = new Vector2(
             blackRect.anchoredPosition.x,
             startY
         );
-
-        // ‰º‚©‚çã‚ÖˆÚ“®
         blackRect
             .DOAnchorPosY(endY, moveDuration)
             .SetEase(Ease.InOutCubic);
 
         SceneManager.LoadScene("GameOver");
     }
-
-    // •‚¢‰æ–Ê‚ğ‰º‚Ö–ß‚·
     public void HideBlackCover()
     {
         blackRect.DOKill();

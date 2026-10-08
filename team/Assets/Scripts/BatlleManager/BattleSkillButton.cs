@@ -7,10 +7,19 @@ public class BattleSkillButton : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI label;
     [SerializeField] private Image iconImage;
+    [SerializeField] private AudioClip TutorialSoundonclickSound;
     private Button button;
     private SkillData skillData;
     private Action<SkillData> onSelect;
 
+    private void Awake()
+    {
+        Debug.Log(
+            $"{gameObject.name} が生成されました\n" +
+            System.Environment.StackTrace,
+            gameObject
+        );
+    }
     // BattleManager(通常戦)とTrialBattleManager(チュートリアル)の両方から
     // 使い回せるように、呼び出し先を直接の型ではなくコールバックで受け取る。
     public void Setup(SkillData skill, Action<SkillData> onSelectCallback)
@@ -36,9 +45,14 @@ public class BattleSkillButton : MonoBehaviour
 
     private void OnClick()
     {
+        //if (skillData != null && skillData.skillSE != null && AudioManager.Instance != null)
+        //{
+        //    AudioManager.Instance.PlaySE(skillData.skillSE);
+        //}
+
         if (skillData != null && skillData.skillSE != null && AudioManager.Instance != null)
         {
-            AudioManager.Instance.PlaySE(skillData.skillSE);
+            AudioManager.Instance.PlaySE(TutorialSoundonclickSound);
         }
         onSelect?.Invoke(skillData); 
     }
