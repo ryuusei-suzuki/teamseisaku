@@ -104,6 +104,9 @@ public class BattleSkillButton : MonoBehaviour,
         );
     }
 
+    // BattleManager(通常戦)とTrialBattleManager(チュートリアル)の両方から
+    // 使い回せるように、呼び出し先を直接の型ではなくコールバックで受け取る。
+
     public void Setup(
         SkillData skill,
         Action<SkillData> onSelectCallback)
@@ -163,6 +166,8 @@ public class BattleSkillButton : MonoBehaviour,
         return skillData;
     }
 
+
+    // 自分のターンが始まるまで(演出を見終わるまで)はクリックできないようにするためのロック
     public void SetInteractable(bool interactable)
     {
         if (button != null)
@@ -171,6 +176,8 @@ public class BattleSkillButton : MonoBehaviour,
         }
     }
 
+
+   
     public void SetDescriptionUI(SkillDescriptionUI ui)
     {
         descriptionUI = ui;
