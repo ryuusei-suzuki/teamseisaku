@@ -697,7 +697,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillHover
   descriptionPanel: {fileID: 1769546149}
-  description: "AP 5\n1\u30BF\u30FC\u30F3\u7121\u6575"
+  description: "AP 5\n1\u30BF\u30FC\u30F3\u306E\u9593\u76F8\u624B\u306E\u653B\u6483\u3092\u7121\u52B9\u5316\u3059\u308B"
   descriptionText: {fileID: 1723529655}
 --- !u!1 &95507575
 GameObject:
@@ -1852,7 +1852,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillHover
   descriptionPanel: {fileID: 1769546149}
-  description: "AP 5\nHP\u304C\u3044\u3063\u3071\u3044\u56DE\u5FA9\u3057\u307E\u3059"
+  description: "AP 5\n\u81EA\u8EAB\u306EHP\u304C40\u56DE\u5FA9\u3059\u308B"
   descriptionText: {fileID: 1723529655}
 --- !u!1 &264946336
 GameObject:

@@ -13,4 +13,6 @@ public class SkillData : ScriptableObject
     public SkillType skillType;
 
     public AudioClip skillSE;
+
+    [TextArea(3, 5)] public string Description;
 }

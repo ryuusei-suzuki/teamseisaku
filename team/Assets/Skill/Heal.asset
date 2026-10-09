@@ -20,3 +20,4 @@ MonoBehaviour:
   iconImage: {fileID: 4889648133415574771, guid: cf1c2b794373e504a8a65063d442d9f3, type: 3}
   skillType: 5
   skillSE: {fileID: 8300000, guid: dc9b1b8223f8c6342bca3213db3e3966, type: 3}
+  Description: "Heal\n\u5C5E\u6027\uFF1A\u7121\u3000\u5A01\u529B\uFF1A0\u3000AP\uFF1A5\n\u81EA\u8EAB\u306EHP\u304C40\u56DE\u5FA9\u3059\u308B"

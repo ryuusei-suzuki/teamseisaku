@@ -19,4 +19,5 @@ MonoBehaviour:
   AP: 3
   iconImage: {fileID: -8640997118355943053, guid: 70754d6e0b563cc4eaad01eb2a3e1248, type: 3}
   skillType: 1
-  skillSE: {fileID: 8300000, guid: cab25cf6a876ddc41bd15e63fab72eb8, type: 3}
+  skillSE: {fileID: 8300000, guid: fd811ef7b514bc64381760b72c1d097e, type: 3}
+  Description: "Wind Sword\n\u5C5E\u6027\uFF1A\u98A8\u3000\u5A01\u529B\uFF1A20\u3000AP\uFF1A3\n\u6575\u306B\u98A8\u5C5E\u6027\u306E\u8FD1\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"

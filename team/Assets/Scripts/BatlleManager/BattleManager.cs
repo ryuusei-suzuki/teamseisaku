@@ -6,6 +6,10 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
+
+
+
 public class BattleManager : MonoBehaviour
 {
     public enum BattleState { Ongoing, Win, Lose }
@@ -63,6 +67,15 @@ public class BattleManager : MonoBehaviour
     private List<BattleSkillButton> skillButtons = new List<BattleSkillButton>();
     private Sprite playerIdleSprite;
     private Vector3 playerIdleScale;
+
+
+    //
+    //
+    //
+    [SerializeField]private SkillDescriptionUI skillDescriptionUI;
+    //
+    //
+    //
 
     void Start()
     {
@@ -210,6 +223,24 @@ public class BattleManager : MonoBehaviour
     {
         return skillAP.ContainsKey(skill) && skillAP[skill] > 0;
     }
+
+    //
+    //
+    //
+    public int GetRemainingAP(SkillData skill)
+    {
+        if (skill == null || !skillAP.ContainsKey(skill))
+        {
+            return 0;
+        }
+
+        return skillAP[skill];
+    }
+    //
+    //
+    //
+
+
     private IEnumerator WaitForClick()
     {
         waitingForClick = true;
@@ -614,6 +645,28 @@ public class BattleManager : MonoBehaviour
             }
         }
     }
+
+
+    //private void CreateSkillButtons()
+    //{
+    //    if (availableSkills == null) return;
+
+    //    skillButtons.Clear();
+    //    foreach (SkillData skill in availableSkills)
+    //    {
+    //        GameObject buttonObj = Instantiate(skillButtonPrefab, skillButtonParent);
+    //        BattleSkillButton skillButton = buttonObj.GetComponent<BattleSkillButton>();
+    //        skillButton.Setup(skill, SelectPlayerSkill);
+    //        skillButtons.Add(skillButton);
+    //    }
+    //}
+
+
+
+
+    //
+    //
+    //
     private void CreateSkillButtons()
     {
         if (availableSkills == null) return;
@@ -624,9 +677,16 @@ public class BattleManager : MonoBehaviour
             GameObject buttonObj = Instantiate(skillButtonPrefab, skillButtonParent);
             BattleSkillButton skillButton = buttonObj.GetComponent<BattleSkillButton>();
             skillButton.Setup(skill, SelectPlayerSkill);
+            skillButton.SetDescriptionUI(skillDescriptionUI);
             skillButtons.Add(skillButton);
+
         }
     }
+    //
+    //
+    //
+
+
 
     // 自分のターンが始まるまで(演出を見終わるまで)はスキルボタンを押せないようにする
     private void SetSkillButtonsInteractable(bool interactable)

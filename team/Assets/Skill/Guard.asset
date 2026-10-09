@@ -20,3 +20,4 @@ MonoBehaviour:
   iconImage: {fileID: -6622216203472834817, guid: 1b6dfb4f7ed0f684694b2a3ca2509467, type: 3}
   skillType: 4
   skillSE: {fileID: 8300000, guid: eae4c11bd792e3448965558950a630de, type: 3}
+  Description: "Guard\n\u5C5E\u6027\uFF1A\u7121\u3000\u5A01\u529B\uFF1A0\u3000AP\uFF1A5\n1\u30BF\u30FC\u30F3\u306E\u9593\u76F8\u624B\u306E\u653B\u6483\u3092\u7121\u52B9\u5316\u3059\u308B"
