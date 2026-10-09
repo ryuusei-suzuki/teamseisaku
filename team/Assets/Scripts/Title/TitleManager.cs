@@ -14,6 +14,10 @@ public class TitleManager : MonoBehaviour
         SceneManager.LoadScene("suzki");
     }
 
+    public void SelectSkill()
+    {
+        SceneManager.LoadScene("Skill selection");
+    }
     public void ExitGame()
     {
         Application.Quit();
