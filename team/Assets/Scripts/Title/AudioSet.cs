@@ -28,9 +28,9 @@ public class AudioSet : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         // èâä˙íl
-        MasterVolume = -20f;
-        BGMVolume = -20f;
-        SEVolume = -20f;
+        MasterVolume = 20f;
+        BGMVolume = 5f;
+        SEVolume = 5f;
 
         // AudioMixerÇ…îΩâf
         audioMixer.SetFloat("Master", MasterVolume);

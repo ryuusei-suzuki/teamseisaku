@@ -640,7 +640,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d446339083072a44a64c4b840d75ecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameOverSound
-  GameOverBGMSound: {fileID: 8300000, guid: 433db8077d28d0a42aa928cef0353e6a, type: 3}
+  GameOverBGMSound: {fileID: 8300000, guid: 3844186f89df31d4bbdf5473a663768d, type: 3}
   GameOveronclickSound: {fileID: 8300000, guid: f46e7c0e6c792024481abf668a8dc3d7, type: 3}
 --- !u!1 &633311317
 GameObject:
