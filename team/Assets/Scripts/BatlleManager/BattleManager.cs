@@ -440,6 +440,8 @@ public class BattleManager : MonoBehaviour
     {
         if (playerHealEffectPrefab == null)
             return;
+        AudioManager.Instance.PlaySE(playerSkill.skillSE);
+
         Vector3 spawnPos = playerSpriteRenderer.transform.position;
         spawnPos.y -= 3f;
         GameObject effect = Instantiate( playerHealEffectPrefab, spawnPos, Quaternion.identity);
@@ -452,6 +454,8 @@ public class BattleManager : MonoBehaviour
             return;
         if (playerSpriteRenderer == null)
             return;
+        AudioManager.Instance.PlaySE(playerSkill.skillSE);
+
         Vector3 spawnPos = playerSpriteRenderer.transform.position;
         GameObject effect = Instantiate( playerGuardEffectPrefab, spawnPos, Quaternion.identity);
         Destroy(effect, playerGuardEffectLifetime);
@@ -604,7 +608,7 @@ public class BattleManager : MonoBehaviour
                 currentState = BattleState.Win;
                 AddLog("全てのボスを倒した！");
                 AddLog("クリア！！");
-                slideObject.Play();
+                StartCoroutine(PlaySlideAfterDelay(3f));
             }
             else
             {
@@ -614,6 +618,13 @@ public class BattleManager : MonoBehaviour
             }
         }
     }
+
+    private IEnumerator PlaySlideAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        slideObject.Play();
+    }
+
     private void CreateSkillButtons()
     {
         if (availableSkills == null) return;

@@ -25,17 +25,27 @@ public class BlackCover : MonoBehaviour
     }
     public void ShowBlackCover()
     {
-        blackObj.SetActive(true);
-        blackRect.DOKill();
-        blackRect.anchoredPosition = new Vector2(
-            blackRect.anchoredPosition.x,
-            startY
-        );
-        blackRect
-            .DOAnchorPosY(endY, moveDuration)
-            .SetEase(Ease.InOutCubic);
+        // 呼び出されてから2秒待つ
+        DOVirtual.DelayedCall(2f, () =>
+        {
+            blackObj.SetActive(true);
+            blackRect.DOKill();
 
-        SceneManager.LoadScene("GameOver");
+            blackRect.anchoredPosition = new Vector2(
+                blackRect.anchoredPosition.x,
+                startY
+            );
+
+            // 黒いカバーを移動
+            blackRect
+                .DOAnchorPosY(endY, moveDuration)
+                .SetEase(Ease.InOutCubic)
+                .OnComplete(() =>
+                {
+                    // アニメーション終了後にシーン切り替え
+                    SceneManager.LoadScene("GameOver");
+                });
+        });
     }
     public void HideBlackCover()
     {
