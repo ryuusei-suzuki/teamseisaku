@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6a60f79ad597cf44b283ec44e8c1711, type: 3}
   m_Name: Wind Magic
   m_EditorClassIdentifier: Assembly-CSharp::SkillData
-  SkillName: Wind Magic
+  SkillName: "\u30A6\u30A3\u30F3\u30C9\u30DE\u30B8\u30C3\u30AF"
   attribute: 2
   distance: 1
   Power: 20
-  AP: 3
+  AP: 5
   iconImage: {fileID: -2046772677580070779, guid: 0153fe6e3da9b374c9d60ba83c58cfc1, type: 3}
   skillType: 3
-  skillSE: {fileID: 8300000, guid: cab25cf6a876ddc41bd15e63fab72eb8, type: 3}
+  skillSE: {fileID: 8300000, guid: e32b8116c6c3aa3438d267d6aa2a688b, type: 3}
+  Description: "\u30A6\u30A3\u30F3\u30C9\u30DE\u30B8\u30C3\u30AF\n\u5C5E\u6027\uFF1A\u98A8\u3000\u5A01\u529B\uFF1A20\u3000AP\uFF1A5\n\u6575\u306B\u98A8\u5C5E\u6027\u306E\u9060\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"

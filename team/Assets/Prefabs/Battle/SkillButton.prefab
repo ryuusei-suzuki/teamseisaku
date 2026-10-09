@@ -139,6 +139,7 @@ MonoBehaviour:
   label: {fileID: 3569995989213371107}
   iconImage: {fileID: 2208869672003745100}
   TutorialSoundonclickSound: {fileID: 8300000, guid: f46e7c0e6c792024481abf668a8dc3d7, type: 3}
+  descriptionUI: {fileID: 0}
 --- !u!114 &8111014399753285715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,8 +310,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: b8e1d566d90afb647bb1fa07ee80a236, type: 2}
+  m_sharedMaterial: {fileID: 4886359720344903352, guid: b8e1d566d90afb647bb1fa07ee80a236, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

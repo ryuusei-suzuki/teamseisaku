@@ -6,6 +6,10 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
+
+
+
 public class BattleManager : MonoBehaviour
 {
     public enum BattleState { Ongoing, Win, Lose }
@@ -63,6 +67,15 @@ public class BattleManager : MonoBehaviour
     private List<BattleSkillButton> skillButtons = new List<BattleSkillButton>();
     private Sprite playerIdleSprite;
     private Vector3 playerIdleScale;
+
+
+    //
+    //
+    //
+    [SerializeField]private SkillDescriptionUI skillDescriptionUI;
+    //
+    //
+    //
 
     void Start()
     {
@@ -210,6 +223,24 @@ public class BattleManager : MonoBehaviour
     {
         return skillAP.ContainsKey(skill) && skillAP[skill] > 0;
     }
+
+    //
+    //
+    //
+    public int GetRemainingAP(SkillData skill)
+    {
+        if (skill == null || !skillAP.ContainsKey(skill))
+        {
+            return 0;
+        }
+
+        return skillAP[skill];
+    }
+    //
+    //
+    //
+
+
     private IEnumerator WaitForClick()
     {
         waitingForClick = true;
@@ -357,6 +388,8 @@ public class BattleManager : MonoBehaviour
         {
             PlayPlayerGuardEffect();
             string guardMsg = $"プレイヤー: {playerSkill.SkillName}！ 身を守っている";
+            HealPlayerFlat(10);
+            string healMsg = $"プレイヤー: {playerSkill.SkillName}！ HPが10回復した";
             Debug.Log(guardMsg);
             AddPlayerActionLog(guardMsg);
             yield return StartCoroutine(WaitForClick());
@@ -441,7 +474,6 @@ public class BattleManager : MonoBehaviour
         if (playerHealEffectPrefab == null)
             return;
         AudioManager.Instance.PlaySE(playerSkill.skillSE);
-
         Vector3 spawnPos = playerSpriteRenderer.transform.position;
         spawnPos.y -= 3f;
         GameObject effect = Instantiate( playerHealEffectPrefab, spawnPos, Quaternion.identity);
@@ -455,7 +487,6 @@ public class BattleManager : MonoBehaviour
         if (playerSpriteRenderer == null)
             return;
         AudioManager.Instance.PlaySE(playerSkill.skillSE);
-
         Vector3 spawnPos = playerSpriteRenderer.transform.position;
         GameObject effect = Instantiate( playerGuardEffectPrefab, spawnPos, Quaternion.identity);
         Destroy(effect, playerGuardEffectLifetime);
@@ -625,6 +656,27 @@ public class BattleManager : MonoBehaviour
         slideObject.Play();
     }
 
+
+    //private void CreateSkillButtons()
+    //{
+    //    if (availableSkills == null) return;
+
+    //    skillButtons.Clear();
+    //    foreach (SkillData skill in availableSkills)
+    //    {
+    //        GameObject buttonObj = Instantiate(skillButtonPrefab, skillButtonParent);
+    //        BattleSkillButton skillButton = buttonObj.GetComponent<BattleSkillButton>();
+    //        skillButton.Setup(skill, SelectPlayerSkill);
+    //        skillButtons.Add(skillButton);
+    //    }
+    //}
+
+
+
+
+    //
+    //
+    //
     private void CreateSkillButtons()
     {
         if (availableSkills == null) return;
@@ -635,9 +687,16 @@ public class BattleManager : MonoBehaviour
             GameObject buttonObj = Instantiate(skillButtonPrefab, skillButtonParent);
             BattleSkillButton skillButton = buttonObj.GetComponent<BattleSkillButton>();
             skillButton.Setup(skill, SelectPlayerSkill);
+            skillButton.SetDescriptionUI(skillDescriptionUI);
             skillButtons.Add(skillButton);
+
         }
     }
+    //
+    //
+    //
+
+
 
     // 自分のターンが始まるまで(演出を見終わるまで)はスキルボタンを押せないようにする
     private void SetSkillButtonsInteractable(bool interactable)

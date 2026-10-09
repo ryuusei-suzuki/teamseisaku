@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6a60f79ad597cf44b283ec44e8c1711, type: 3}
   m_Name: Fire Sword
   m_EditorClassIdentifier: Assembly-CSharp::SkillData
-  SkillName: Fire Sword
+  SkillName: "\u30D5\u30A1\u30A4\u30A2\u30FC\u30BD\u30FC\u30C9"
   attribute: 0
   distance: 0
   Power: 20
-  AP: 3
+  AP: 5
   iconImage: {fileID: 1905739978498754220, guid: 9fc424442e031d141b5b83f9ecfce09f, type: 3}
   skillType: 1
-  skillSE: {fileID: 8300000, guid: 43ea453a93437014d91b5a8a35c27afd, type: 3}
+  skillSE: {fileID: 8300000, guid: 922d9ee85e5411f46b924063278af6b2, type: 3}
+  Description: "\u30D5\u30A1\u30A4\u30A2\u30FC\u30BD\u30FC\u30C9\n\u5C5E\u6027\uFF1A\u706B\u3000\u5A01\u529B\uFF1A20\u3000AP\uFF1A5\n\u6575\u306B\u706B\u5C5E\u6027\u306E\u8FD1\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"

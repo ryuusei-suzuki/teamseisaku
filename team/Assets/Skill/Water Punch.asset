@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6a60f79ad597cf44b283ec44e8c1711, type: 3}
   m_Name: Water Punch
   m_EditorClassIdentifier: Assembly-CSharp::SkillData
-  SkillName: Water Punch
+  SkillName: "\u30A6\u30A9\u30FC\u30BF\u30FC\u30D1\u30F3\u30C1"
   attribute: 1
   distance: 0
   Power: 10
   AP: 15
   iconImage: {fileID: -1222655377541718045, guid: 7c9f8719d13b5b842a35261926896b85, type: 3}
   skillType: 0
-  skillSE: {fileID: 8300000, guid: 971e55d243c09304e82d7b901bfe6500, type: 3}
+  skillSE: {fileID: 8300000, guid: e7540d139caac704db70816e8053721c, type: 3}
+  Description: "\u30A6\u30A9\u30FC\u30BF\u30FC\u30D1\u30F3\u30C1\n\u5C5E\u6027\uFF1A\u6C34\u3000\u5A01\u529B\uFF1A10\u3000AP\uFF1A15\n\u6575\u306B\u6C34\u5C5E\u6027\u306E\u8FD1\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
