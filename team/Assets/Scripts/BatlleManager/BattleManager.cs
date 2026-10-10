@@ -377,7 +377,7 @@ public class BattleManager : MonoBehaviour
         {
             PlayPlayerHealEffect();
             HealPlayerFlat(40);
-            string healMsg = $"プレイヤー: {playerSkill.SkillName}！ HPが40回復した";
+            string healMsg = $" {playerSkill.SkillName}！ HPが40回復した";
             Debug.Log(healMsg);
             AddPlayerActionLog(healMsg);
             UpdateHpUI();
@@ -387,9 +387,9 @@ public class BattleManager : MonoBehaviour
         else if (playerSkill.skillType == SkillType.Guard)
         {
             PlayPlayerGuardEffect();
-            string guardMsg = $"プレイヤー: {playerSkill.SkillName}！ 身を守っている";
+            string guardMsg = $" {playerSkill.SkillName}！ 身を守っている";
             HealPlayerFlat(10);
-            string healMsg = $"プレイヤー: {playerSkill.SkillName}！ HPが10回復した";
+            string healMsg = $" {playerSkill.SkillName}！ HPが10回復した";
             Debug.Log(guardMsg);
             AddPlayerActionLog(guardMsg);
             yield return StartCoroutine(WaitForClick());
@@ -402,14 +402,14 @@ public class BattleManager : MonoBehaviour
             float damageToEnemy = calculator.CalculateDamage(playerSkill,enemyAttributes,enemyDistance,out string playerEffect );
             if (blockedByEnemyGuard)
             {
-                string blockedMsg =$"プレイヤー: {playerSkill.SkillName}！ しかし敵が防いだ！ 0ダメージ";
+                string blockedMsg =$" {playerSkill.SkillName}！ しかし敵が防いだ！ 0ダメージ";
                 Debug.Log(blockedMsg);
                 AddPlayerActionLog(blockedMsg);
             }
             else
             {
                 enemy.TakeDamage((int)damageToEnemy);
-                string playerMsg =$"プレイヤー: {playerSkill.SkillName}！ {(int)damageToEnemy}ダメージ\n{playerEffect}";
+                string playerMsg =$" {playerSkill.SkillName}！ {(int)damageToEnemy}ダメージ\n{playerEffect}";
                 Debug.Log(playerMsg);
                 AddPlayerActionLog(playerMsg);
             }
@@ -427,7 +427,7 @@ public class BattleManager : MonoBehaviour
         {
             enemy.ShowAttackPose(enemySkill, GetPlayerEffectPosition());
             enemy.HealSelf(40);
-            string healMsg = $"敵: {enemySkill.SkillName}！ HPが40回復した";
+            string healMsg = $" {enemySkill.SkillName}！ HPが40回復した";
             Debug.Log(healMsg);
             AddEnemyActionLog(healMsg);
             UpdateHpUI();
@@ -437,7 +437,7 @@ public class BattleManager : MonoBehaviour
         else if (enemySkill.skillType == SkillType.Guard)
         {
             enemy.ShowAttackPose(enemySkill, GetPlayerEffectPosition());
-            string guardMsg = $"敵: {enemySkill.SkillName}！ 身を守っている";
+            string guardMsg = $" {enemySkill.SkillName}！ 身を守っている";
             Debug.Log(guardMsg);
             AddEnemyActionLog(guardMsg);
             yield return StartCoroutine(WaitForClick());
@@ -451,14 +451,14 @@ public class BattleManager : MonoBehaviour
 
             if (blockedByPlayerGuard)
             {
-                string blockedMsg = $"敵: {enemySkill.SkillName}！ しかしプレイヤーが防いだ！ 0ダメージ";
+                string blockedMsg = $" {enemySkill.SkillName}！ しかしプレイヤーが防いだ！ 0ダメージ";
                 Debug.Log(blockedMsg);
                 AddEnemyActionLog(blockedMsg);
             }
             else
             {
                 playerHp -= (int)damageToPlayer;
-                string enemyMsg = $"敵: {enemySkill.SkillName}！ {(int)damageToPlayer}ダメージ \n{enemyEffect}";
+                string enemyMsg = $" {enemySkill.SkillName}！ {(int)damageToPlayer}ダメージ \n{enemyEffect}";
                 Debug.Log(enemyMsg);
                 AddEnemyActionLog(enemyMsg);
             }
@@ -494,7 +494,7 @@ public class BattleManager : MonoBehaviour
 
     private void UpdateHpUI()
     {
-        playerHpText.text = "プレイヤーHP: " + playerHp;
+        playerHpText.text = "HP: " + playerHp;
 
         if (playerHpFillImage != null)
         {
@@ -504,7 +504,7 @@ public class BattleManager : MonoBehaviour
 
         if (enemy != null)
         {
-            enemyHpText.text = "敵HP: " + enemy.NowEnemyHP;
+            enemyHpText.text = "HP: " + enemy.NowEnemyHP;
 
             if (enemyHpFillImage != null)
             {
@@ -513,7 +513,7 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            enemyHpText.text = "敵HP: -";
+            enemyHpText.text = "HP: -";
 
             if (enemyHpFillImage != null)
             {
