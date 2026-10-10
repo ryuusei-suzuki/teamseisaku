@@ -796,7 +796,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -13.67}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 642, y: 300}
+  m_AnchoredPosition: {x: 721, y: 343}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &90439154
@@ -1846,7 +1846,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillHover
   descriptionPanel: {fileID: 1769546149}
-  description: "\u30D2\u30FC\u30EB\nAP\uFF1A5\nHP\u304C40\u56DE\u5FA9\u3059\u308B"
+  description: "\u30D2\u30FC\u30EB\nAP\uFF1A3\nHP\u304C40\u56DE\u5FA9\u3059\u308B"
   descriptionText: {fileID: 1723529655}
 --- !u!1 &264946336
 GameObject:
@@ -2707,7 +2707,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -18.2}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 562, y: 308}
+  m_AnchoredPosition: {x: 656, y: 373}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &364450044
@@ -3044,8 +3044,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 7.5}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 655, y: 204}
-  m_SizeDelta: {x: 219.41, y: 50}
+  m_AnchoredPosition: {x: 515, y: 187}
+  m_SizeDelta: {x: 255.09, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &480540235
 MonoBehaviour:
@@ -3067,7 +3067,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u30DC\u30B9\u306F\u5168\u90E8\u3067"
+  m_text: "\u30DC\u30B9\u306B\u306F\u96A0\u308C\u305F"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 566cd590c39c89d45a5f4811983f300d, type: 2}
   m_sharedMaterial: {fileID: -3881036099992195899, guid: 566cd590c39c89d45a5f4811983f300d, type: 2}
@@ -4547,15 +4547,15 @@ RectTransform:
   m_GameObject: {fileID: 751960025}
   m_LocalRotation: {x: 0, y: 0, z: 0.065403156, w: 0.99785894}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.9999999, y: 1.9999999, z: 1.9999999}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1884910869}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 7.5}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 696, y: 126}
-  m_SizeDelta: {x: 108.34, y: 50}
+  m_AnchoredPosition: {x: 544, y: 100}
+  m_SizeDelta: {x: 266.87, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &751960027
 MonoBehaviour:
@@ -4577,7 +4577,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "3\u4F53\uFF01"
+  m_text: "\u5C5E\u6027\u3082\u3042\u308B\u3088\uFF01"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 566cd590c39c89d45a5f4811983f300d, type: 2}
   m_sharedMaterial: {fileID: -3881036099992195899, guid: 566cd590c39c89d45a5f4811983f300d, type: 2}
@@ -6282,7 +6282,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 15.7}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 355, y: 143}
+  m_AnchoredPosition: {x: 440, y: 263}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1270761392
@@ -6494,7 +6494,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -15.9}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 286, y: 327}
+  m_AnchoredPosition: {x: 291, y: 357}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1294227687
@@ -8468,7 +8468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillHover
   descriptionPanel: {fileID: 135408249}
-  description: "\u30D5\u30A1\u30A4\u30A2\u30DE\u30B8\u30C3\u30AF\n\u5C5E\u6027\uFF1A\u706B\u3000\u5A01\u529B\uFF1A20\u3000AP\uFF1A5\n\u6575\u306B\u706B\u5C5E\u6027\u306E\u9060\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
+  description: "\u30D5\u30A1\u30A4\u30A2\u30FC\u30DE\u30B8\u30C3\u30AF\n\u5C5E\u6027\uFF1A\u706B\u3000\u5A01\u529B\uFF1A20\u3000AP\uFF1A5\n\u6575\u306B\u706B\u5C5E\u6027\u306E\u9060\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
   descriptionText: {fileID: 1270236753}
 --- !u!1 &1700966647
 GameObject:
@@ -10380,7 +10380,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 10.43}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 419, y: 183}
+  m_AnchoredPosition: {x: 513, y: 303}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2042317686
@@ -10455,7 +10455,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -11.7}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 363, y: 330}
+  m_AnchoredPosition: {x: 370, y: 348}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2058722363

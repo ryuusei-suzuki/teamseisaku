@@ -290,7 +290,7 @@ public class TrialBattleManager : MonoBehaviour
         {
             ShowPlayerAttackPose(playerSkill);
             HealPlayerFlat(40);
-            AddPlayerActionLog($"プレイヤー: {playerSkill.SkillName}！ HPを40回復した");
+            AddPlayerActionLog($" {playerSkill.SkillName}！ HPを40回復した");
             UpdateHpUI();
             yield return StartCoroutine(WaitForClick());
             ShowPlayerIdlePose();
@@ -298,7 +298,7 @@ public class TrialBattleManager : MonoBehaviour
         else if (playerSkill.skillType == SkillType.Guard)
         {
             ShowPlayerAttackPose(playerSkill);
-            AddPlayerActionLog($"プレイヤー: {playerSkill.SkillName}！ 身を守っている");
+            AddPlayerActionLog($" {playerSkill.SkillName}！ 身を守っている");
             yield return StartCoroutine(WaitForClick());
             ShowPlayerIdlePose();
         }
@@ -309,7 +309,7 @@ public class TrialBattleManager : MonoBehaviour
 
             if (blockedByEnemyGuard)
             {
-                AddPlayerActionLog($"プレイヤー: {playerSkill.SkillName}！ しかし敵がガードした！ 0ダメージ");
+                AddPlayerActionLog($" {playerSkill.SkillName}！ しかし敵がガードした！ 0ダメージ");
                 UpdateHpUI();
             }
             else
@@ -330,7 +330,7 @@ public class TrialBattleManager : MonoBehaviour
         {
             enemy.ShowAttackPose(null, GetPlayerEffectPosition());
             enemy.HealSelf(40);
-            AddEnemyActionLog($"敵: {enemySkill.SkillName}！ HPを40回復した");
+            AddEnemyActionLog($" {enemySkill.SkillName}！ HPを40回復した");
             UpdateHpUI();
             yield return StartCoroutine(WaitForClick());
             enemy.ShowIdlePose();
@@ -338,7 +338,7 @@ public class TrialBattleManager : MonoBehaviour
         else if (enemySkill.skillType == SkillType.Guard)
         {
             enemy.ShowAttackPose(null, GetPlayerEffectPosition());
-            AddEnemyActionLog($"敵: {enemySkill.SkillName}！ 身を守っている");
+            AddEnemyActionLog($" {enemySkill.SkillName}！ 身を守っている");
             yield return StartCoroutine(WaitForClick());
             enemy.ShowIdlePose();
         }
@@ -350,12 +350,12 @@ public class TrialBattleManager : MonoBehaviour
 
             if (blockedByPlayerGuard)
             {
-                AddEnemyActionLog($"敵: {enemySkill.SkillName}！ しかしプレイヤーがガードした！ 0ダメージ");
+                AddEnemyActionLog($" {enemySkill.SkillName}！ しかしプレイヤーがガードした！ 0ダメージ");
             }
             else
             {
                 playerHp = Mathf.Max(0, playerHp - (int)damageToPlayer);
-                AddEnemyActionLog($"敵: {enemySkill.SkillName}！ {(int)damageToPlayer}ダメージ \n{enemyEffect}");
+                AddEnemyActionLog($" {enemySkill.SkillName}！ {(int)damageToPlayer}ダメージ \n{enemyEffect}");
             }
 
             UpdateHpUI();
@@ -381,7 +381,7 @@ public class TrialBattleManager : MonoBehaviour
             pendingEnemyDefeat = true;
         }
 
-        AddPlayerActionLog($"プレイヤー: {playerSkill.SkillName}！ {(int)damageToEnemy}ダメージ \n{effect}");
+        AddPlayerActionLog($" {playerSkill.SkillName}！ {(int)damageToEnemy}ダメージ \n{effect}");
         UpdateHpUI();
     }
 
@@ -431,7 +431,7 @@ public class TrialBattleManager : MonoBehaviour
 
     private void UpdateHpUI()
     {
-        playerHpText.text = "プレイヤーHP: " + playerHp;
+        playerHpText.text = "HP: " + playerHp;
 
         if (playerHpFillImage != null)
         {
@@ -441,7 +441,7 @@ public class TrialBattleManager : MonoBehaviour
 
         if (enemy != null)
         {
-            enemyHpText.text = "敵HP: " + enemy.NowEnemyHP;
+            enemyHpText.text = "HP: " + enemy.NowEnemyHP;
 
             if (enemyHpFillImage != null)
             {
@@ -450,7 +450,7 @@ public class TrialBattleManager : MonoBehaviour
         }
         else
         {
-            enemyHpText.text = "敵HP: -";
+            enemyHpText.text = "HP: -";
 
             if (enemyHpFillImage != null)
             {
