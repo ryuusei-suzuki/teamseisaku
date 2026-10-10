@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6a60f79ad597cf44b283ec44e8c1711, type: 3}
   m_Name: Fire Magic
   m_EditorClassIdentifier: Assembly-CSharp::SkillData
-  SkillName: "\u30D5\u30A1\u30A4\u30A2\u30DE\u30B8\u30C3\u30AF"
+  SkillName: "\u30D5\u30A1\u30A4\u30A2\u30FC\u30DE\u30B8\u30C3\u30AF"
   attribute: 0
   distance: 1
   Power: 20
@@ -20,4 +20,5 @@ MonoBehaviour:
   iconImage: {fileID: -6081270296618335291, guid: b87ca0116a8a24e4a9c411de1702f1a2, type: 3}
   skillType: 3
   skillSE: {fileID: 8300000, guid: 656d17c8935289046b15de7b7a8adabe, type: 3}
-  Description: "\u30D5\u30A1\u30A4\u30A2\u30FC\u30DE\u30B8\u30C3\u30AF\n\u5C5E\u6027\uFF1A\u706B\u3000\u5A01\u529B\uFF1A20\u3000AP\uFF1A5\n\u6575\u306B\u706B\u5C5E\u6027\u306E\u9060\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
+  Description: "\u30D5\u30A1\u30A4\u30A2\u30FC\u30DE\u30B8\u30C3\u30AF\n\u5C5E\u6027\uFF1A\u706B   
+    \u5A01\u529B\uFF1A20    AP\uFF1A5\n\u6575\u306B\u706B\u5C5E\u6027\u306E\u9060\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"

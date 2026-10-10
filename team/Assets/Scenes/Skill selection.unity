@@ -408,7 +408,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b8e1d566d90afb647bb1fa07ee80a236, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 566cd590c39c89d45a5f4811983f300d, type: 2}
   m_sharedMaterial: {fileID: 4886359720344903352, guid: b8e1d566d90afb647bb1fa07ee80a236, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -986,7 +986,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillHover
   descriptionPanel: {fileID: 1769546149}
-  description: "\u30AC\u30FC\u30C9\nAP\uFF1A5\n1\u30BF\u30FC\u30F3\u306E\u9593\u76F8\u624B\u306E\u653B\u6483\u3092\u7121\u52B9\u5316\u3057\u3001HP\u309210\u56DE\u5FA9\u3059\u308B"
+  description: "\u30AC\u30FC\u30C9\nAP\uFF1A5\n1\u30BF\u30FC\u30F3\u306E\u9593\u76F8\u624B\u306E\u653B\u6483\u3092\u7121\u52B9\u5316\u3057HP\u309210\u56DE\u5FA9\u3059\u308B"
   descriptionText: {fileID: 1723529655}
 --- !u!1 &95913543
 GameObject:
@@ -2933,7 +2933,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillHover
   descriptionPanel: {fileID: 509122507}
-  description: "\u30A6\u30A9\u30FC\u30BF\u30FC\u30A2\u30ED\u30FC\n\u5C5E\u6027\uFF1A\u6C34\u3000\u5A01\u529B\uFF1A10\u3000AP\uFF1A15\n\u6575\u306B\u6C34\u5C5E\u6027\u306E\u9060\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
+  description: "\u30A6\u30A9\u30FC\u30BF\u30FC\u30A2\u30ED\u30FC\n\u5C5E\u6027\uFF1A\u6C34   
+    \u5A01\u529B\uFF1A10    AP\uFF1A15\n\u6575\u306B\u6C34\u5C5E\u6027\u306E\u9060\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
   descriptionText: {fileID: 1041034664}
 --- !u!1 &465189289
 GameObject:
@@ -4518,7 +4519,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillHover
   descriptionPanel: {fileID: 135408249}
-  description: "\u30D5\u30A1\u30A4\u30A2\u30FC\u30A2\u30ED\u30FC\n\u5C5E\u6027\uFF1A\u706B\u3000\u5A01\u529B\uFF1A10\u3000AP\uFF1A15\n\u6575\u306B\u706B\u5C5E\u6027\u306E\u9060\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
+  description: "\u30D5\u30A1\u30A4\u30A2\u30FC\u30A2\u30ED\u30FC\n\u5C5E\u6027\uFF1A\u706B   
+    \u5A01\u529B\uFF1A10    AP\uFF1A15\n\u6575\u306B\u706B\u5C5E\u6027\u306E\u9060\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
   descriptionText: {fileID: 1270236753}
 --- !u!1 &751960025
 GameObject:
@@ -4881,7 +4883,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillHover
   descriptionPanel: {fileID: 264946336}
-  description: "\u30A6\u30A3\u30F3\u30C9\u30D1\u30F3\u30C1\n\u5C5E\u6027\uFF1A\u98A8\u3000\u5A01\u529B\uFF1A10\u3000AP\uFF1A15\n\u6575\u306B\u98A8\u5C5E\u6027\u306E\u8FD1\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
+  description: "\u30A6\u30A3\u30F3\u30C9\u30D1\u30F3\u30C1\n\u5C5E\u6027\uFF1A\u98A8   
+    \u5A01\u529B\uFF1A10    AP\uFF1A15\n\u6575\u306B\u98A8\u5C5E\u6027\u306E\u8FD1\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
   descriptionText: {fileID: 24185881}
 --- !u!1 &814445983
 GameObject:
@@ -5416,7 +5419,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b8e1d566d90afb647bb1fa07ee80a236, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 566cd590c39c89d45a5f4811983f300d, type: 2}
   m_sharedMaterial: {fileID: 4886359720344903352, guid: b8e1d566d90afb647bb1fa07ee80a236, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -6684,7 +6687,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillHover
   descriptionPanel: {fileID: 264946336}
-  description: "\u30A6\u30A3\u30F3\u30C9\u30BD\u30FC\u30C9\n\u5C5E\u6027\uFF1A\u98A8\u3000\u5A01\u529B\uFF1A20\u3000AP\uFF1A5\n\u6575\u306B\u98A8\u5C5E\u6027\u306E\u8FD1\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
+  description: "\u30A6\u30A3\u30F3\u30C9\u30BD\u30FC\u30C9\n\u5C5E\u6027\uFF1A\u98A8   
+    \u5A01\u529B\uFF1A20    AP\uFF1A5\n\u6575\u306B\u98A8\u5C5E\u6027\u306E\u8FD1\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
   descriptionText: {fileID: 24185881}
 --- !u!1 &1331039090
 GameObject:
@@ -6835,7 +6839,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillHover
   descriptionPanel: {fileID: 264946336}
-  description: "\u30A6\u30A3\u30F3\u30C9\u30A2\u30ED\u30FC\n\u5C5E\u6027\uFF1A\u98A8\u3000\u5A01\u529B\uFF1A10\u3000AP\uFF1A15\n\u6575\u306B\u98A8\u5C5E\u6027\u306E\u9060\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
+  description: "\u30A6\u30A3\u30F3\u30C9\u30A2\u30ED\u30FC\n\u5C5E\u6027\uFF1A\u98A8   
+    \u5A01\u529B\uFF1A10    AP\uFF1A15\n\u6575\u306B\u98A8\u5C5E\u6027\u306E\u9060\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
   descriptionText: {fileID: 24185881}
 --- !u!1 &1384632048
 GameObject:
@@ -7311,7 +7316,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillHover
   descriptionPanel: {fileID: 135408249}
-  description: "\u30D5\u30A1\u30A4\u30A2\u30FC\u30BD\u30FC\u30C9\n\u5C5E\u6027\uFF1A\u706B\u3000\u5A01\u529B\uFF1A20\u3000AP\uFF1A5\n\u6575\u306B\u706B\u5C5E\u6027\u306E\u8FD1\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
+  description: "\u30D5\u30A1\u30A4\u30A2\u30FC\u30BD\u30FC\u30C9\n\u5C5E\u6027\uFF1A\u706B   
+    \u5A01\u529B\uFF1A20    AP\uFF1A5\n\u6575\u306B\u706B\u5C5E\u6027\u306E\u8FD1\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
   descriptionText: {fileID: 1270236753}
 --- !u!1 &1482236213
 GameObject:
@@ -7894,7 +7900,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillHover
   descriptionPanel: {fileID: 509122507}
-  description: "\u30A6\u30A9\u30FC\u30BF\u30FC\u30D1\u30F3\u30C1\n\u5C5E\u6027\uFF1A\u6C34\u3000\u5A01\u529B\uFF1A10\u3000AP\uFF1A15\n\u6575\u306B\u6C34\u5C5E\u6027\u306E\u8FD1\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
+  description: "\u30A6\u30A9\u30FC\u30BF\u30FC\u30D1\u30F3\u30C1\n\u5C5E\u6027\uFF1A\u6C34   
+    \u5A01\u529B\uFF1A10    AP\uFF1A15\n\u6575\u306B\u6C34\u5C5E\u6027\u306E\u8FD1\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
   descriptionText: {fileID: 1041034664}
 --- !u!1 &1592750683
 GameObject:
@@ -8144,7 +8151,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillHover
   descriptionPanel: {fileID: 509122507}
-  description: "\u30A6\u30A9\u30FC\u30BF\u30FC\u30BD\u30FC\u30C9\n\u5C5E\u6027\uFF1A\u6C34\u3000\u5A01\u529B\uFF1A20\u3000AP\uFF1A5\n\u6575\u306B\u6C34\u5C5E\u6027\u306E\u8FD1\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
+  description: "\u30A6\u30A9\u30FC\u30BF\u30FC\u30BD\u30FC\u30C9\n\u5C5E\u6027\uFF1A\u6C34   
+    \u5A01\u529B\uFF1A20    AP\uFF1A5\n\u6575\u306B\u6C34\u5C5E\u6027\u306E\u8FD1\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
   descriptionText: {fileID: 1041034664}
 --- !u!1 &1663449559
 GameObject:
@@ -8468,7 +8476,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillHover
   descriptionPanel: {fileID: 135408249}
-  description: "\u30D5\u30A1\u30A4\u30A2\u30FC\u30DE\u30B8\u30C3\u30AF\n\u5C5E\u6027\uFF1A\u706B\u3000\u5A01\u529B\uFF1A20\u3000AP\uFF1A5\n\u6575\u306B\u706B\u5C5E\u6027\u306E\u9060\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
+  description: "\u30D5\u30A1\u30A4\u30A2\u30FC\u30DE\u30B8\u30C3\u30AF\n\u5C5E\u6027\uFF1A\u706B   
+    \u5A01\u529B\uFF1A20    AP\uFF1A5\n\u6575\u306B\u706B\u5C5E\u6027\u306E\u9060\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
   descriptionText: {fileID: 1270236753}
 --- !u!1 &1700966647
 GameObject:
@@ -8548,7 +8557,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b8e1d566d90afb647bb1fa07ee80a236, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 566cd590c39c89d45a5f4811983f300d, type: 2}
   m_sharedMaterial: {fileID: 4886359720344903352, guid: b8e1d566d90afb647bb1fa07ee80a236, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -8794,7 +8803,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillHover
   descriptionPanel: {fileID: 509122507}
-  description: "\u30A6\u30A9\u30FC\u30BF\u30FC\u30DE\u30B8\u30C3\u30AF\n\u5C5E\u6027\uFF1A\u6C34\u3000\u5A01\u529B\uFF1A20\u3000AP\uFF1A5\n\u6575\u306B\u6C34\u5C5E\u6027\u306E\u9060\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
+  description: "\u30A6\u30A9\u30FC\u30BF\u30FC\u30DE\u30B8\u30C3\u30AF\n\u5C5E\u6027\uFF1A\u6C34   
+    \u5A01\u529B\uFF1A20    AP\uFF1A5\n\u6575\u306B\u6C34\u5C5E\u6027\u306E\u9060\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
   descriptionText: {fileID: 1041034664}
 --- !u!1 &1745231918
 GameObject:
@@ -8945,7 +8955,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillHover
   descriptionPanel: {fileID: 135408249}
-  description: "\u30D5\u30A1\u30A4\u30A2\u30FC\u30D1\u30F3\u30C1\n\u5C5E\u6027\uFF1A\u706B\u3000\u5A01\u529B\uFF1A10\u3000AP\uFF1A15\n\u6575\u306B\u706B\u5C5E\u6027\u306E\u8FD1\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
+  description: "\u30D5\u30A1\u30A4\u30A2\u30FC\u30D1\u30F3\u30C1\n\u5C5E\u6027\uFF1A\u706B   
+    \u5A01\u529B\uFF1A10    AP\uFF1A15\n\u6575\u306B\u706B\u5C5E\u6027\u306E\u8FD1\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
   descriptionText: {fileID: 1270236753}
 --- !u!1 &1769546149
 GameObject:
@@ -9341,7 +9352,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillHover
   descriptionPanel: {fileID: 264946336}
-  description: "\u30A6\u30A3\u30F3\u30C9\u30DE\u30B8\u30C3\u30AF\n\u5C5E\u6027\uFF1A\u98A8\u3000\u5A01\u529B\uFF1A20\u3000AP\uFF1A5\n\u6575\u306B\u98A8\u5C5E\u6027\u306E\u9060\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
+  description: "\u30A6\u30A3\u30F3\u30C9\u30DE\u30B8\u30C3\u30AF\n\u5C5E\u6027\uFF1A\u98A8   
+    \u5A01\u529B\uFF1A20    AP\uFF1A5\n\u6575\u306B\u98A8\u5C5E\u6027\u306E\u9060\u8DDD\u96E2\u30C0\u30E1\u30FC\u30B8\u3092\u4E0E\u3048\u308B"
   descriptionText: {fileID: 24185881}
 --- !u!1 &1823932352
 GameObject:
@@ -10783,7 +10795,7 @@ PrefabInstance:
     - target: {fileID: 4282315733814959306, guid: c57a09dc3f59d7e41beb9b5db2cc02af, type: 3}
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: b8e1d566d90afb647bb1fa07ee80a236, type: 2}
+      objectReference: {fileID: 11400000, guid: 566cd590c39c89d45a5f4811983f300d, type: 2}
     - target: {fileID: 4282315733814959306, guid: c57a09dc3f59d7e41beb9b5db2cc02af, type: 3}
       propertyPath: m_sharedMaterial
       value: 
